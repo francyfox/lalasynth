@@ -6,26 +6,30 @@
   <component name="ChangeListManager">
     <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.npmrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AGENTS.md" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/TZ.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/drizzle.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/db/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/db/schema.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/env.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/libs/better-auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/session/session.schema.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.schema.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/.vscode/extensions.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/public/vite.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/App.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/app.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/assets/svelte.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/Counter.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/svelte.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/tsconfig.app.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/tsconfig.node.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/vite.config.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/turbo.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +44,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/apps/api" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -50,19 +54,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/home/fox/WebstormProjects/lalasynth/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/fox/WebstormProjects/lalasynth/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -85,11 +89,23 @@
       <updated>1770966977115</updated>
       <workItem from="1770966978181" duration="12010000" />
       <workItem from="1770985179774" duration="24000" />
-      <workItem from="1770985212111" duration="1457000" />
+      <workItem from="1770985212111" duration="1779000" />
+      <workItem from="1770987000334" duration="22000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
