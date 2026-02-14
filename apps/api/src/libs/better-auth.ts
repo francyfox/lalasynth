@@ -12,7 +12,6 @@ export const auth = betterAuth({
 	user: {
 		additionalFields: {
 			bestWpm: { type: "number" },
-			rank: { type: "string" },
 			totalWins: { type: "number" },
 		},
 	},

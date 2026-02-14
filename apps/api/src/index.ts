@@ -1,12 +1,14 @@
 import { cors } from "@elysiajs/cors";
 import { Elysia } from "elysia";
+import { env } from "@/env";
 import { betterAuthPlugin } from "@/libs/better-auth";
 import { routes } from "@/routes";
+import { client } from "./db";
 
-const app = new Elysia()
+export const app = new Elysia()
 	.use(
 		cors({
-			origin: "http://localhost:3001",
+			origin: env.CLIENT_URL,
 			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
 			credentials: true,
 			allowedHeaders: ["Content-Type", "Authorization"],
@@ -22,17 +24,12 @@ const app = new Elysia()
 
 const stop = async () => {
 	console.log("🛑 Shutdown initiated...");
-
-	// 1. Останавливаем сервер (прекращаем прием новых запросов)
 	await app.stop();
-
-	// 2. Закрываем соединения с БД (Turso/SQLite)
-	// await db.close();
+	client.close();
 
 	console.log("✨ Gracefully terminated. See you, Fox.");
 	process.exit(0);
 };
 
-// Перехватываем сигналы системы
 process.on("SIGINT", stop);
 process.on("SIGTERM", stop);
