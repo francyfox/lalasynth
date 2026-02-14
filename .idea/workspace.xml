@@ -5,8 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/biome.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/drizzle.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/drizzle.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/db/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/db/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/db/schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/db/schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/env.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/env.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/libs/better-auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/libs/better-auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/session/session.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/session/session.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/user/user.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/.vscode/extensions.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.vscode/extensions.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/public/vite.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/public/vite.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/App.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/assets/svelte.svg" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/assets/svelte.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/Counter.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/Counter.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/svelte.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/svelte.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/tsconfig.app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/tsconfig.node.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/tsconfig.node.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/vite.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bun.lock" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/turbo.json" beforeDir="false" afterPath="$PROJECT_DIR$/turbo.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +84,7 @@
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "Settings.Biome",
     "ts.external.directory.path": "/home/fox/WebstormProjects/lalasynth/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -81,7 +113,8 @@
       <workItem from="1770985179774" duration="24000" />
       <workItem from="1770985212111" duration="1779000" />
       <workItem from="1770987000334" duration="22000" />
-      <workItem from="1771064805625" duration="1370000" />
+      <workItem from="1771064805625" duration="1546000" />
+      <workItem from="1771066361677" duration="686000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -91,7 +124,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770987266440</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="init">
+      <option name="closed" value="true" />
+      <created>1771066231172</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1771066231172</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -121,6 +162,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/apps/api" />
+    </ignored-roots>
     <MESSAGE value="init" />
     <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>

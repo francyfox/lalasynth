@@ -1,3 +1,3 @@
-import { Elysia } from 'elysia'
+import { Elysia } from "elysia";
 
-export const UserController = new Elysia({ name: 'User.Controller' })
+export const UserController = new Elysia({ name: "User.Controller" });
