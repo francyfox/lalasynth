@@ -4,32 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.npmrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AGENTS.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TZ.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/.vscode/extensions.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/public/vite.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/App.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/app.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/assets/svelte.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/Counter.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/main.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/svelte.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/tsconfig.app.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/tsconfig.node.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/vite.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/turbo.json" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="init">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lock" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;francyfox&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/francyfox/lalasynth.git&quot;,
+    &quot;accountId&quot;: &quot;68133e03-dc08-494d-82bd-09eb6e0b8739&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -54,19 +43,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;/home/fox/WebstormProjects/lalasynth/node_modules/typescript/lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/home/fox/WebstormProjects/lalasynth/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -91,7 +81,17 @@
       <workItem from="1770985179774" duration="24000" />
       <workItem from="1770985212111" duration="1779000" />
       <workItem from="1770987000334" duration="22000" />
+      <workItem from="1771064805625" duration="1370000" />
     </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1770987266440</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1770987266440</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -102,10 +102,26 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>
