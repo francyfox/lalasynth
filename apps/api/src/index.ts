@@ -1,7 +1,9 @@
 import { cors } from "@elysiajs/cors";
+import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import { env } from "@/env";
 import { betterAuthPlugin } from "@/libs/better-auth";
+import { swaggerDocs } from "@/libs/swagger";
 import { routes } from "@/routes";
 import { client } from "./db";
 
@@ -14,11 +16,15 @@ export const app = new Elysia()
 			allowedHeaders: ["Content-Type", "Authorization"],
 		}),
 	)
+	.use(swagger(swaggerDocs))
 	.use(betterAuthPlugin)
 	.use(routes)
 	.listen(3000, (server) => {
 		console.log(
 			`🦊 Elysia is running at http://${server?.hostname}:${server?.port}`,
+		);
+		console.log(
+			`Scalar UI at http://${server?.hostname}:${server?.port}/swagger`,
 		);
 	});
 

@@ -5,4 +5,7 @@ export default {
 	// Consult https://svelte.dev/docs#compile-time-svelte-preprocess
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
+	compilerOptions: {
+		cssHash: ({ hash, css }) => `s-${hash(css)}`,
+	},
 };
