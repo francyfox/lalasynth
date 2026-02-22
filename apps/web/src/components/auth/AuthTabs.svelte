@@ -1,23 +1,12 @@
 <script lang="ts">
 	import { authStore } from '@/lib/stores/auth';
 	import type { LoginFormData, SignupFormData } from '@/lib/schemas/auth';
-	import UInput from '@package/ui/input/UInput.svelte';
+	import LoginForm from './LoginForm.svelte';
+	import SignupForm from './SignupForm.svelte';
 
 	type Tab = 'login' | 'signup';
 
 	let activeTab: Tab = 'login';
-
-	let loginForm: LoginFormData = {
-		email: '',
-		password: '',
-	};
-
-	let signupForm: SignupFormData = {
-		name: '',
-		email: '',
-		password: '',
-		confirmPassword: '',
-	};
 
 	function switchTab(tab: Tab) {
 		activeTab = tab;
@@ -25,23 +14,13 @@
 		authStore.clearSuccess();
 	}
 
-	async function handleLogin(e: SubmitEvent) {
-		e.preventDefault();
-		const success = await authStore.login(loginForm);
-		if (success) {
-			loginForm = { email: '', password: '' };
-		}
+	async function handleLogin(formData: LoginFormData) {
+		await authStore.login(formData);
 	}
 
-	async function handleSignup(e: SubmitEvent) {
-		e.preventDefault();
-		const success = await authStore.signup(signupForm);
-		if (success) {
-			signupForm = { name: '', email: '', password: '', confirmPassword: '' };
-			setTimeout(() => {
-				switchTab('login');
-			}, 2000);
-		}
+	async function handleSignup(formData: SignupFormData) {
+		console.log(formData);
+		await authStore.signup(formData);
 	}
 
 	async function handleSocialAuth(provider: 'github' | 'google') {
@@ -113,33 +92,10 @@
 				{#if activeTab === 'login'}
 					<h2 class="card-title text-2xl font-bold mb-6">Welcome back, sweet heart!</h2>
 
-					<form on:submit={handleLogin} class="space-y-4">
-						<UInput
-							type="email"
-							id="login-email"
-							bind:value={loginForm.email}
-							disabled={$authStore.isLoading}
-						/>
-
-						<UInput
-							type="password"
-							id="login-password"
-							bind:value={loginForm.password}
-							disabled={$authStore.isLoading}
-							showHint={false}
-						/>
-
-						<button
-							type="submit"
-							class="btn btn-primary w-full text-xl"
-							disabled={$authStore.isLoading || !loginForm.email || !loginForm.password}
-						>
-							{#if $authStore.isLoading}
-								<span class="loading loading-spinner loading-sm"></span>
-							{/if}
-							Sign In
-						</button>
-					</form>
+					<LoginForm
+							onSubmit={handleLogin}
+							isLoading={$authStore.isLoading}
+					/>
 
 					<div class="divider text-2xl">or</div>
 
@@ -169,54 +125,10 @@
 				{#if activeTab === 'signup'}
 					<h2 class="card-title text-2xl font-bold mb-6">Create Account</h2>
 
-					<form on:submit={handleSignup} class="space-y-4">
-						<UInput
-							type="text"
-							id="signup-name"
-							label="Name"
-							placeholder="Your name"
-							bind:value={signupForm.name}
-							disabled={$authStore.isLoading}
-						/>
-
-						<UInput
-							type="email"
-							id="signup-email"
-							bind:value={signupForm.email}
-							disabled={$authStore.isLoading}
-						/>
-
-						<UInput
-							type="password"
-							id="signup-password"
-							bind:value={signupForm.password}
-							disabled={$authStore.isLoading}
-						/>
-
-						<UInput
-							type="password"
-							id="signup-confirm"
-							label="Confirm Password"
-							bind:value={signupForm.confirmPassword}
-							disabled={$authStore.isLoading}
-							showHint={false}
-						/>
-
-						<button
-							type="submit"
-							class="btn btn-primary w-full"
-							disabled={$authStore.isLoading ||
-								!signupForm.email ||
-								!signupForm.password ||
-								!signupForm.confirmPassword ||
-								!signupForm.name}
-						>
-							{#if $authStore.isLoading}
-								<span class="loading loading-spinner loading-sm"></span>
-							{/if}
-							Sign Up
-						</button>
-					</form>
+					<SignupForm
+						onSubmit={handleSignup}
+						isLoading={$authStore.isLoading}
+					/>
 
 					<div class="divider">or</div>
 

@@ -4,21 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: auth form">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/assets/lalasynth.webp" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: ui lib">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/assets/svelte.svg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/components/auth/AuthTabs.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/auth/AuthTabs.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/banner/AppBanner.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/banner/AppBanner.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/scene/AppSceneProvider.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/scene/AppSceneProvider.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/tsconfig.app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/input/EmailInput.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/input/PasswordInput.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/input/TextInput.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/auth.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,6 +109,7 @@
       <workItem from="1771687969035" duration="942000" />
       <workItem from="1771741504046" duration="2511000" />
       <workItem from="1771765184040" duration="1826000" />
+      <workItem from="1771767026387" duration="2322000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -169,7 +159,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771346441214</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat: ui lib">
+      <option name="closed" value="true" />
+      <created>1771767074522</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1771767074522</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,6 +210,7 @@
     <MESSAGE value="feat: get song from yt" />
     <MESSAGE value="feat: elysia logo" />
     <MESSAGE value="feat: auth form" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: auth form" />
+    <MESSAGE value="feat: ui lib" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: ui lib" />
   </component>
 </project>
