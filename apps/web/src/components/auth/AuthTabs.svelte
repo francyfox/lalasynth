@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { authStore } from '@/lib/stores/auth';
 	import type { LoginFormData, SignupFormData } from '@/lib/schemas/auth';
-	import EmailInput from '@package/ui/input/EmailInput.svelte';
-	import PasswordInput from '@package/ui/input/PasswordInput.svelte';
-	import TextInput from '@package/ui/input/TextInput.svelte';
+	import UInput from '@package/ui/input/UInput.svelte';
 
 	type Tab = 'login' | 'signup';
 
@@ -69,10 +67,6 @@
 					Register
 				</button>
 			</div>
-			<!-- Tabs -->
-			<div class="tabs tabs-bordered w-full">
-
-			</div>
 
 			<div class="card-body">
 			<!-- Error Alert -->
@@ -120,13 +114,15 @@
 					<h2 class="card-title text-2xl font-bold mb-6">Welcome back, sweet heart!</h2>
 
 					<form on:submit={handleLogin} class="space-y-4">
-						<EmailInput
+						<UInput
+							type="email"
 							id="login-email"
 							bind:value={loginForm.email}
 							disabled={$authStore.isLoading}
 						/>
 
-						<PasswordInput
+						<UInput
+							type="password"
 							id="login-password"
 							bind:value={loginForm.password}
 							disabled={$authStore.isLoading}
@@ -174,7 +170,8 @@
 					<h2 class="card-title text-2xl font-bold mb-6">Create Account</h2>
 
 					<form on:submit={handleSignup} class="space-y-4">
-						<TextInput
+						<UInput
+							type="text"
 							id="signup-name"
 							label="Name"
 							placeholder="Your name"
@@ -182,19 +179,22 @@
 							disabled={$authStore.isLoading}
 						/>
 
-						<EmailInput
+						<UInput
+							type="email"
 							id="signup-email"
 							bind:value={signupForm.email}
 							disabled={$authStore.isLoading}
 						/>
 
-						<PasswordInput
+						<UInput
+							type="password"
 							id="signup-password"
 							bind:value={signupForm.password}
 							disabled={$authStore.isLoading}
 						/>
 
-						<PasswordInput
+						<UInput
+							type="password"
 							id="signup-confirm"
 							label="Confirm Password"
 							bind:value={signupForm.confirmPassword}

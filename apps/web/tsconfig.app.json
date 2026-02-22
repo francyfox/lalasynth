@@ -13,7 +13,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
-			"@app/*": ["../api/*"]
+			"@app/*": ["../api/*"],
+			"@package/ui/*": ["../../packages/ui/src/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]

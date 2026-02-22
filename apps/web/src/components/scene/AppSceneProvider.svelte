@@ -4,10 +4,11 @@
 
   interface Props {
     scenes: Snippet[];
-    duration?: number; // Время "висения" сцены
+    duration?: number;
+    after?: () => void;
   }
 
-  let { scenes, duration = 1000 }: Props = $props();
+  let { scenes, duration = 1000, after }: Props = $props();
   let currentIndex = $state(0);
 
   const outDuration = 400;
@@ -19,6 +20,7 @@
         currentIndex++;
       } else {
         clearInterval(timer);
+        if (after) after();
       }
     }, duration + inDuration + outDuration); // Увеличиваем цикл на время анимаций
 
