@@ -44,7 +44,6 @@
 		label="Confirm Password"
 		bind:value={form.confirmPassword}
 		disabled={isLoading}
-		showHint={false}
 	/>
 	<button
 		type="submit"

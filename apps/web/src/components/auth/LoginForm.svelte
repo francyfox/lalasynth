@@ -28,7 +28,6 @@
 		id="login-password"
 		bind:value={form.password}
 		disabled={isLoading}
-		showHint={false}
 	/>
 	<button
 		type="submit"
