@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { authClient } from "@/lib/auth-client";
+import { authClient, fetchOptions } from "@/lib/auth-client";
 import {
 	type LoginFormData,
 	loginSchema,
@@ -51,6 +51,7 @@ function createAuthStore() {
 				const result = await authClient.signIn.email({
 					email: validation.data.email,
 					password: validation.data.password,
+					fetchOptions,
 				});
 
 				if (result.data) {
@@ -99,6 +100,7 @@ function createAuthStore() {
 					email: validation.data.email,
 					password: validation.data.password,
 					name: validation.data.name,
+					fetchOptions,
 				});
 
 				if (result.data) {
@@ -133,7 +135,8 @@ function createAuthStore() {
 			try {
 				await authClient.signIn.social({
 					provider,
-					callbackURL: "http://localhost:4000",
+					callbackURL: `http://${window.location.host}/lobby`,
+					fetchOptions,
 				});
 				return true;
 			} catch (err) {

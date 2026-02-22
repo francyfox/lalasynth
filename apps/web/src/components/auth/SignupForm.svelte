@@ -1,58 +1,57 @@
 <script lang="ts">
+	import { validator } from '@felte/validator-zod'
 	import UInput from '@package/ui/input/UInput.svelte';
-	import type { SignupFormData } from '@/lib/schemas/auth';
-
-	let form: SignupFormData = {
-		name: '',
-		email: '',
-		password: '',
-		confirmPassword: '',
-	};
+	import { type SignupFormData, signupSchema } from '@/lib/schemas/auth';
+	import { createForm } from 'felte'
 	export let onSubmit: (form: SignupFormData) => void;
 	export let isLoading: boolean = false;
 
-	async function handleSubmit(e: SubmitEvent) {
-		e.preventDefault();
-		onSubmit(form);
-	}
+	const { form, errors, isDirty, isValid } = createForm({
+		extend: [
+			validator({ schema: signupSchema })
+		],
+		onSubmit: (values) => {
+			onSubmit(values);
+		},
+	})
 </script>
 
-<form on:submit={handleSubmit} class="space-y-4">
+<form use:form class="space-y-4">
 	<UInput
 		type="text"
 		id="signup-name"
+		name="name"
 		label="Name"
 		placeholder="Your name"
-		bind:value={form.name}
 		disabled={isLoading}
+		hintText={$isDirty && $errors.name?.[0]}
 	/>
 	<UInput
 		type="email"
 		id="signup-email"
-		bind:value={form.email}
+		name="email"
+		hintText={$isDirty && $errors.email?.[0]}
 		disabled={isLoading}
 	/>
 	<UInput
 		type="password"
 		id="signup-password"
-		bind:value={form.password}
+		name="password"
+		hintText={$isDirty && $errors.password?.[0]}
 		disabled={isLoading}
 	/>
 	<UInput
 		type="password"
 		id="signup-confirm"
 		label="Confirm Password"
-		bind:value={form.confirmPassword}
+		name="confirmPassword"
+		hintText={$isDirty && $errors.confirmPassword?.[0]}
 		disabled={isLoading}
 	/>
 	<button
 		type="submit"
 		class="btn btn-primary w-full"
-		disabled={isLoading ||
-			!form.email ||
-			!form.password ||
-			!form.confirmPassword ||
-			!form.name}
+		disabled={!$isValid || isLoading}
 	>
 		{#if isLoading}
 			<span class="loading loading-spinner loading-sm"></span>

@@ -1,38 +1,40 @@
 <script lang="ts">
-	import { authStore } from '@/lib/stores/auth'
+	import { validator } from '@felte/validator-zod'
 	import UInput from '@package/ui/input/UInput.svelte';
-	import type { LoginFormData } from '@/lib/schemas/auth';
-
-	let form: LoginFormData = {
-		email: '',
-		password: '',
-	};
+	import { type LoginFormData, loginSchema } from '@/lib/schemas/auth';
+	import { createForm } from 'felte';
 	export let onSubmit: (form: LoginFormData) => void;
 	export let isLoading: boolean = false;
 
-	async function handleSubmit(e: SubmitEvent) {
-		e.preventDefault();
-		await onSubmit(form);
-	}
+	const { form, errors, isDirty, isValid } = createForm({
+		extend: [
+			validator({ schema: loginSchema })
+		],
+		onSubmit: (values) => {
+			onSubmit(values);
+		},
+	})
 </script>
 
-<form on:submit={handleSubmit} class="space-y-4">
+<form use:form class="space-y-4">
 	<UInput
 		type="email"
 		id="login-email"
-		bind:value={form.email}
+		name="email"
 		disabled={isLoading}
+		hintText={$isDirty && $errors.email?.[0]}
 	/>
 	<UInput
 		type="password"
 		id="login-password"
-		bind:value={form.password}
+		name="password"
 		disabled={isLoading}
+		hintText={$isDirty && $errors.password?.[0]}
 	/>
 	<button
 		type="submit"
 		class="btn btn-primary w-full text-xl"
-		disabled={isLoading || !form.email || !form.password}
+		disabled={!$isValid || isLoading}
 	>
 		{#if isLoading}
 			<span class="loading loading-spinner loading-sm"></span>

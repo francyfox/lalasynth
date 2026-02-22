@@ -23,14 +23,16 @@
 		"vite": "^8.0.0-beta.13"
 	},
 	"dependencies": {
-		"@package/ui": "workspace:*",
+		"@felte/validator-zod": "^1.0.18",
 		"@fontsource-variable/alegreya": "^5.2.8",
 		"@fontsource/fredoka": "^5.2.10",
+		"@package/ui": "workspace:*",
 		"@roxi/routify": "^3.0.0-next.293",
-		"@tailwindcss/vite": "^4.1.18",
+		"@tailwindcss/vite": "^4.2.0",
 		"animejs": "^4.3.6",
 		"better-auth": "^1.4.18",
-		"tailwindcss": "^4.1.18",
+		"felte": "^1.3.0",
+		"tailwindcss": "^4.2.0",
 		"tone": "^15.4.3",
 		"zod": "^4.3.6"
 	}
