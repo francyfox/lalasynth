@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: add tanstack">
-      <change afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/query-client.ts" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="fix: session">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/session.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +117,7 @@
       <workItem from="1771741504046" duration="2511000" />
       <workItem from="1771765184040" duration="1826000" />
       <workItem from="1771767026387" duration="13622000" />
-      <workItem from="1771820324272" duration="21569000" />
+      <workItem from="1771820324272" duration="22257000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -228,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771845626922</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fix: session">
+      <option name="closed" value="true" />
+      <created>1771853023394</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1771853023394</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,6 +276,7 @@
     <MESSAGE value="fix: weee we fix toast" />
     <MESSAGE value="refactor: decompose provider" />
     <MESSAGE value="feat: add tanstack" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add tanstack" />
+    <MESSAGE value="fix: session" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: session" />
   </component>
 </project>
