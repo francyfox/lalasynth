@@ -1,8 +1,13 @@
 <script lang="ts">
+import { runGuards } from '@/lib/guards'
+import { router } from '@/router'
 import { Toaster, type ToastOptions } from 'svelte-sonner'
-import { Router, createRouter } from '@roxi/routify'
-import routes from '../.routify/routes.default.js'
-export const router = createRouter({ routes })
+import { Router } from '@roxi/routify'
+import { QueryClientProvider, QueryClient } from '@tanstack/svelte-query'
+import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools'
+
+const queryClient = new QueryClient({
+})
 
 const toastOptions: ToastOptions = {
   duration: 2200,
@@ -25,10 +30,14 @@ const toastOptions: ToastOptions = {
 }
 </script>
 
-<Router {router} />
-<Toaster
-        {toastOptions}
-        position="top-center"
-        visibleToasts={2}
-/>
+<QueryClientProvider client={queryClient}>
+    <Router {router} beforeUrlChange={runGuards} />
+    <Toaster
+            {toastOptions}
+            position="top-center"
+            visibleToasts={2}
+    />
+    <SvelteQueryDevtools />
+</QueryClientProvider>
+
 

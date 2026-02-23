@@ -6,12 +6,13 @@ export const routes = {
   "id": "_default",
   "name": "",
   "file": {
-    "path": "src/routes",
-    "dir": "src",
-    "base": "routes",
-    "ext": "",
-    "name": "routes"
+    "path": "src/routes/_module.svelte",
+    "dir": "src/routes",
+    "base": "_module.svelte",
+    "ext": ".svelte",
+    "name": "_module"
   },
+  "asyncModule": () => import('../src/routes/_module.svelte'),
   "rootName": "default",
   "routifyDir": import.meta.url,
   "children": [
@@ -108,7 +109,8 @@ export const routes = {
       "children": [
         {
           "meta": {
-            "isDefault": true
+            "isDefault": true,
+            "_auth": true
           },
           "id": "_default_lobby_index_svelte",
           "name": "index",

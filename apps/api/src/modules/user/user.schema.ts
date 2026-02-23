@@ -1,5 +1,5 @@
 import { createId } from "@paralleldrive/cuid2";
-import { relations, sql } from "drizzle-orm";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 
@@ -24,6 +24,7 @@ export const UserSchema = sqliteTable("user", {
 	totalWins: integer("total_wins"),
 });
 
+export type User = InferSelectModel<typeof UserSchema>;
 export const session = sqliteTable(
 	"session",
 	{
@@ -44,6 +45,8 @@ export const session = sqliteTable(
 	},
 	(table) => [index("session_userId_idx").on(table.userId)],
 );
+
+export type Session = InferSelectModel<typeof session>;
 
 export const account = sqliteTable(
 	"account",

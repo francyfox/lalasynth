@@ -4,14 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="fix: weee we fix toast">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/components/auth/AuthProviders.svelte" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="refactor: decompose provider">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/user.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/router.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/routify.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/user/user.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/.routify/routes.default.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.routify/routes.default.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/App.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/App.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/auth/AuthTabs.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/auth/AuthTabs.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/auth/SignupForm.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/auth/SignupForm.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/auth-client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/auth-client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lock" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +35,9 @@
         <option value="AppBannerCreated" />
         <option value="AppBannerSvelte" />
         <option value="index" />
-        <option value="TypeScript File" />
         <option value="AuthProviders" />
+        <option value="_module" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -75,11 +83,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/web/src/lib/guards" />
       <recent name="$PROJECT_DIR$/apps/web/src/assets" />
       <recent name="$PROJECT_DIR$/packages/ui/src" />
       <recent name="$PROJECT_DIR$/packages/ui/src/input" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/apps/api" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -115,7 +123,7 @@
       <workItem from="1771741504046" duration="2511000" />
       <workItem from="1771765184040" duration="1826000" />
       <workItem from="1771767026387" duration="13622000" />
-      <workItem from="1771820324272" duration="7993000" />
+      <workItem from="1771820324272" duration="17053000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -205,16 +213,19 @@
       <option name="project" value="LOCAL" />
       <updated>1771827997427</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="refactor: decompose provider">
+      <option name="closed" value="true" />
+      <created>1771831857384</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1771831857384</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/packages/ui/src/index.d.ts" />
-      </list>
-    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -253,6 +264,7 @@
     <MESSAGE value="fix: auth" />
     <MESSAGE value="fix: form validations" />
     <MESSAGE value="fix: weee we fix toast" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: weee we fix toast" />
+    <MESSAGE value="refactor: decompose provider" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: decompose provider" />
   </component>
 </project>
