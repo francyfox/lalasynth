@@ -54,14 +54,17 @@ function createAuthStore() {
 					fetchOptions,
 				});
 
-				if (result.data) {
+				if ((result as { data: unknown }).data) {
 					update((state) => ({
 						...state,
-						success: "Login successful!",
 						isLoading: false,
 					}));
 					return true;
 				}
+				update((state) => ({
+					...state,
+					isLoading: false,
+				}));
 				return false;
 			} catch (err) {
 				const errorMessage =
@@ -103,7 +106,7 @@ function createAuthStore() {
 					fetchOptions,
 				});
 
-				if (result.data) {
+				if ((result as { data: unknown }).data) {
 					update((state) => ({
 						...state,
 						success: "Registration successful! Check your email.",
@@ -111,6 +114,10 @@ function createAuthStore() {
 					}));
 					return true;
 				}
+				update((state) => ({
+					...state,
+					isLoading: false,
+				}));
 				return false;
 			} catch (err) {
 				const errorMessage =
