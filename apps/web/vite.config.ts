@@ -7,7 +7,11 @@ import { defineConfig } from "vite";
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [
-		tailwindcss(),
+		tailwindcss({
+			optimize: {
+				minify: process.env.NODE_ENV === "production",
+			},
+		}),
 		svelte({
 			prebundleSvelteLibraries: false,
 		}),
@@ -22,6 +26,7 @@ export default defineConfig({
 	},
 	optimizeDeps: {
 		exclude: ["@package/ui"],
+		include: ["svelte-sonner"],
 	},
 	ssr: {
 		noExternal: ["@package/ui"],
