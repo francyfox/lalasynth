@@ -26,13 +26,11 @@ export const ScenesData = [
 	{
 		name: "lobby",
 		bg: `${env.BETTER_AUTH_BASE_URL}/static/bg/open_evening.webp`,
-		message: null,
 		music: `${env.BETTER_AUTH_BASE_URL}/static/sound/lobby.m4a`,
 	},
 	{
 		name: "game",
 		bg: `${env.BETTER_AUTH_BASE_URL}/static/bg/closed_evening.webp`,
-		message: null,
 	},
 ].map((i, index) => {
 	return {

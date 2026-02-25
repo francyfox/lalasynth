@@ -26,7 +26,7 @@
 		if (e.code === "Space" && isTyping) {
 			e.preventDefault();
 			skip();
-		} else if (e.code === "ArrowUp" && !isTyping) {
+		} else if (e.code === "Space" && !isTyping) {
 			if (next) next()
 		}
 	}
@@ -55,7 +55,7 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<div class="mt-auto flex flex-col w-full min-h-[200px] h-[30vh] bg-base-300 rounded-lg text-3xl p-5 gap-2">
+<div class="mt-auto flex flex-col w-full min-h-[200px] h-[20vh] bg-base-300/90 rounded-lg text-3xl p-5 gap-2">
 	<div class="overflow-auto h-[8ch]">
 		<div class="flex-1 text">{displayed}{#if isTyping}<span class="cursor">▌</span>{/if}</div>
 	</div>

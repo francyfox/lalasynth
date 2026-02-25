@@ -4,26 +4,29 @@ import { toast } from "svelte-sonner";
 import { client } from "@/lib/api";
 
 export const getScenesStore = () => {
-	const currentId = $state<number>(0);
-	const query = createQuery<Scene>(() => ({
+	const query = createQuery<Scene[]>(() => ({
 		queryKey: ["scenes"],
 		queryFn: async () => {
 			const { data, error } = await client.GET("/scenes");
-			toast.error((error as unknown as Error).message);
-
-			return data;
+			if (error) {
+				toast.error((error as unknown as Error).message);
+				return [];
+			}
+			return data || [];
 		},
 	}));
 
 	return {
 		query,
-		getSceneById: (id: number) =>
-			(query.data as Scene[]).find((i) => i.id === id),
-		getSceneByName: (name: string) =>
-			(query.data as Scene[]).find((i) => i.name === name),
-		getCurrentScene: () =>
-			$derived((query.data as Scene[]).find((i) => i.id === currentId)),
-		getNextScene: () =>
-			$derived((query.data as Scene[]).find((i) => i.id === currentId)),
+		getSceneById: (id: number) => {
+			const scenes = query.data;
+			if (!Array.isArray(scenes)) return undefined;
+			return scenes.find((i) => i.id === id);
+		},
+		getSceneByName: (name: string) => {
+			const scenes = query.data;
+			if (!Array.isArray(scenes)) return undefined;
+			return scenes.find((i) => i.name === name);
+		},
 	};
 };
