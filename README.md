@@ -1,4 +1,4 @@
-# 🎼 LalaSynth
+# 🎼 LalaSynth [WIP]
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Bun](https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white)

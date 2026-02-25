@@ -5,43 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: dialogue box">
-      <change afterPath="$PROJECT_DIR$/apps/api/public/bg/closed_evening.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/public/bg/closed_night.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/public/bg/open_evening.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/public/sound/dialogue.m4a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/public/sound/license.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/public/sound/lobby.m4a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/public/sound/type1.m4a" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/libs/handler.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.data.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/type.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/assets/noavatar.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/components/layout/AppGameLayout.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/api.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/scenes/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/scenes/scenes.data.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/scenes/scenes.types.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.meta.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/scene-dialogue/USceneDialogue.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/src/env.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/env.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/.routify/routes.default.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.routify/routes.default.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/layout/AppGameLayout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/layout/AppGameLayout.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.meta.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/vite.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bun.lock" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +133,7 @@
       <workItem from="1771820324272" duration="22629000" />
       <workItem from="1771915107157" duration="18134000" />
       <workItem from="1771942760404" duration="659000" />
-      <workItem from="1771999582349" duration="12194000" />
+      <workItem from="1771999582349" duration="16476000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -281,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1771853329004</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="feat: dialogue box">
+      <option name="closed" value="true" />
+      <created>1772012751025</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1772012751025</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -1,11 +1,9 @@
 import type { RoutifyMeta } from "@roxi/routify";
-import { get } from "svelte/store";
 import { authClient } from "@/lib/auth-client";
 import type { GuardFn } from "@/lib/guards/types";
 import { queryClient } from "@/lib/query-client";
-
 export const authGuard: GuardFn = async ({ route }) => {
-	console.log((route as { meta: RoutifyMeta }).meta);
+	const isAuth = (route as any).url === "/auth";
 	if ((route as { meta: RoutifyMeta }).meta._auth) return true;
 
 	let session: { user: unknown } | null = queryClient.getQueryData([
@@ -26,7 +24,7 @@ export const authGuard: GuardFn = async ({ route }) => {
 		}
 	}
 
-	if (!session?.user) {
+	if (!session?.user && !isAuth) {
 		window.location.href = `/auth`;
 		return false;
 	}

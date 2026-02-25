@@ -3,7 +3,8 @@
   import { beforeUrlChange, activeRoute } from '@roxi/routify';
   import { router } from '@/router'
   import ProgressBar from '@roxi/routify/components/ProgressBar.svelte';
-  import Carousel from '@roxi/routify/components/Carousel.svelte';
+  import { fade } from 'svelte/transition';
+  import Nav from '@roxi/routify/components/Nav.svelte';
 
   let isAllowed = $state(false);
   async function performCheck(currentRoute: Route) {
@@ -21,4 +22,24 @@
 </script>
 
 <ProgressBar />
-<slot/>
+
+{#key $activeRoute.url}
+	<div transition:fade={{ duration: 300 }} class="page-transition h-full">
+		<slot />
+	</div>
+{/key}
+
+<style>
+	.page-transition {
+		animation: fadeIn 0.3s ease-in-out;
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+</style>

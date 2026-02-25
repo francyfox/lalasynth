@@ -1,3 +1,4 @@
+<!-- routify:meta _auth=true -->
 <script lang="ts">
 	import AppGameLayout from '@/components/layout/AppGameLayout.svelte'
 	import { getSessionStore } from '@/lib/stores/session'
