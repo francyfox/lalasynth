@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: dialogue box">
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: transition">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/.routify/routes.default.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.routify/routes.default.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/layout/AppGameLayout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/layout/AppGameLayout.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.meta.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/type.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/type.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/scenes/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/scenes/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,7 +127,7 @@
       <workItem from="1771820324272" duration="22629000" />
       <workItem from="1771915107157" duration="18134000" />
       <workItem from="1771942760404" duration="659000" />
-      <workItem from="1771999582349" duration="16476000" />
+      <workItem from="1771999582349" duration="18007000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -263,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772012751025</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="feat: transition">
+      <option name="closed" value="true" />
+      <created>1772017502623</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1772017502623</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -311,6 +313,7 @@
     <MESSAGE value="fix: session" />
     <MESSAGE value="chore: readme" />
     <MESSAGE value="feat: dialogue box" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: dialogue box" />
+    <MESSAGE value="feat: transition" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: transition" />
   </component>
 </project>

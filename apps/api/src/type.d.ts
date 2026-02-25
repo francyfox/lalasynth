@@ -38,6 +38,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/scenes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description All scenes */
+        get: operations["getScenes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/auth/signin/github": {
         parameters: {
             query?: never;
@@ -321,6 +338,42 @@ export interface operations {
                         mimeType: string;
                         bitrate: number;
                     };
+                };
+            };
+        };
+    };
+    getScenes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: number;
+                        name: string;
+                        bg: string;
+                        message?: string;
+                    }[];
+                    "multipart/form-data": {
+                        id: number;
+                        name: string;
+                        bg: string;
+                        message?: string;
+                    }[];
+                    "text/plain": {
+                        id: number;
+                        name: string;
+                        bg: string;
+                        message?: string;
+                    }[];
                 };
             };
         };

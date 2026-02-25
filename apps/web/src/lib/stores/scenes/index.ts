@@ -1,12 +1,29 @@
-import { writable } from "svelte/store";
+import type { Scene } from "@app/src/modules/scenes/scenes.types";
+import { createQuery } from "@tanstack/svelte-query";
+import { toast } from "svelte-sonner";
+import { client } from "@/lib/api";
 
-const createScenesStore = () => {
-	const { subscribe, set, update } = writable([]);
+export const getScenesStore = () => {
+	const currentId = $state<number>(0);
+	const query = createQuery<Scene>(() => ({
+		queryKey: ["scenes"],
+		queryFn: async () => {
+			const { data, error } = await client.GET("/scenes");
+			toast.error((error as unknown as Error).message);
+
+			return data;
+		},
+	}));
 
 	return {
-		subscribe,
-		getCurrent: () => {},
+		query,
+		getSceneById: (id: number) =>
+			(query.data as Scene[]).find((i) => i.id === id),
+		getSceneByName: (name: string) =>
+			(query.data as Scene[]).find((i) => i.name === name),
+		getCurrentScene: () =>
+			$derived((query.data as Scene[]).find((i) => i.id === currentId)),
+		getNextScene: () =>
+			$derived((query.data as Scene[]).find((i) => i.id === currentId)),
 	};
 };
-
-export const scenesStore = createScenesStore();
