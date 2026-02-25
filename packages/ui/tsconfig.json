@@ -1,5 +1,6 @@
 {
 	"compilerOptions": {
+		"types": ["svelte"],
 		"lib": ["ESNext"],
 		"target": "ESNext",
 		"module": "Preserve",

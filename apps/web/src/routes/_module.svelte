@@ -2,6 +2,8 @@
   import { runGuards } from '@/lib/guards'
   import { beforeUrlChange, activeRoute } from '@roxi/routify';
   import { router } from '@/router'
+  import ProgressBar from '@roxi/routify/components/ProgressBar.svelte';
+  import Carousel from '@roxi/routify/components/Carousel.svelte';
 
   let isAllowed = $state(false);
   async function performCheck(currentRoute: Route) {
@@ -17,4 +19,6 @@
     return runGuards(event)
   });
 </script>
-<slot />
+
+<ProgressBar />
+<slot/>

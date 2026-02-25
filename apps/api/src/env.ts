@@ -9,6 +9,7 @@ export const env = createEnv({
 		CLIENT_URL: z.url(),
 		TURSO_CONNECTION_URL: z.url(),
 		TURSO_AUTH_TOKEN: z.string(),
+		BETTER_AUTH_BASE_URL: z.string(),
 		GITHUB_CLIENT_ID: z.string(),
 		GITHUB_CLIENT_SECRET: z.string(),
 	},

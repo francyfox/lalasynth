@@ -12,7 +12,11 @@
 		"src"
 	],
 	"devDependencies": {
-		"@types/bun": "latest"
+		"@types/bun": "latest",
+		"svelte": "^5.0.0"
+	},
+	"dependencies": {
+		"animejs": "^4.3.6"
 	},
 	"peerDependencies": {
 		"typescript": "^5",

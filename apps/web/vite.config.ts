@@ -26,7 +26,7 @@ export default defineConfig({
 	},
 	optimizeDeps: {
 		exclude: ["@package/ui"],
-		include: ["svelte-sonner"],
+		include: ["svelte-sonner", "@roxi/routify"],
 	},
 	ssr: {
 		noExternal: ["@package/ui"],

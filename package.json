@@ -26,5 +26,7 @@
 		"apps/*",
 		"packages/*"
 	],
-	"dependencies": {}
+	"dependencies": {
+		"openapi-fetch": "^0.17.0"
+	}
 }

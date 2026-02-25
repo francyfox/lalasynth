@@ -110,7 +110,8 @@ export const routes = {
         {
           "meta": {
             "isDefault": true,
-            "_auth": true
+            "_auth": true,
+            "_layout": "game"
           },
           "id": "_default_lobby_index_svelte",
           "name": "index",

@@ -5,6 +5,7 @@ import type { GuardFn } from "@/lib/guards/types";
 import { queryClient } from "@/lib/query-client";
 
 export const authGuard: GuardFn = async ({ route }) => {
+	console.log((route as { meta: RoutifyMeta }).meta);
 	if ((route as { meta: RoutifyMeta }).meta._auth) return true;
 
 	let session: { user: unknown } | null = queryClient.getQueryData([

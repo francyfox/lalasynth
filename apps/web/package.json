@@ -23,6 +23,7 @@
 		"vite": "^8.0.0-beta.13"
 	},
 	"dependencies": {
+		"@elysiajs/eden": "^1.4.8",
 		"@felte/validator-zod": "^1.0.18",
 		"@fontsource-variable/alegreya": "^5.2.8",
 		"@fontsource/fredoka": "^5.2.10",
