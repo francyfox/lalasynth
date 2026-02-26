@@ -27,6 +27,7 @@
 		"@felte/validator-zod": "^1.0.18",
 		"@fontsource-variable/alegreya": "^5.2.8",
 		"@fontsource/fredoka": "^5.2.10",
+		"@app/api": "workspace:*",
 		"@package/ui": "workspace:*",
 		"@roxi/routify": "^3.6.4",
 		"@tailwindcss/vite": "^4.2.0",

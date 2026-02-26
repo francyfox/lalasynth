@@ -21,9 +21,9 @@ export const auth = betterAuth({
 	},
 	user: {
 		additionalFields: {
-			bestWpm: { type: "number" },
-			totalWins: { type: "number" },
-			level: { type: "number" },
+			bestWpm: { type: "number", input: false },
+			totalWins: { type: "number", input: false },
+			level: { type: "number", input: false },
 		},
 	},
 	socialProviders: {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { UIType } from '@/components/layout/game.layout.types'
+  import { client } from '@/lib/api'
   import { authClient } from '@/lib/auth-client'
   import { getSessionMutations, getSessionStore } from '@/lib/stores/session'
   import { getScenesStore } from '@/lib/stores/scenes'
@@ -7,6 +8,7 @@
   import USceneDialogue from '@package/ui/scene-dialogue/USceneDialogue.svelte'
   import noAvatar from '@/assets/noavatar.gif?inline'
   import { goto } from '@roxi/routify'
+  import { onMount } from 'svelte'
 
   const _init = $goto;
   const sessionStore = getSessionStore();
@@ -23,7 +25,7 @@
   const formattedMessage = $derived.by(() => currentScene?.message?.replace('$user', sessionStore.data?.user.name || '') || '')
 
   $effect(() => {
-    if (sessionStore.data?.user.level) {
+    if (sessionStore.data?.user.level === 1) {
       currentMode = 'lobby'
     }
   })
@@ -40,6 +42,10 @@
       currentMode = 'lobby'
     }
   }
+
+  onMount(async () => {
+    await client.GET('/health')
+  })
 </script>
 
 <div class="wrap h-[calc(100vh_-_20%)]">

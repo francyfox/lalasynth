@@ -10,7 +10,7 @@ export const UserService = () => {
 				.from(UserSchema)
 				.where(eq(UserSchema.id, id));
 
-			if (!user) throw new Error("User not found");
+			if (user.length === 0) throw new Error("User not found");
 			const query = db
 				.update(UserSchema)
 				.set(values)

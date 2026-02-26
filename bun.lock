@@ -47,6 +47,7 @@
       "name": "@app/web",
       "version": "0.0.0",
       "dependencies": {
+        "@app/api": "workspace:*",
         "@elysiajs/eden": "^1.4.8",
         "@felte/validator-zod": "^1.0.18",
         "@fontsource-variable/alegreya": "^5.2.8",

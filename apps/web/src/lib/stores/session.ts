@@ -1,17 +1,10 @@
-import {
-	createMutation,
-	createQuery,
-	useQueryClient,
-} from "@tanstack/svelte-query";
-import type { Session, User } from "better-auth";
+import { createMutation, createQuery } from "@tanstack/svelte-query";
+import { toast } from "svelte-sonner";
 import { client } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
 import { queryClient } from "@/lib/query-client";
 
-type SessionData = {
-	user: User;
-	session: Session;
-} | null;
+type SessionData = typeof authClient.$Infer.Session | null;
 
 export function getSessionStore() {
 	return createQuery<SessionData>(() => ({
@@ -19,10 +12,7 @@ export function getSessionStore() {
 		queryFn: async () => {
 			const { data } = await authClient.getSession();
 			if (!data) return null;
-			return {
-				user: data.user as User,
-				session: data.session as Session,
-			};
+			return data;
 		},
 		staleTime: (query) => {
 			const expiresAt = query.state.data?.session?.expiresAt;
@@ -34,13 +24,13 @@ export function getSessionStore() {
 
 export const getSessionMutations = () => {
 	const updateLevelMutation = createMutation(() => ({
-		mutationFn: (level: number) => {
+		mutationFn: async (level: number) => {
 			const session = queryClient.getQueryData<SessionData>(["session"]);
 			const id = session?.user?.id;
 
 			if (!id) throw new Error("Unknown session");
 
-			return client.PATCH("/user/{id}", {
+			const { data, error } = await client.PATCH("/user/{id}", {
 				params: {
 					path: {
 						id,
@@ -49,7 +39,14 @@ export const getSessionMutations = () => {
 				body: {
 					level,
 				},
+				headers: {
+					"Content-Type": "application/json",
+				},
 			});
+
+			if (error) toast.error(String(error));
+
+			return data;
 		},
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] }),
 	}));

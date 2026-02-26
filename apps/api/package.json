@@ -2,7 +2,8 @@
 	"name": "@app/api",
 	"version": "1.0.50",
 	"exports": {
-		".": "./src/type.d.ts"
+		".": "./src/type.d.ts",
+		"./auth": "./src/auth.ts"
 	},
 	"scripts": {
 		"schema": "npx openapi-typescript http://localhost:3000/swagger/json -o ./src/type.d.ts",

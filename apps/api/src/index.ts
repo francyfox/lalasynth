@@ -13,7 +13,17 @@ import { client } from "./db";
 
 const logPath = join(Bun.main.replace("index.ts", ""), "../logs/server.log");
 export const app = new Elysia()
-	.use(logger())
+	.onError(({ code, error, path }) => {
+		if (error.hasOwnProperty("message")) return error;
+		return {
+			message: error,
+		};
+	})
+	.use(
+		logger({
+			level: "error",
+		}),
+	)
 	.use(
 		fileLogger({
 			file: logPath,
@@ -22,7 +32,7 @@ export const app = new Elysia()
 	.use(
 		cors({
 			origin: [env.CLIENT_URL],
-			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+			methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 			credentials: true,
 			allowedHeaders: ["Content-Type", "Authorization"],
 		}),
