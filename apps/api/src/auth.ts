@@ -23,6 +23,7 @@ export const auth = betterAuth({
 		additionalFields: {
 			bestWpm: { type: "number" },
 			totalWins: { type: "number" },
+			level: { type: "number" },
 		},
 	},
 	socialProviders: {

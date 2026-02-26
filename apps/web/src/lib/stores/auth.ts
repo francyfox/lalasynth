@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 import { authClient, fetchOptions } from "@/lib/auth-client";
+import { queryClient } from "@/lib/query-client";
 import {
 	type LoginFormData,
 	loginSchema,
@@ -55,6 +56,7 @@ function createAuthStore() {
 				});
 
 				if ((result as { data: unknown }).data) {
+					await queryClient.invalidateQueries({ queryKey: ["session"] });
 					update((state) => ({
 						...state,
 						isLoading: false,

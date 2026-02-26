@@ -9,6 +9,8 @@
 	export let minLength: number = type === 'password' ? 8 : 1;
 	export let required: boolean = true;
 	export let hintText: string | boolean = '';
+	export let autocomplete: 'on' | 'off' = 'off';
+	export let autocompletetype: string = '';
 </script>
 
 <div class="form-control w-full flex flex-col">
@@ -24,6 +26,7 @@
 		bind:value
 		{disabled}
 		{required}
+		{autocomplete}
 		minlength={minLength}
 	/>
 	{#if hintText}

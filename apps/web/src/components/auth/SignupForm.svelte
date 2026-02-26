@@ -30,6 +30,7 @@
 		type="email"
 		id="signup-email"
 		name="email"
+		autocomplete="off"
 		hintText={$isDirty && $errors.email?.[0]}
 		disabled={isLoading}
 	/>

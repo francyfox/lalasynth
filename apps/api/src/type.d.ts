@@ -55,6 +55,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** @description Update user level */
+        patch: operations["patchUserById"];
+        trace?: never;
+    };
     "/api/auth/signin/github": {
         parameters: {
             query?: never;
@@ -375,6 +392,37 @@ export interface operations {
                         message?: string;
                     }[];
                 };
+            };
+        };
+    };
+    patchUserById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    level: number;
+                };
+                "multipart/form-data": {
+                    level: number;
+                };
+                "text/plain": {
+                    level: number;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

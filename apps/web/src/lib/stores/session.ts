@@ -1,6 +1,12 @@
-import { createQuery } from "@tanstack/svelte-query";
+import {
+	createMutation,
+	createQuery,
+	useQueryClient,
+} from "@tanstack/svelte-query";
 import type { Session, User } from "better-auth";
+import { client } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
+import { queryClient } from "@/lib/query-client";
 
 type SessionData = {
 	user: User;
@@ -25,3 +31,30 @@ export function getSessionStore() {
 		},
 	}));
 }
+
+export const getSessionMutations = () => {
+	const updateLevelMutation = createMutation(() => ({
+		mutationFn: (level: number) => {
+			const session = queryClient.getQueryData<SessionData>(["session"]);
+			const id = session?.user?.id;
+
+			if (!id) throw new Error("Unknown session");
+
+			return client.PATCH("/user/{id}", {
+				params: {
+					path: {
+						id,
+					},
+				},
+				body: {
+					level,
+				},
+			});
+		},
+		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["session"] }),
+	}));
+
+	return {
+		updateLevel: (level: number) => updateLevelMutation.mutate(level),
+	};
+};

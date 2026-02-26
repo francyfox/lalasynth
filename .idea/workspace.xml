@@ -4,13 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: scenes api">
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: intro">
+      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.level.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/components/layout/game.layout.types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/select-song/USelectSong.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/migrations/0000_zippy_inhumans.sql" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/migrations/0000_init.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/migrations/meta/0000_snapshot.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/migrations/meta/0000_snapshot.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/migrations/meta/_journal.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/migrations/meta/_journal.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/libs/better-auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/libs/better-auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/user/user.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/user/user.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/type.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/type.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/auth/SignupForm.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/auth/SignupForm.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/components/layout/AppGameLayout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/layout/AppGameLayout.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/scenes/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/scenes/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/scene-dialogue/USceneDialogue.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/scene-dialogue/USceneDialogue.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/session.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/session.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lock" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/input/UInput.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/input/UInput.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,9 +50,10 @@
         <option value="_module" />
         <option value="SceneDialogue" />
         <option value="_layout.game" />
-        <option value="TypeScript File" />
         <option value="GameLayout" />
         <option value="UNavbar" />
+        <option value="USelectSong" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -128,7 +148,8 @@
       <workItem from="1771820324272" duration="22629000" />
       <workItem from="1771915107157" duration="18134000" />
       <workItem from="1771942760404" duration="659000" />
-      <workItem from="1771999582349" duration="21237000" />
+      <workItem from="1771999582349" duration="22881000" />
+      <workItem from="1772085137730" duration="9870000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -274,7 +295,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772018979619</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="feat: intro">
+      <option name="closed" value="true" />
+      <created>1772023126070</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1772023126070</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -324,6 +353,7 @@
     <MESSAGE value="feat: dialogue box" />
     <MESSAGE value="feat: transition" />
     <MESSAGE value="feat: scenes api" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: scenes api" />
+    <MESSAGE value="feat: intro" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: intro" />
   </component>
 </project>

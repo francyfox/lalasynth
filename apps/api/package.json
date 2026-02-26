@@ -10,6 +10,7 @@
 		"dev": "bun run --watch src/index.ts"
 	},
 	"dependencies": {
+		"@bogeychan/elysia-logger": "^0.1.10",
 		"@elysiajs/cors": "^1.4.1",
 		"@elysiajs/static": "^1.4.7",
 		"@elysiajs/swagger": "^1.3.1",

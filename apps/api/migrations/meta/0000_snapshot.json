@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "b3cdc9b1-4898-494d-9ed9-1b351a2687e0",
+  "id": "878bcb88-9088-4b92-a4ba-70f03381dd72",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user": {
@@ -72,6 +72,14 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "level": {
+          "name": "level",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 0
         }
       },
       "indexes": {

@@ -7,7 +7,8 @@ CREATE TABLE `user` (
 	`created_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL,
 	`best_wpm` integer,
-	`total_wins` integer
+	`total_wins` integer,
+	`level` integer DEFAULT 0
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `user_email_unique` ON `user` (`email`);--> statement-breakpoint

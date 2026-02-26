@@ -2,6 +2,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { InferSelectModel, relations, sql } from "drizzle-orm";
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
+import { UserLevel } from "@/modules/user/user.level";
 
 export const UserSchema = sqliteTable("user", {
 	id: text("id")
@@ -22,6 +23,7 @@ export const UserSchema = sqliteTable("user", {
 		.notNull(),
 	bestWpm: integer("best_wpm"),
 	totalWins: integer("total_wins"),
+	level: integer("level").default(UserLevel.intro),
 });
 
 export type User = InferSelectModel<typeof UserSchema>;

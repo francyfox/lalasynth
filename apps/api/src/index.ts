@@ -1,3 +1,5 @@
+import { join } from "node:path";
+import { fileLogger, logger } from "@bogeychan/elysia-logger";
 import { cors } from "@elysiajs/cors";
 import { staticPlugin } from "@elysiajs/static";
 import { swagger } from "@elysiajs/swagger";
@@ -9,7 +11,14 @@ import { swaggerDocs } from "@/libs/swagger";
 import { routes } from "@/routes";
 import { client } from "./db";
 
+const logPath = join(Bun.main.replace("index.ts", ""), "../logs/server.log");
 export const app = new Elysia()
+	.use(logger())
+	.use(
+		fileLogger({
+			file: logPath,
+		}),
+	)
 	.use(
 		cors({
 			origin: [env.CLIENT_URL],
