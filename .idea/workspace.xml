@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: stats">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/skip-intro.guard.ts" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="fix: guards. add skip guard">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/guards/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routify.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routify.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TZ.md" beforeDir="false" afterPath="$PROJECT_DIR$/TZ.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,7 +132,7 @@
       <workItem from="1771942760404" duration="659000" />
       <workItem from="1771999582349" duration="22881000" />
       <workItem from="1772085137730" duration="26028000" />
-      <workItem from="1772171203465" duration="11312000" />
+      <workItem from="1772171203465" duration="12591000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -321,7 +318,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772195240635</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="fix: guards. add skip guard">
+      <option name="closed" value="true" />
+      <created>1772197303530</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1772197303530</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,6 +381,7 @@
     <MESSAGE value="feat: add level" />
     <MESSAGE value="feat: Utable" />
     <MESSAGE value="feat: stats" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: stats" />
+    <MESSAGE value="fix: guards. add skip guard" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: guards. add skip guard" />
   </component>
 </project>
