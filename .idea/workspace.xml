@@ -4,24 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: Utable">
-      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/stats/stats.const.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/stats/stats.schema.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/stats/stats.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/components/lobby/AppLobby.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/stats/UStats.svelte" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: stats">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/skip-intro.guard.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/src/env.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/env.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/.routify/routes.default.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/.routify/routes.default.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/layout/AppGameLayout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/layout/AppLobbyLayout.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/game/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/game/index.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bun.lock" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/select-song/USelectSong.svelte" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/table/UTable.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/table/UTable.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/auth.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/guards/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/guards/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/routify.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routify.d.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,7 +135,7 @@
       <workItem from="1771942760404" duration="659000" />
       <workItem from="1771999582349" duration="22881000" />
       <workItem from="1772085137730" duration="26028000" />
-      <workItem from="1772171203465" duration="9422000" />
+      <workItem from="1772171203465" duration="11312000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -325,7 +313,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772115847837</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="feat: stats">
+      <option name="closed" value="true" />
+      <created>1772195240635</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1772195240635</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -379,6 +375,7 @@
     <MESSAGE value="feat: add logger + mutations" />
     <MESSAGE value="feat: add level" />
     <MESSAGE value="feat: Utable" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Utable" />
+    <MESSAGE value="feat: stats" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: stats" />
   </component>
 </project>

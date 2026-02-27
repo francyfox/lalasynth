@@ -3,8 +3,9 @@ import { authClient } from "@/lib/auth-client";
 import type { GuardFn } from "@/lib/guards/types";
 import { queryClient } from "@/lib/query-client";
 
-export const authGuard: GuardFn = async ({ route }) => {
-	if (!(route as { meta: RoutifyMeta }).meta._auth) return true;
+export const skipIntroGuard: GuardFn = async ({ route }) => {
+	const meta = (route as { meta: RoutifyMeta }).meta;
+	if (meta._auth || meta._skip) return true;
 
 	let session: { user: unknown } | null = queryClient.getQueryData([
 		"session",
@@ -19,13 +20,13 @@ export const authGuard: GuardFn = async ({ route }) => {
 					return data;
 				},
 			});
-		} catch (e) {
+		} catch {
 			session = null;
 		}
 	}
 
-	if (!session?.user) {
-		window.location.href = `/auth`;
+	if (session?.user) {
+		window.location.href = `/lobby`;
 		return false;
 	}
 
