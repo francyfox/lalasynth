@@ -62,7 +62,8 @@ export const routes = {
       "children": [
         {
           "meta": {
-            "isDefault": true
+            "isDefault": true,
+            "_auth": true
           },
           "id": "_default_game_index_svelte",
           "name": "index",

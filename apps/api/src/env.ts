@@ -12,6 +12,10 @@ export const env = createEnv({
 		BETTER_AUTH_BASE_URL: z.string(),
 		GITHUB_CLIENT_ID: z.string(),
 		GITHUB_CLIENT_SECRET: z.string(),
+
+		TURSO_API_TOKEN: z.string(), // Platform API Token (turso auth token)
+		TURSO_ORG_NAME: z.string(), // Имя организации (обычно ник на GitHub)
+		TURSO_DB_NAME: z.string(), // Имя базы данных
 	},
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,

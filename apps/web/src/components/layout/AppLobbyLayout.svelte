@@ -4,7 +4,7 @@
   import { authClient } from '@/lib/auth-client'
   import { getSessionMutations, getSessionStore } from '@/lib/stores/session'
   import { getScenesStore } from '@/lib/stores/scenes'
-  import { UNavbar, USelectSong } from '@package/ui/index.js'
+  import { UNavbar } from '@package/ui/index.js'
   import USceneDialogue from '@package/ui/scene-dialogue/USceneDialogue.svelte'
   import noAvatar from '@/assets/noavatar.gif?inline'
   import { goto } from '@roxi/routify'
@@ -70,10 +70,6 @@
                     message={formattedMessage}
                     {next}
             />
-        {/if}
-
-        {#if currentMode === 'lobby'}
-            <USelectSong />
         {/if}
     </main>
 </div>

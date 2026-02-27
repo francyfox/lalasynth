@@ -44,7 +44,7 @@
         {#each table.getHeaderGroups() as headerGroup}
             <tr>
                 {#each headerGroup.headers as header}
-                    <th class="p-4 uppercase text-xl font-bold tracking-wider text-base-content/60">
+                    <th class="px-4 py-2 uppercase text-xl font-bold tracking-wider text-base-content/60">
                         {#if !header.isPlaceholder}
                             <button
                                     class="flex items-center gap-2 hover:text-primary transition-colors"
@@ -68,7 +68,7 @@
         {#each table.getRowModel().rows as row}
             <tr class="hover:bg-base-200/30 transition-colors border-b border-base-content/5 last:border-0">
                 {#each row.getVisibleCells() as cell}
-                    <td class="p-4 text-xl">
+                    <td class="px-4 py-2 text-xl">
                         {#if typeof getCellResult(cell) === 'object' && getCellResult(cell) !== null && getCellResult(cell).component}
                             <svelte:component
                                     this={getCellResult(cell).component}

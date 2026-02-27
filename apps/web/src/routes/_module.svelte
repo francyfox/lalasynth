@@ -1,5 +1,6 @@
 <script lang="ts">
   import { runGuards } from '@/lib/guards'
+  import UStats from '@package/ui/stats/UStats.svelte'
   import { beforeUrlChange, activeRoute } from '@roxi/routify';
   import { router } from '@/router'
   import ProgressBar from '@roxi/routify/components/ProgressBar.svelte';
@@ -22,6 +23,7 @@
 </script>
 
 <ProgressBar />
+<UStats />
 
 {#key $activeRoute.url}
 	<div transition:fade={{ duration: 300 }} class="page-transition h-full">

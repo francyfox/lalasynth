@@ -1,12 +1,11 @@
 <script lang="ts">
+  import type { Song } from '@app/src/modules/song/song.schema'
+  import  UCounter from '@package/ui/counter/UCounter.svelte'
+  import UInput from '@package/ui/input/UInput.svelte';
+  import UTable from '@package/ui/table/UTable.svelte'
   import type { ColumnDef } from '@tanstack/table-core'
-  import UBadge from '../badge/UBadge.svelte'
-  import UCounter from '../counter/UCounter.svelte'
-  import UInput from '../input/UInput.svelte'
-  import type { User } from '../../../../apps/api/src/modules/user/user.schema.ts'
-  import type { Song } from '../../../../apps/api/src/modules/song/song.schema.ts'
+  import type { User } from 'better-auth'
   import { Debounced } from "runed";
-  import UTable from '../table/UTable.svelte'
 
   interface Props {
     countdown?: number
@@ -35,28 +34,31 @@
 
 
   let users = $state<Partial<User>[]>([
-    { id: '1', level: 10, email: 'fox@example.com' },
-    { id: '2', level: 5, email: 'wolf@example.com' }
+    { no: 1, name: "Test", bestWpm: 1.64, totalWins: 10 },
+    { no: 2, name: "Test2", bestWpm: 2.64, totalWins: 3 },
   ]);
 
   const columns: ColumnDef<User>[] = [
     {
-      accessorKey: 'id',
-      header: 'ID',
+      accessorKey: 'no',
+      header: '#No',
     },
     {
-      accessorKey: 'email',
-      header: 'Email',
+      accessorKey: 'name',
+      header: 'Name',
     },
     {
-      accessorKey: 'level',
-      header: 'Level',
-      cell: (info) => ({ component: UBadge, props: { value: info.getValue() } })
-    }
+      accessorKey: 'bestWpm',
+      header: 'Best WPM',
+    },
+    {
+      accessorKey: 'totalWins',
+      header: 'Total Wins',
+    },
   ];
 </script>
 
-<div class="mx-auto w-full max-w-2xl p-5 bg-base-300/90 rounded-lg">
+<div class="mx-auto mt-5 w-full max-w-2xl flex flex-col gap-5 p-5 bg-base-300/90 rounded-lg">
     {#if /selected|playing/.test(lobbyState)}
         <div class="flex justify-center">
             <UCounter {countdown} />
@@ -88,5 +90,8 @@
         </p>
     {/if}
 
+    <h2 class="text-4xl text-center">
+        <span>#0000</span> players in lobby
+    </h2>
     <UTable data={users} {columns} />
 </div>
