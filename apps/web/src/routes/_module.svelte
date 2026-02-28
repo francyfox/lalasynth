@@ -1,18 +1,25 @@
 <script lang="ts">
   import { runGuards } from '@/lib/guards'
+  import { getSystemStats } from '@/lib/stores/stats'
   import UStats from '@package/ui/stats/UStats.svelte'
   import { beforeUrlChange, activeRoute } from '@roxi/routify';
   import { router } from '@/router'
   import ProgressBar from '@roxi/routify/components/ProgressBar.svelte';
   import { fade } from 'svelte/transition';
-  import Nav from '@roxi/routify/components/Nav.svelte';
 
+  const stats = getSystemStats()
   let isAllowed = $state(false);
+  let showStats: boolean = $state(true);
   async function performCheck(currentRoute: Route) {
     const canContinue = await runGuards({ route: currentRoute, router: $router });
     if (canContinue) {
       isAllowed = true;
     }
+  }
+
+  function toggleStats() {
+	  showStats = !showStats
+	  console.log(showStats)
   }
 
   performCheck($activeRoute);
@@ -23,7 +30,13 @@
 </script>
 
 <ProgressBar />
-<UStats />
+
+<UStats
+	{...stats.data}
+	className={showStats ? '' : 'hidden'}
+	onShortcut="{toggleStats}"
+/>
+
 
 {#key $activeRoute.url}
 	<div transition:fade={{ duration: 300 }} class="page-transition h-full">

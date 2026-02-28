@@ -1,4 +1,4 @@
-import { t } from "elysia";
+import { Static, t } from "elysia";
 export const StatsSchema = t.Object({
 	cpu: t.Number({ description: "CPU %" }),
 	memory: t.Number({ description: "Memory %" }),
@@ -8,3 +8,5 @@ export const StatsSchema = t.Object({
 		storage: t.Number({ description: "DB Turso Storage %" }),
 	}),
 });
+
+export type Stats = Static<typeof StatsSchema>;

@@ -72,6 +72,23 @@ export interface paths {
         patch: operations["patchUserById"];
         trace?: never;
     };
+    "/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the stats */
+        get: operations["getStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/auth/signin/github": {
         parameters: {
             query?: never;
@@ -423,6 +440,66 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    getStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description CPU % */
+                        cpu: number;
+                        /** @description Memory % */
+                        memory: number;
+                        turso: {
+                            /** @description DB Turso read % */
+                            read: number;
+                            /** @description DB Turso write % */
+                            write: number;
+                            /** @description DB Turso Storage % */
+                            storage: number;
+                        };
+                    };
+                    "multipart/form-data": {
+                        /** @description CPU % */
+                        cpu: number;
+                        /** @description Memory % */
+                        memory: number;
+                        turso: {
+                            /** @description DB Turso read % */
+                            read: number;
+                            /** @description DB Turso write % */
+                            write: number;
+                            /** @description DB Turso Storage % */
+                            storage: number;
+                        };
+                    };
+                    "text/plain": {
+                        /** @description CPU % */
+                        cpu: number;
+                        /** @description Memory % */
+                        memory: number;
+                        turso: {
+                            /** @description DB Turso read % */
+                            read: number;
+                            /** @description DB Turso write % */
+                            write: number;
+                            /** @description DB Turso Storage % */
+                            storage: number;
+                        };
+                    };
+                };
             };
         };
     };
