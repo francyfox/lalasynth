@@ -4,10 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: sm stats">
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="fix: hide stats">
+      <change afterPath="$PROJECT_DIR$/apps/web/src/utils/cn.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/text-scroller/UTextScroller.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/text-scroller/text-scroller.mock.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/text-scroller/text-scroller.types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/public/bg/closed_night.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/components/layout/AppLobbyLayout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/layout/AppLobbyLayout.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/_module.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/layout/game.layout.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/layout/game.layout.types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/game/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/game/index.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lock" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +49,7 @@
         <option value="UBadge" />
         <option value="AppLobby" />
         <option value="UStats" />
+        <option value="AppTextScroller" />
         <option value="TypeScript File" />
       </list>
     </option>
@@ -134,7 +148,8 @@
       <workItem from="1771999582349" duration="22881000" />
       <workItem from="1772085137730" duration="26028000" />
       <workItem from="1772171203465" duration="13206000" />
-      <workItem from="1772268469689" duration="5963000" />
+      <workItem from="1772268469689" duration="6081000" />
+      <workItem from="1772295619093" duration="10495000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -344,7 +359,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772275498448</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="fix: hide stats">
+      <option name="closed" value="true" />
+      <created>1772275729298</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1772275729298</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -377,7 +400,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/apps/api" />
     </ignored-roots>
-    <MESSAGE value="init" />
     <MESSAGE value="refactor: format" />
     <MESSAGE value="feat: get song from yt" />
     <MESSAGE value="feat: elysia logo" />
@@ -402,6 +424,7 @@
     <MESSAGE value="fix: guards. add skip guard" />
     <MESSAGE value="chore: tz" />
     <MESSAGE value="feat: sm stats" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: sm stats" />
+    <MESSAGE value="fix: hide stats" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: hide stats" />
   </component>
 </project>

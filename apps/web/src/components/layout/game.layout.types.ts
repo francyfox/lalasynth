@@ -1,1 +1,1 @@
-export type UIType = "dialogue" | "lobby" | "punishment";
+export type UIType = "dialogue" | "lobby" | "punishment" | "game";

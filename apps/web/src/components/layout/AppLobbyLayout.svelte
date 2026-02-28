@@ -1,14 +1,13 @@
 <script lang="ts">
   import type { UIType } from '@/components/layout/game.layout.types'
-  import { client } from '@/lib/api'
   import { authClient } from '@/lib/auth-client'
   import { getSessionMutations, getSessionStore } from '@/lib/stores/session'
   import { getScenesStore } from '@/lib/stores/scenes'
+  import { cn } from '@/utils/cn'
   import { UNavbar } from '@package/ui/index.js'
   import USceneDialogue from '@package/ui/scene-dialogue/USceneDialogue.svelte'
   import noAvatar from '@/assets/noavatar.gif?inline'
   import { goto } from '@roxi/routify'
-  import { onMount } from 'svelte'
 
   const _init = $goto;
   const sessionStore = getSessionStore();
@@ -25,7 +24,9 @@
   const formattedMessage = $derived.by(() => currentScene?.message?.replace('$user', sessionStore.data?.user.name || '') || '')
 
   $effect(() => {
-    if (sessionStore.data?.user.level === 1) {
+    if (currentMode === 'game') {
+      currentSceneId = 4
+    } else if (sessionStore.data?.user.level === 1) {
       currentMode = 'lobby'
     }
   })
@@ -45,6 +46,9 @@
 </script>
 
 <div class="wrap h-[calc(100vh_-_20%)]">
+    {#if currentMode === 'game'}
+        <div class="z-[1] top-0 left-0 absolute flex w-full h-full bg-[radial-gradient(circle,_transparent_10%,_oklch(0%_0_0_/_1)_100%)]"></div>
+    {/if}
     <div
             class="absolute w-full h-full z-0"
             style="{bgImage}"

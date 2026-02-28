@@ -12,3 +12,7 @@ html, body, #app, main {
 body {
     font-family: 'Alegreya Variable', serif;
 }
+
+.font-mono {
+    font-family: 'JetBrains Mono Variable', monospace;
+}

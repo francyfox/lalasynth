@@ -30,7 +30,7 @@ export const ScenesData = [
 	},
 	{
 		name: "game",
-		bg: `${env.BETTER_AUTH_BASE_URL}/static/bg/closed_evening.webp`,
+		bg: `${env.BETTER_AUTH_BASE_URL}/static/bg/closed_night.webp`,
 	},
 ].map((i, index) => {
 	return {

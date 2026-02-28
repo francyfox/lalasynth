@@ -51,6 +51,7 @@
         "@elysiajs/eden": "^1.4.8",
         "@felte/validator-zod": "^1.0.18",
         "@fontsource-variable/alegreya": "^5.2.8",
+        "@fontsource-variable/jetbrains-mono": "^5.2.8",
         "@fontsource/fredoka": "^5.2.10",
         "@package/ui": "workspace:*",
         "@roxi/routify": "^3.6.4",
@@ -60,10 +61,12 @@
         "@tanstack/table-core": "^8.21.3",
         "animejs": "^4.3.6",
         "better-auth": "^1.4.18",
+        "clsx": "^2.1.1",
         "felte": "^1.3.0",
         "runed": "^0.37.1",
         "svelte-sonner": "^1.0.7",
         "svelte-use-debounce": "^0.0.2",
+        "tailwind-merge": "^3.5.0",
         "tailwindcss": "^4.2.0",
         "tone": "^15.1.22",
         "zod": "^4.3.6",
@@ -220,6 +223,8 @@
     "@felte/validator-zod": ["@felte/validator-zod@1.0.18", "", { "dependencies": { "@felte/common": "1.1.9" }, "peerDependencies": { "zod": "^3.2.0" } }, "sha512-nLhy3qhCrL14iMxIHXtIH0MckZr/dmpqRd/KcqQ6HJoT2tjvv8gPpgOGJdOR15Wfzd25n/UUr3tyX7ydgXA5xQ=="],
 
     "@fontsource-variable/alegreya": ["@fontsource-variable/alegreya@5.2.8", "", {}, "sha512-gQcIA7j76KYTOcdkfo1Xee9xLBi5mya4qTkzlgeoHf9SjOL/gJj5GSSOg/7ba/ciUU18K92i7VGxXzFhDsowGg=="],
+
+    "@fontsource-variable/jetbrains-mono": ["@fontsource-variable/jetbrains-mono@5.2.8", "", {}, "sha512-WBA9elru6Jdp5df2mES55wuOO0WIrn3kpXnI4+W2ek5u3ZgLS9XS4gmIlcQhiZOWEKl95meYdvK7xI+ETLCq/Q=="],
 
     "@fontsource/fredoka": ["@fontsource/fredoka@5.2.10", "", {}, "sha512-DyzPCmTf0PkBbAu+gNvnPzfD/dYIXlyp+Zcb76jEQyt/vmRKGZgkH8FFF9W2sICDaA5p+GLk1XGFjWh5PPX+lg=="],
 
