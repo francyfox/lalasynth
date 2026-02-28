@@ -42,10 +42,6 @@
       currentMode = 'lobby'
     }
   }
-
-  onMount(async () => {
-    await client.GET('/health')
-  })
 </script>
 
 <div class="wrap h-[calc(100vh_-_20%)]">

@@ -7,7 +7,7 @@
   import ProgressBar from '@roxi/routify/components/ProgressBar.svelte';
   import { fade } from 'svelte/transition';
 
-  const stats = getSystemStats()
+  // const stats = getSystemStats()
   let isAllowed = $state(false);
   let showStats: boolean = $state(true);
   async function performCheck(currentRoute: Route) {
@@ -31,11 +31,11 @@
 
 <ProgressBar />
 
-<UStats
-	{...stats.data}
-	className={showStats ? '' : 'hidden'}
-	onShortcut="{toggleStats}"
-/>
+<!--<UStats-->
+<!--	{...stats.data}-->
+<!--	className={showStats ? '' : 'hidden'}-->
+<!--	onShortcut="{toggleStats}"-->
+<!--/>-->
 
 
 {#key $activeRoute.url}
