@@ -12,11 +12,9 @@ export const TextScrollerMock = {
 		"Dwun hyo hantorrya\n" +
 		"Moi trassi mahyall\n" +
 		"Fsurei haul\n" +
-		"\n" +
 		"Pla kasi ta mil\n" +
 		"Suw raissil Qun ranta\n" +
 		"Shonm sho loifty Manta\n" +
-		"\n" +
 		"Dhif\n" +
 		"Arl mushon has-twuat fala qwal til\n" +
 		"Dhif\n" +
@@ -24,7 +22,6 @@ export const TextScrollerMock = {
 		"Towait\n" +
 		"Misidhi-yu kashunon qwi no mal-dhuna\n" +
 		"Foi Geiluen doira cutreio\n" +
-		"\n" +
 		"Pahl Twu\n" +
 		"Qeis qa rony\n" +
 		"Flatie\n" +
@@ -39,16 +36,13 @@ export const TextScrollerMock = {
 		"Dwu fatta foi\n" +
 		"Au wat\n" +
 		"Foa Ho i\n" +
-		"\n" +
 		"Twulu fata noi\n" +
 		"Dwun hyo hantorrya\n" +
 		"Moi trassi mahyall\n" +
 		"Fsurei haul\n" +
-		"\n" +
 		"Pla kasi ta mil\n" +
 		"Suw raissil Qun ranta\n" +
 		"Shonm sho loifty Manta\n" +
-		"\n" +
 		"Dhif\n" +
 		"Arl mushon has-twuat fala qwal til\n" +
 		"Dhif\n" +
@@ -56,7 +50,6 @@ export const TextScrollerMock = {
 		"Towait\n" +
 		"Misidhi-yu kashunon qwi no mal-dhuna\n" +
 		"Foi Geiluen doira cutreio\n" +
-		"\n" +
 		"Pahl Twu\n" +
 		"Qeis qa rony\n" +
 		"Flatie\n" +

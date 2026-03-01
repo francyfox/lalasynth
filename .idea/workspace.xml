@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: update turbo" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: update bun">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/text-scroller/UTextScroller.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/text-scroller/UTextScroller.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/text-scroller/text-scroller.mock.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/text-scroller/text-scroller.mock.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -133,7 +137,7 @@
       <workItem from="1772171203465" duration="13206000" />
       <workItem from="1772268469689" duration="6081000" />
       <workItem from="1772295619093" duration="10606000" />
-      <workItem from="1772376408874" duration="655000" />
+      <workItem from="1772376408874" duration="6014000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -367,7 +371,23 @@
       <option name="project" value="LOCAL" />
       <updated>1772377575737</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="feat: update turbo">
+      <option name="closed" value="true" />
+      <created>1772377641727</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1772377641727</updated>
+    </task>
+    <task id="LOCAL-00031" summary="feat: update bun">
+      <option name="closed" value="true" />
+      <created>1772377700566</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1772377700566</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -400,7 +420,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/apps/api" />
     </ignored-roots>
-    <MESSAGE value="feat: elysia logo" />
     <MESSAGE value="feat: auth form" />
     <MESSAGE value="feat: ui lib" />
     <MESSAGE value="fix: refactor forms" />
@@ -425,6 +444,7 @@
     <MESSAGE value="fix: hide stats" />
     <MESSAGE value="feat: text-scroller" />
     <MESSAGE value="feat: update turbo" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: update turbo" />
+    <MESSAGE value="feat: update bun" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: update bun" />
   </component>
 </project>
