@@ -8,6 +8,7 @@ import UStats from "./stats/UStats.svelte";
 import UTable from "./table/UTable.svelte";
 import { TextScrollerMock } from "./text-scroller/text-scroller.mock.ts";
 import UTextScroller from "./text-scroller/UTextScroller.svelte";
+import UUserLeadership from "./user-leadership/UUserLeadership.svelte";
 
 export {
 	Input,
@@ -19,4 +20,5 @@ export {
 	UStats,
 	UTextScroller,
 	TextScrollerMock,
+	UUserLeadership,
 };

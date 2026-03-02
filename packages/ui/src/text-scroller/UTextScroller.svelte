@@ -99,7 +99,7 @@ $effect(() => {
 });
 </script>
 
-<div class={cn(className, 'py-5 flex flex-col gap-2 items-center text-scroller text-4xl text-center font-mono')}>
+<div class={cn(className, 'py-5 flex flex-col gap-2 items-center text-scroller text-4xl text-center font-mono shadow-sm')}>
     <div class="relative flex justify-center">
         {#if isWrong}
             <kbd class="absolute top-[-80px] kbd kbd-xl">{key}</kbd>
@@ -108,14 +108,14 @@ $effect(() => {
 
     <div class="overflow-hidden flex justify-center">
         <div class="h-[100px]">
-            {#each lyrics as line, i}
+            {#each lyrics as line, i (i)}
                 {#if i === currentLineIdx || i === currentLineIdx + 1}
                     <p
                             class="flex flex-wrap text-5xl leading-none transition-color duration-50"
                             class:opacity-100={i === currentLineIdx}
                             class:opacity-20={i !== currentLineIdx}
                     >
-                        {#each line as char, sIdx}
+                        {#each line as char, sIdx (sIdx)}
                           <span class={getCharClasses(i, sIdx)}>
                             {char}
 
