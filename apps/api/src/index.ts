@@ -5,6 +5,7 @@ import { staticPlugin } from "@elysiajs/static";
 import { swagger } from "@elysiajs/swagger";
 import { $ } from "bun";
 import { Elysia } from "elysia";
+import { rateLimit } from "elysia-rate-limit";
 import { env } from "@/env";
 import { betterAuthPlugin } from "@/libs/better-auth";
 import { swaggerDocs } from "@/libs/swagger";
@@ -27,6 +28,12 @@ export const app = new Elysia()
 	.use(
 		fileLogger({
 			file: logPath,
+		}),
+	)
+	.use(
+		rateLimit({
+			max: 20,
+			duration: 60000,
 		}),
 	)
 	.use(
