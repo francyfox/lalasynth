@@ -18,14 +18,17 @@ export function createSpriteManager<T extends string>(config: SpriteConfig<T>) {
 
 	const getPosition = (frame: T): string => positions[frame];
 
-	const getStyles = (frame: T) => ({
-		width: `${width}px`,
-		height: `${height}px`,
-		"background-position": positions[frame],
-		"background-size": `${width * frames.length}px ${height}px`,
-		"image-rendering": "pixelated" as const,
-		"background-image": `url(${image})`,
-	});
+	const getStyles = (frame: T) =>
+		`
+    width: ${width}px;
+    height: ${height}px;
+    background-position: ${positions[frame]};
+    background-size: ${width * frames.length}px ${height}px;
+    image-rendering: pixelated;
+    background-image: url(${config.image});
+  `
+			.replace(/\s+/g, " ")
+			.trim();
 
 	return {
 		getPosition,

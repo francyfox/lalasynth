@@ -4,7 +4,7 @@
 	import type { UIType } from '@/components/layout/game.layout.types'
 	import AppLobby from '@/components/lobby/AppLobby.svelte'
 
-	let currentMode: UIType = $state('lobby')
+	let currentMode: UIType = $state('dialogue')
 </script>
 
 <AppLobbyLayout {currentMode} >

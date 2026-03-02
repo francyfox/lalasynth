@@ -9,7 +9,7 @@ export const ScenesData = [
 			"My dear $user, since you've lost your voice, I shall be your instrument. Lalasynth is a \n " +
 			"rhythmic game where you pick a YouTube track and outpace others in a typing battle royale.\n",
 		music: `${env.BETTER_AUTH_BASE_URL}/static/sound/dialogue.m4a`,
-		char: "/static/nun/neutral.webp",
+		char: `${env.BETTER_AUTH_BASE_URL}/static/nun/neutral.webp`,
 	},
 	{
 		name: "intro-2",
@@ -17,14 +17,14 @@ export const ScenesData = [
 		message:
 			"Win to claim your glory and a unique badge for your GitHub profile.",
 		music: `${env.BETTER_AUTH_BASE_URL}/static/sound/dialogue.m4a`,
-		char: "/static/nun/neutral.webp",
+		char: `${env.BETTER_AUTH_BASE_URL}/static/nun/neutral.webp`,
 	},
 	{
 		name: "intro-3",
 		bg: `${env.BETTER_AUTH_BASE_URL}/static/bg/open_evening.webp`,
 		message: "Let your fingers sing, $user ...",
 		music: `${env.BETTER_AUTH_BASE_URL}/static/sound/dialogue.m4a`,
-		char: "/static/nun/neutral.webp",
+		char: `${env.BETTER_AUTH_BASE_URL}/static/nun/neutral.webp`,
 	},
 	{
 		name: "lobby",

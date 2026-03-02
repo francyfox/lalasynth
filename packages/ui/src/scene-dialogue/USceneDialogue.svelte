@@ -55,9 +55,9 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<div class="mt-auto flex flex-col w-full min-h-[200px] h-[20vh] bg-base-300/90 rounded-lg text-3xl p-5 gap-2">
+<div class="z-10 mt-auto flex flex-col w-full min-h-[200px] h-[20vh] bg-base-300/90 rounded-lg text-3xl p-5 gap-2">
 	<div class="overflow-auto h-[8ch]">
-		<div class="flex-1 text">{displayed}{#if isTyping}<span class="cursor">▌</span>{/if}</div>
+		<div class="flex-1">{displayed}{#if isTyping}<span class="cursor">▌</span>{/if}</div>
 	</div>
 
 	<div class="mt-auto ml-auto">
