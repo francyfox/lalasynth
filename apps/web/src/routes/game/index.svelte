@@ -6,9 +6,15 @@ import UTextScroller from '@package/ui/text-scroller/UTextScroller.svelte'
 import { TextScrollerMock } from '@package/ui/text-scroller/text-scroller.mock'
 
 let currentMode: UIType = $state("game")
+let isPlaying: boolean = $state(true)
 const song = TextScrollerMock
 </script>
 
 <AppLobbyLayout {currentMode} >
-    <UTextScroller {song} />
+    <div class="my-auto flex flex-col gap-5">
+        <UTextScroller
+                {song}
+                {isPlaying}
+        />
+    </div>
 </AppLobbyLayout>

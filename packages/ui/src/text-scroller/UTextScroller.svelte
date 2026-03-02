@@ -1,13 +1,14 @@
 <script lang="ts">
 import type { Lyrics } from './text-scroller.types.ts'
-
+import { cn } from '../utils.ts'
 interface Props {
   song: Lyrics
   onError?: (error: string) => void
   isPlaying: boolean
+  className?: string
 }
 
-const { song, isPlaying = true, onError }: Props = $props();
+const { song, isPlaying = true, className = '', onError }: Props = $props();
 const lyrics = $derived.by(() => song.plainLyrics?.split("\n") || '')
 
 let currentLineIdx = $state(0)
@@ -98,7 +99,7 @@ $effect(() => {
 });
 </script>
 
-<div class="my-auto py-5 text-scroller text-4xl text-center font-mono">
+<div class={cn(className, 'py-5 flex flex-col gap-2 items-center text-scroller text-4xl text-center font-mono')}>
     <div class="relative flex justify-center">
         {#if isWrong}
             <kbd class="absolute top-[-80px] kbd kbd-xl">{key}</kbd>
@@ -129,6 +130,7 @@ $effect(() => {
             {/each}
         </div>
     </div>
+
 
 
     <div class="mt-8 text-sm text-zinc-400">

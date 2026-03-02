@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: update bun">
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="fix: text-scroller">
+      <change afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/vite-env.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/game/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/game/index.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/navbar/UNavbar.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/text-scroller/UTextScroller.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/text-scroller/UTextScroller.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/text-scroller/text-scroller.mock.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/text-scroller/text-scroller.mock.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +140,8 @@
       <workItem from="1772171203465" duration="13206000" />
       <workItem from="1772268469689" duration="6081000" />
       <workItem from="1772295619093" duration="10606000" />
-      <workItem from="1772376408874" duration="6014000" />
+      <workItem from="1772376408874" duration="6567000" />
+      <workItem from="1772435267644" duration="2390000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -387,7 +391,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772377700566</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="fix: text-scroller">
+      <option name="closed" value="true" />
+      <created>1772383769024</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1772383769024</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -420,7 +432,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/apps/api" />
     </ignored-roots>
-    <MESSAGE value="feat: auth form" />
     <MESSAGE value="feat: ui lib" />
     <MESSAGE value="fix: refactor forms" />
     <MESSAGE value="fix: auth" />
@@ -445,6 +456,7 @@
     <MESSAGE value="feat: text-scroller" />
     <MESSAGE value="feat: update turbo" />
     <MESSAGE value="feat: update bun" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: update bun" />
+    <MESSAGE value="fix: text-scroller" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: text-scroller" />
   </component>
 </project>
