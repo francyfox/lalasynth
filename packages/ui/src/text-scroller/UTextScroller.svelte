@@ -39,6 +39,7 @@ let wpm = $derived.by(() => {
 });
 
 const handleKeydown = (e: KeyboardEvent) => {
+  if (!isPlaying) return;
   if (e.key.length !== 1) return;
   const targetChar = lyrics[currentLineIdx][cursor];
   key = e.key;
