@@ -4,10 +4,10 @@
 
     interface Props {
       className?: string,
-      frame: "idleA" | "idleB" | "idleC" | "idleD"
+      frame?: "idleA" | "idleB" | "idleC" | "idleD"
     }
 
-    const { frame, className }: Props = $props()
+    const { frame = "idleA", className }: Props = $props()
 
     const nun = createSpriteManager({
       image: 'http://localhost:3000/static/nun/neutral.webp',
@@ -17,7 +17,7 @@
     })
 </script>
 
-<div class={cn(className, "nun absolute")}
+<div class={cn(className, "nun absolute scale-x-[-1]")}
      style={nun.getStyles(frame)}
 >
 </div>

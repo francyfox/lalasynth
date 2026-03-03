@@ -4,14 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: sprites">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/components/nun/AppNun.svelte" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: add legal">
+      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/character/character.frame.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song-lrclib.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/songs.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/ui/src/search-song/USearchSong.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.data.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.data.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/scenes/scenes.types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song-yt.service.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song-yt.service.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song-yt.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song-yt.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/type.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/type.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/components/layout/AppLobbyLayout.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/layout/AppLobbyLayout.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/routes/lobby/index.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/utils/sprite.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/utils/sprite.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/scene-dialogue/USceneDialogue.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/scene-dialogue/USceneDialogue.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/lobby/AppLobby.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/lobby/AppLobby.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/nun/AppNun.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/nun/AppNun.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bun.lock" beforeDir="false" afterPath="$PROJECT_DIR$/bun.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +56,9 @@
         <option value="UUserLeadership" />
         <option value="AppTraffic" />
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="AppNun" />
+        <option value="USearchSong" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -78,24 +91,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/fox/WebstormProjects/cpg-test-release",
-    "list.type.of.created.stylesheet": "CSS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/home/fox/WebstormProjects/lalasynth/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/fox/WebstormProjects/cpg-test-release&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/fox/WebstormProjects/lalasynth/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs" />
@@ -147,7 +160,8 @@
       <workItem from="1772268469689" duration="6081000" />
       <workItem from="1772295619093" duration="10606000" />
       <workItem from="1772376408874" duration="6567000" />
-      <workItem from="1772435267644" duration="18952000" />
+      <workItem from="1772435267644" duration="19227000" />
+      <workItem from="1772513322760" duration="13782000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -445,7 +459,31 @@
       <option name="project" value="LOCAL" />
       <updated>1772463200304</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="feat: nun">
+      <option name="closed" value="true" />
+      <created>1772465798419</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1772465798419</updated>
+    </task>
+    <task id="LOCAL-00039" summary="feat: images">
+      <option name="closed" value="true" />
+      <created>1772513403793</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1772513403793</updated>
+    </task>
+    <task id="LOCAL-00040" summary="feat: add legal">
+      <option name="closed" value="true" />
+      <created>1772527502332</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1772527502332</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -478,9 +516,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/apps/api" />
     </ignored-roots>
-    <MESSAGE value="refactor: decompose provider" />
-    <MESSAGE value="feat: add tanstack" />
-    <MESSAGE value="fix: session" />
     <MESSAGE value="chore: readme" />
     <MESSAGE value="feat: dialogue box" />
     <MESSAGE value="feat: transition" />
@@ -503,6 +538,9 @@
     <MESSAGE value="feat: user-leadership" />
     <MESSAGE value="chore: checklist" />
     <MESSAGE value="feat: sprites" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: sprites" />
+    <MESSAGE value="feat: nun" />
+    <MESSAGE value="feat: images" />
+    <MESSAGE value="feat: add legal" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add legal" />
   </component>
 </project>

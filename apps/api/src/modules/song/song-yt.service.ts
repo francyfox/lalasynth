@@ -1,4 +1,19 @@
+import { spawn } from "bun";
 import { Innertube } from "youtubei.js";
+
+// Cache resolved audio metadata for 5 hours (YouTube URLs expire in ~6h)
+const URL_CACHE_TTL_MS = 5 * 60 * 60 * 1000;
+type CachedAudio = {
+	videoId: string;
+	title?: string;
+	author?: string;
+	duration?: number;
+	audioUrl: string;
+	mimeType: string;
+	bitrate: number;
+	expiresAt: number;
+};
+const audioCache = new Map<string, CachedAudio>();
 
 export const SongYtService = () => {
 	let youtube: Innertube | null = null;
@@ -12,7 +27,7 @@ export const SongYtService = () => {
 
 	function extractVideoId(url: string): string {
 		const patterns = [
-			/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
+			/(?:music\.youtube\.com\/watch\?v=|youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
 			/^([a-zA-Z0-9_-]{11})$/,
 		];
 
@@ -26,43 +41,66 @@ export const SongYtService = () => {
 		throw new Error("Invalid YouTube URL or video ID");
 	}
 
-	async function getAudioFromYouTube(urlOrId: string) {
+	async function getAudioFromYouTube(urlOrId: string): Promise<CachedAudio> {
 		const videoId = extractVideoId(urlOrId);
+
+		const cached = audioCache.get(videoId);
+		if (cached && cached.expiresAt > Date.now()) {
+			return cached;
+		}
+
 		const yt = await getClient();
-		const info = await yt.getInfo(videoId);
 
-		// Get streaming data with formats
-		const streamingData = info.streaming_data;
-		if (!streamingData) {
-			throw new Error("No streaming data available");
+		// IOS client returns formats with direct URLs (WEB/Music clients use SABR streaming)
+		const info = await yt.getInfo(videoId, { client: "IOS" });
+		const format = info.chooseFormat({ type: "audio", quality: "best" });
+
+		// decipher() transforms the n-parameter even for direct URLs (prevents 403/throttling)
+		const audioUrl = await format.decipher(yt.session.player);
+		if (!audioUrl) {
+			throw new Error("No audio URL available for this video");
 		}
 
-		// Get best audio format
-		const audioFormats = streamingData.adaptive_formats.filter(
-			(f) => f.has_audio && !f.has_video,
-		);
-
-		if (audioFormats.length === 0) {
-			throw new Error("No audio formats available");
-		}
-
-		// Sort by bitrate and pick the best
-		const bestAudio = audioFormats.sort(
-			(a, b) => (b.bitrate || 0) - (a.bitrate || 0),
-		)[0];
-
-		return {
+		const result: CachedAudio = {
 			videoId,
 			title: info.basic_info.title,
 			author: info.basic_info.author,
 			duration: info.basic_info.duration,
-			audioUrl: bestAudio.url || "",
-			mimeType: bestAudio.mime_type,
-			bitrate: bestAudio.bitrate,
+			audioUrl,
+			mimeType: format.mime_type,
+			bitrate: format.bitrate,
+			expiresAt: Date.now() + URL_CACHE_TTL_MS,
 		};
+
+		audioCache.set(videoId, result);
+		return result;
+	}
+
+	async function streamAudio(
+		urlOrId: string,
+	): Promise<ReadableStream<Uint8Array>> {
+		const videoId = extractVideoId(urlOrId);
+
+		const proc = spawn(
+			[
+				"yt-dlp",
+				"--js-runtimes",
+				`bun:${process.execPath}`,
+				"-f",
+				"bestaudio",
+				"--no-playlist",
+				"-o",
+				"-",
+				`https://www.youtube.com/watch?v=${videoId}`,
+			],
+			{ stdout: "pipe", stderr: "ignore" },
+		);
+
+		return proc.stdout as unknown as ReadableStream<Uint8Array>;
 	}
 
 	return {
 		getAudioFromYouTube,
+		streamAudio,
 	};
 };

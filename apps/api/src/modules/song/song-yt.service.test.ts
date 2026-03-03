@@ -6,12 +6,13 @@ describe("Song Service", () => {
 		const result = await SongYtService().getAudioFromYouTube(
 			"https://www.youtube.com/watch?v=dQw4w9WgXcQ",
 		);
-		console.log(result);
 
 		expect(result.videoId).toBe("dQw4w9WgXcQ");
-		expect(result.title).toBeDefined();
-		expect(result.audioUrl).toBeDefined();
-		expect(result.mimeType).toBeDefined();
+		expect(result.title).toBeTruthy();
+		expect(result.audioUrl).toBeTruthy();
+		expect(result.audioUrl).toStartWith("http");
+		expect(result.mimeType).toBeTruthy();
+		expect(result.bitrate).toBeGreaterThan(0);
 	});
 
 	test("should extract audio from youtu.be URL", async () => {
@@ -20,19 +21,27 @@ describe("Song Service", () => {
 		);
 
 		expect(result.videoId).toBe("dQw4w9WgXcQ");
-		expect(result.title).toBeDefined();
+		expect(result.title).toBeTruthy();
+		expect(result.audioUrl).toBeTruthy();
+		expect(result.audioUrl).toStartWith("http");
 	});
 
 	test("should extract audio from video ID", async () => {
 		const result = await SongYtService().getAudioFromYouTube("dQw4w9WgXcQ");
 
 		expect(result.videoId).toBe("dQw4w9WgXcQ");
-		expect(result.title).toBeDefined();
+		expect(result.title).toBeTruthy();
+		expect(result.audioUrl).toBeTruthy();
+		expect(result.audioUrl).toStartWith("http");
 	});
 
 	test("should throw error for invalid URL", async () => {
-		expect(async () => {
-			await SongYtService().getAudioFromYouTube("invalid-url");
-		}).toThrow();
+		expect(
+			async () =>
+				await SongYtService().getAudioFromYouTube(
+					"https://example.com/not-a-video",
+				),
+		).toThrow("Invalid YouTube URL or video ID");
 	});
+
 });

@@ -16,6 +16,11 @@ export const ScenesController = new Elysia({ name: "Scenes.Controller" }).get(
 				name: t.String(),
 				bg: t.String(),
 				message: t.Optional(t.String()),
+				frame: t.Optional(t.String()),
+				music: t.Optional(t.String()),
+				char: t.Optional(
+					t.String({ description: "Character sprite for scene" }),
+				),
 			}),
 		),
 	},

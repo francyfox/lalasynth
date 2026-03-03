@@ -21,7 +21,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/song": {
+    "/song/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -29,9 +29,43 @@ export interface paths {
             cookie?: never;
         };
         /** @description Get audio from YouTube by id/url */
-        get: operations["getSong"];
+        get: operations["getSongById"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/song/stream/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Proxy audio stream from YouTube with required headers */
+        get: operations["getSongStreamById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/song/lyric/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Select lyric for the song */
+        post: operations["postSongLyricById"];
         delete?: never;
         options?: never;
         head?: never;
@@ -329,7 +363,7 @@ export interface operations {
             };
         };
     };
-    getSong: {
+    getSongById: {
         parameters: {
             query?: never;
             header?: never;
@@ -346,33 +380,110 @@ export interface operations {
                 };
                 content: {
                     "application/json": {
-                        videoId: string;
-                        title?: string;
-                        author?: string;
-                        duration?: number;
-                        audioUrl: string;
-                        mimeType: string;
-                        bitrate: number;
+                        song: {
+                            videoId: string;
+                            title?: string;
+                            author?: string;
+                            duration?: number;
+                            audioUrl: string;
+                            mimeType: string;
+                            bitrate: number;
+                        };
+                        lyrics: {
+                            id: number;
+                            name: string;
+                            trackName: string;
+                            artistName: string;
+                            albumName: string;
+                            duration: number;
+                            instrumental: boolean;
+                            plainLyrics: (string | null) | null;
+                            syncedLyrics: (string | null) | null;
+                        }[];
                     };
                     "multipart/form-data": {
-                        videoId: string;
-                        title?: string;
-                        author?: string;
-                        duration?: number;
-                        audioUrl: string;
-                        mimeType: string;
-                        bitrate: number;
+                        song: {
+                            videoId: string;
+                            title?: string;
+                            author?: string;
+                            duration?: number;
+                            audioUrl: string;
+                            mimeType: string;
+                            bitrate: number;
+                        };
+                        lyrics: {
+                            id: number;
+                            name: string;
+                            trackName: string;
+                            artistName: string;
+                            albumName: string;
+                            duration: number;
+                            instrumental: boolean;
+                            plainLyrics: (string | null) | null;
+                            syncedLyrics: (string | null) | null;
+                        }[];
                     };
                     "text/plain": {
-                        videoId: string;
-                        title?: string;
-                        author?: string;
-                        duration?: number;
-                        audioUrl: string;
-                        mimeType: string;
-                        bitrate: number;
+                        song: {
+                            videoId: string;
+                            title?: string;
+                            author?: string;
+                            duration?: number;
+                            audioUrl: string;
+                            mimeType: string;
+                            bitrate: number;
+                        };
+                        lyrics: {
+                            id: number;
+                            name: string;
+                            trackName: string;
+                            artistName: string;
+                            albumName: string;
+                            duration: number;
+                            instrumental: boolean;
+                            plainLyrics: (string | null) | null;
+                            syncedLyrics: (string | null) | null;
+                        }[];
                     };
                 };
+            };
+        };
+    };
+    getSongStreamById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    postSongLyricById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -395,18 +506,30 @@ export interface operations {
                         name: string;
                         bg: string;
                         message?: string;
+                        frame?: string;
+                        music?: string;
+                        /** @description Character sprite for scene */
+                        char?: string;
                     }[];
                     "multipart/form-data": {
                         id: number;
                         name: string;
                         bg: string;
                         message?: string;
+                        frame?: string;
+                        music?: string;
+                        /** @description Character sprite for scene */
+                        char?: string;
                     }[];
                     "text/plain": {
                         id: number;
                         name: string;
                         bg: string;
                         message?: string;
+                        frame?: string;
+                        music?: string;
+                        /** @description Character sprite for scene */
+                        char?: string;
                     }[];
                 };
             };

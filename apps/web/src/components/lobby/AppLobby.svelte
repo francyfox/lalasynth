@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Song } from '@app/src/modules/song/song.schema'
   import  UCounter from '@package/ui/counter/UCounter.svelte'
+  import { USearchSong } from '@package/ui/index'
   import UInput from '@package/ui/input/UInput.svelte';
   import UTable from '@package/ui/table/UTable.svelte'
   import type { ColumnDef } from '@tanstack/table-core'
@@ -27,11 +28,9 @@
   }: Props = $props()
 
   let url: string = $state('')
-  let debouncedUrl = new Debounced(() => {
-    if (onUrlUpdate) onUrlUpdate(url)
-    return url
-  }, 500);
 
+  function handleSearch() {
+  }
 
   let users = $state<Partial<User>[]>([
     { no: 1, name: "Test", bestWpm: 1.64, totalWins: 10 },
@@ -66,12 +65,13 @@
     {/if}
 
     {#if lobbyState === 'timer' && isWinner && !selectedSong}
-        <UInput
-                label="Select a song"
-                placeholder="Paste your song from youtube [url/id]"
-                bind:value={url}
-        />
+
     {/if}
+
+    <USearchSong
+            search={url}
+            onUrlChange={handleSearch}
+    />
 
 
     {#if lobbyState === 'timer' && !isWinner}

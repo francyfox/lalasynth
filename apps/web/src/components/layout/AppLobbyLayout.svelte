@@ -4,8 +4,6 @@
   import { authClient } from '@/lib/auth-client'
   import { getSessionMutations, getSessionStore } from '@/lib/stores/session'
   import { getScenesStore } from '@/lib/stores/scenes'
-  import { cn } from '@/utils/cn'
-  import { createSpriteManager } from '@/utils/sprite'
   import { UNavbar } from '@package/ui/index.js'
   import USceneDialogue from '@package/ui/scene-dialogue/USceneDialogue.svelte'
   import noAvatar from '@/assets/noavatar.gif?inline'
@@ -41,7 +39,7 @@
     currentSceneId += 1;
 
     if (currentSceneId >= 3) {
-      // sessionMutations.updateLevel(1);
+      sessionMutations.updateLevel(1);
       currentMode = 'lobby'
     }
   }
@@ -49,8 +47,8 @@
 
 {#if currentMode === 'dialogue'}
     <AppNun
-            frame="idleA"
-            className="z-10 bottom-[0] left-[30vw]"
+            frame={currentScene?.frame || 'idleA'}
+            className="z-10 bottom-[0] right-[30vw]"
     />
 {/if}
 
@@ -73,7 +71,7 @@
     />
 
     <main class="relative flex flex-col mx-10 my-2 z-10">
-        {#if currentMode === 'lobby'}
+        {#if currentMode === 'lobby' || currentMode === 'game'}
             <slot />
         {/if}
 
