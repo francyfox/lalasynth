@@ -8,6 +8,7 @@
 <img height="200" src="apps/web/src/assets/lalasynth.webp" title="lala" width="200"/>
 
 My dear `$user`, since you've lost your voice, I shall be your instrument. Lalasynth is a Svelte and 
-Elysia-powered rhythmic game where you pick a YouTube track and outpace others in a typing battle royale.
+Elysia-powered rhythmic game where you pick a YouTube.Music track and outpace others in a typing 
+battle royale.
 
 Win to claim your glory and a unique badge for your GitHub profile. Let your fingers sing.
