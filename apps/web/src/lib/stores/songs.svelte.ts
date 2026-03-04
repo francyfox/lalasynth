@@ -18,37 +18,46 @@ function makeCrusherCurve(bits: number): Float32Array<ArrayBuffer> {
 }
 
 export function createSongStore() {
+	// Single element, created once — never null, never proxied by Svelte
+	const audioEl: HTMLAudioElement = new Audio();
+
 	let song = $state<Song | null>(null);
 	let lyrics = $state<Lyric[]>([]);
 	let status = $state<PlayerState>("idle");
 	let is16bit = $state(false);
 
-	let audioEl: HTMLAudioElement | null = null;
+	// Audio chain — built once on first play, reused across songs
 	let gainNode: GainNode | null = null;
 	let crusherNode: WaveShaperNode | null = null;
 	let chainBuilt = false;
 
+	/**
+	 * Stop playback and clear the src without touching the audio chain.
+	 * MediaElementSource stays connected — src change is enough for a new song.
+	 */
 	function teardown() {
-		audioEl?.pause();
-		if (audioEl) audioEl.src = "";
-		audioEl = null;
-		gainNode?.disconnect();
-		gainNode = null;
-		crusherNode?.disconnect();
-		crusherNode = null;
-		chainBuilt = false;
+		audioEl.pause();
+		audioEl.src = "";
+		audioEl.load();
+
+		// Immediately silence gain so there's no bleed into the next load
+		if (gainNode) {
+			const ctx = Tone.getContext().rawContext as AudioContext;
+			gainNode.gain.cancelScheduledValues(ctx.currentTime);
+			gainNode.gain.value = 0;
+		}
 	}
 
-	function buildChain(el: HTMLAudioElement) {
+	function buildChain() {
 		if (chainBuilt) return;
 		chainBuilt = true;
+
 		const ctx = Tone.getContext().rawContext as AudioContext;
-		const source = ctx.createMediaElementSource(el);
+		// createMediaElementSource is called exactly once for this element
+		const source = ctx.createMediaElementSource(audioEl);
 
 		crusherNode = ctx.createWaveShaper();
-		crusherNode.curve = makeCrusherCurve(
-			is16bit ? 4 : 16,
-		) as Float32Array<ArrayBuffer>;
+		crusherNode.curve = makeCrusherCurve(is16bit ? 4 : 16) as Float32Array<ArrayBuffer>;
 		crusherNode.oversample = "4x";
 
 		gainNode = ctx.createGain();
@@ -62,6 +71,8 @@ export function createSongStore() {
 	async function load(ytUrl: string) {
 		teardown();
 		status = "loading";
+		song = null;
+		lyrics = [];
 
 		const { data, error } = await client.GET("/song/{id}", {
 			params: { path: { id: ytUrl } },
@@ -75,31 +86,19 @@ export function createSongStore() {
 		song = data.song;
 		lyrics = data.lyrics;
 
-		const el = new Audio();
-		el.addEventListener(
-			"canplay",
-			() => {
-				status = "ready";
-			},
-			{ once: true },
-		);
-		el.addEventListener(
-			"error",
-			(e) => {
-				console.log(e);
-				status = "error";
-			},
-			{ once: true },
-		);
-		audioEl = el;
-		el.src = `/song/stream/${data.song.videoId}`;
-		el.load();
+		audioEl.addEventListener("canplay", () => { status = "ready"; }, { once: true });
+		audioEl.addEventListener("error", (e) => {
+			console.error(e);
+			status = "error";
+		}, { once: true });
+
+		audioEl.src = `/song/stream/${data.song.videoId}`;
+		audioEl.load();
 	}
 
 	async function play() {
-		if (!audioEl) return;
 		await Tone.start();
-		buildChain(audioEl);
+		buildChain();
 		const ctx = Tone.getContext().rawContext as AudioContext;
 		await audioEl.play();
 		if (!gainNode) return;
@@ -108,45 +107,38 @@ export function createSongStore() {
 	}
 
 	function pause() {
-		if (!audioEl || !gainNode) return;
+		if (!gainNode) return;
 		const ctx = Tone.getContext().rawContext as AudioContext;
 		gainNode.gain.cancelScheduledValues(ctx.currentTime);
 		gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + FADE_SEC);
-		setTimeout(() => audioEl?.pause(), FADE_SEC * 1000);
+		setTimeout(() => audioEl.pause(), FADE_SEC * 1000);
 	}
 
 	function seekTo(seconds: number) {
-		if (audioEl) audioEl.currentTime = seconds;
+		audioEl.currentTime = seconds;
 	}
 
 	function currentTime() {
-		return audioEl?.currentTime ?? 0;
+		return audioEl.currentTime;
 	}
+
 	function duration() {
-		return audioEl?.duration ?? 0;
+		return audioEl.duration ?? 0;
 	}
 
 	function toggle16bit() {
 		is16bit = !is16bit;
 		if (crusherNode)
-			crusherNode.curve = makeCrusherCurve(
-				is16bit ? 4 : 16,
-			) as Float32Array<ArrayBuffer>;
+			crusherNode.curve = makeCrusherCurve(is16bit ? 4 : 16) as Float32Array<ArrayBuffer>;
 	}
 
 	return {
-		get song() {
-			return song;
-		},
-		get lyrics() {
-			return lyrics;
-		},
-		get status() {
-			return status;
-		},
-		get is16bit() {
-			return is16bit;
-		},
+		/** Always the same element — safe to pass as a prop without null checks. */
+		audioEl,
+		get song() { return song; },
+		get lyrics() { return lyrics; },
+		get status() { return status; },
+		get is16bit() { return is16bit; },
 		load,
 		play,
 		pause,

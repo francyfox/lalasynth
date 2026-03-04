@@ -3,9 +3,10 @@ import UBadge from "./badge/UBadge.svelte";
 import UCounter from "./counter/UCounter.svelte";
 import Input from "./input/UInput.svelte";
 import UListPreview from "./list-preview/UListPreview.svelte";
+import ULyricSync from "./lyric-sync/ULyricSync.svelte";
+import { closeModal, modalState, openModal } from "./modal/modal.svelte.ts";
 import UModal from "./modal/UModal.svelte";
 import UModalProvider from "./modal/UModalProvider.svelte";
-import { closeModal, modalState, openModal } from "./modal/modal.svelte.ts";
 import UNavbar from "./navbar/UNavbar.svelte";
 import USceneDialogue from "./scene-dialogue/USceneDialogue.svelte";
 import USearchSong from "./search-song/USearchSong.svelte";
@@ -28,6 +29,7 @@ export {
 	UUserLeadership,
 	USearchSong,
 	UListPreview,
+	ULyricSync,
 	UModal,
 	UModalProvider,
 	openModal,
