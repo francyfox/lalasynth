@@ -63,6 +63,8 @@
 	{/if}
 
 	<USearchSong
+		song={songStore.song}
+		lyrics={songStore.lyrics}
 		onSongUrl={songStore.load}
 		preloadStatus={songStore.status}
 	/>

@@ -3,6 +3,7 @@ import UBadge from "./badge/UBadge.svelte";
 import UCounter from "./counter/UCounter.svelte";
 import Input from "./input/UInput.svelte";
 import UListPreview from "./list-preview/UListPreview.svelte";
+import UModal from "./modal/UModal.svelte";
 import UModalProvider from "./modal/UModalProvider.svelte";
 import { closeModal, modalState, openModal } from "./modal/modal.svelte.ts";
 import UNavbar from "./navbar/UNavbar.svelte";
@@ -27,6 +28,7 @@ export {
 	UUserLeadership,
 	USearchSong,
 	UListPreview,
+	UModal,
 	UModalProvider,
 	openModal,
 	closeModal,

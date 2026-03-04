@@ -1,13 +1,15 @@
 <script lang="ts">
 	import type { Lyric } from "@app/api/src/modules/song/song.schema.ts";
+	import { cn } from '../utils.ts'
 
 	interface Props {
 		duration: number;
 		data: Lyric[];
 		onSelect?: (lyric: Lyric) => void;
+		className?: string;
 	}
 
-	const { data, duration, onSelect }: Props = $props();
+	const { data, duration, onSelect, className }: Props = $props();
 
 	let selected = $state<Lyric | null>(null);
 
@@ -39,11 +41,9 @@
 	});
 </script>
 
-<div class="card bg-base-200 shadow-xl w-full">
+<div class={cn(className, "card bg-base-200 shadow-xl w-full")}>
 	<div class="card-body p-4 gap-4">
-		<h2 class="card-title text-base">Select Lyrics</h2>
 		<div class="flex gap-4 min-h-0">
-			<!-- Left: Lyric list -->
 			<div class="flex flex-col gap-2 w-1/2 overflow-y-auto max-h-96 pr-1">
 				{#if data.length === 0}
 					<p class="text-base-content/50 text-sm text-center mt-4">No results found</p>
@@ -55,27 +55,26 @@
 						class="btn btn-ghost btn-sm h-auto min-h-0 flex flex-col items-start text-left p-3 rounded-lg border border-base-300 hover:bg-base-300 {selected?.id === lyric.id ? 'bg-base-300 border-primary' : ''}"
 						onclick={() => selectLyric(lyric)}
 					>
-						<span class="font-semibold text-sm truncate w-full">{lyric.trackName}</span>
-						<span class="text-xs text-base-content/70 truncate w-full">{lyric.artistName}</span>
-						<div class="flex items-center gap-2 mt-1 w-full">
-							<span class="text-xs text-base-content/50">{Math.floor(lyric.duration / 60)}:{String(Math.floor(lyric.duration % 60)).padStart(2, "0")}</span>
+						<span class="font-semibold text-xl truncate w-full">{lyric.trackName}</span>
+						<span class="text-xl text-base-content/70 truncate w-full">{lyric.artistName}</span>
+						<span class="flex items-center gap-2 mt-1 w-full">
+							<span class="text-xl text-base-content/50">{Math.floor(lyric.duration / 60)}:{String(Math.floor(lyric.duration % 60)).padStart(2, "0")}</span>
 							{#if lyric.instrumental}
-								<span class="badge badge-xs badge-neutral">Instrumental</span>
+								<span class="badge badge-xl badge-neutral">Instrumental</span>
 							{/if}
-							<span class="badge badge-xs {badgeClass} ml-auto">{syncPct}% sync</span>
-						</div>
+							<span class="badge badge-xl {badgeClass} ml-auto">{syncPct}% sync</span>
+						</span>
 					</button>
 				{/each}
 			</div>
 
-			<!-- Right: Preview -->
 			<div class="flex flex-col w-1/2 overflow-y-auto max-h-96 bg-base-100 rounded-lg p-3">
 				{#if selected}
 					<p class="text-xs font-semibold text-base-content/60 mb-2 uppercase tracking-wide">
 						{selected.trackName} — {selected.artistName}
 					</p>
 					{#if selected.instrumental}
-						<p class="text-base-content/50 italic text-sm">This track is instrumental.</p>
+						<p class="text-base-200/80 italic text-xl">This track is instrumental.</p>
 					{:else if previewLines.length > 0}
 						<div class="flex flex-col gap-0.5">
 							{#each previewLines as line, i (i)}
