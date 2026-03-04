@@ -15,6 +15,49 @@ type CachedAudio = {
 };
 const audioCache = new Map<string, CachedAudio>();
 
+const BROWSERS = [
+	"firefox",
+	"chromium",
+	"chrome",
+	"chromium-browser",
+	"brave-browser",
+];
+
+async function detectBrowser(): Promise<string | null> {
+	for (const browser of BROWSERS) {
+		const proc = spawn(["which", browser], {
+			stdout: "pipe",
+			stderr: "ignore",
+		});
+		const text = await new Response(proc.stdout).text();
+		if (text.trim()) return browser;
+	}
+	return null;
+}
+
+// webm/opus — universally supported by MSE in all modern browsers
+export const STREAM_MIME = 'audio/webm; codecs="opus"';
+
+function ytdlpStream(
+	videoId: string,
+	browser: string,
+): ReadableStream<Uint8Array> {
+	const proc = spawn(
+		[
+			"yt-dlp",
+			"--cookies-from-browser", browser,
+			"--js-runtimes", "node:/usr/bin/node",
+			"--remote-components", "ejs:github",
+			"-f", "bestaudio[ext=webm]/bestaudio",
+			"--no-playlist",
+			"-o", "-",
+			`https://www.youtube.com/watch?v=${videoId}`,
+		],
+		{ stdout: "pipe", stderr: "ignore" },
+	);
+	return proc.stdout as unknown as ReadableStream<Uint8Array>;
+}
+
 export const SongYtService = () => {
 	let youtube: Innertube | null = null;
 
@@ -78,25 +121,16 @@ export const SongYtService = () => {
 
 	async function streamAudio(
 		urlOrId: string,
-	): Promise<ReadableStream<Uint8Array>> {
-		const videoId = extractVideoId(urlOrId);
-
-		const proc = spawn(
-			[
-				"yt-dlp",
-				"--js-runtimes",
-				`bun:${process.execPath}`,
-				"-f",
-				"bestaudio",
-				"--no-playlist",
-				"-o",
-				"-",
-				`https://www.youtube.com/watch?v=${videoId}`,
-			],
-			{ stdout: "pipe", stderr: "ignore" },
-		);
-
-		return proc.stdout as unknown as ReadableStream<Uint8Array>;
+	): Promise<{ stream: ReadableStream<Uint8Array>; mimeType: string }> {
+		const audio = await getAudioFromYouTube(urlOrId);
+		const browser = await detectBrowser();
+		if (!browser) {
+			throw new Error("No browser found for cookie extraction");
+		}
+		return {
+			stream: ytdlpStream(audio.videoId, browser),
+			mimeType: STREAM_MIME,
+		};
 	}
 
 	return {

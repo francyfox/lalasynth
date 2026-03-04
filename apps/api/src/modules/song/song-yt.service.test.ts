@@ -44,4 +44,43 @@ describe("Song Service", () => {
 		).toThrow("Invalid YouTube URL or video ID");
 	});
 
+	test("audioUrl is fetchable (not 403)", async () => {
+		const info = await SongYtService().getAudioFromYouTube("dQw4w9WgXcQ");
+		console.log("audioUrl:", info.audioUrl.substring(0, 120));
+		const res = await fetch(info.audioUrl, {
+			headers: { Range: "bytes=0-1000" },
+		});
+		console.log("status:", res.status, "content-type:", res.headers.get("content-type"));
+		expect(res.status).toBeLessThan(400);
+	}, 30_000);
+
+	test("streamAudio (direct URL) returns readable bytes", async () => {
+		const { stream, mimeType } = await SongYtService().streamAudio("dQw4w9WgXcQ");
+		console.log("mimeType:", mimeType);
+		const reader = stream.getReader();
+		let total = 0;
+		for (let i = 0; i < 3; i++) {
+			const { done, value } = await reader.read();
+			if (done) break;
+			total += value?.length ?? 0;
+		}
+		reader.cancel();
+		console.log("bytes received:", total);
+		expect(total).toBeGreaterThan(0);
+	}, 60_000);
+
+	test("streamAudio (geo-restricted, yt-dlp fallback) returns readable bytes", async () => {
+		const { stream, mimeType } = await SongYtService().streamAudio("ZLYP7eju_DE");
+		console.log("mimeType:", mimeType);
+		const reader = stream.getReader();
+		let total = 0;
+		for (let i = 0; i < 5; i++) {
+			const { done, value } = await reader.read();
+			if (done) break;
+			total += value?.length ?? 0;
+		}
+		reader.cancel();
+		console.log("bytes received:", total);
+		expect(total).toBeGreaterThan(0);
+	}, 60_000);
 });

@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 import { LyricSchema, SongSchema } from "@/modules/song/song.schema";
 import { SongLrclibService } from "@/modules/song/song-lrclib.service";
-import { SongYtService } from "@/modules/song/song-yt.service";
+import { SongYtService, STREAM_MIME } from "@/modules/song/song-yt.service";
 
 export const SongController = new Elysia({ name: "Song.Controller" })
 	.get(
@@ -14,7 +14,7 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 				song.duration || 0,
 			);
 			return {
-				song: { ...song, audioUrl: `/song/stream/${song.videoId}` },
+				song: { ...song, audioUrl: `/song/stream/${song.videoId}`, mimeType: STREAM_MIME },
 				lyrics,
 			};
 		},
@@ -34,11 +34,11 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 	)
 	.get(
 		"/song/stream/:id",
-		async ({ params: { id }, set }) => {
-			const stream = await SongYtService().streamAudio(id);
-			set.headers["Content-Type"] = "application/octet-stream";
-
-			return stream;
+		async ({ params: { id } }) => {
+			const { stream, mimeType } = await SongYtService().streamAudio(id);
+			return new Response(stream, {
+				headers: { "Content-Type": mimeType },
+			});
 		},
 		{
 			detail: {

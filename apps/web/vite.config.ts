@@ -34,5 +34,9 @@ export default defineConfig({
 	server: {
 		port: 4000,
 		strictPort: true,
+		proxy: {
+			"/song": "http://localhost:3000",
+			"/auth": "http://localhost:3000",
+		},
 	},
 });
