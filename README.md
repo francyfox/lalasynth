@@ -12,3 +12,11 @@ Elysia-powered rhythmic game where you pick a YouTube.Music track and outpace ot
 battle royale.
 
 Win to claim your glory and a unique badge for your GitHub profile. Let your fingers sing.
+
+## Documentation
+
+- [Adding audio & lyric providers](docs/adding-providers.md)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on setting up the project locally, code style, and submitting pull requests.

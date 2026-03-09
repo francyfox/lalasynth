@@ -4,15 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: lyric sync">
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: providers">
       <change afterPath="$PROJECT_DIR$/.claude/agents/tester.md" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/local-audio.provider.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/ytdlp.validate.test.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.provider.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song-lrclib.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/lrclib.provider.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song-yt.service.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/ytdlp.provider.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song-yt.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/ytdlp.provider.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.schema.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/lyric-sync/ULyricSync.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/lyric-sync/ULyricSync.svelte" afterDir="false" />
     </list>
@@ -159,7 +161,7 @@
       <workItem from="1772954646854" duration="103000" />
       <workItem from="1772983753660" duration="213000" />
       <workItem from="1772983976129" duration="3267000" />
-      <workItem from="1773025628023" duration="9462000" />
+      <workItem from="1773025628023" duration="11190000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -521,7 +523,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772627928409</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="feat: providers">
+      <option name="closed" value="true" />
+      <created>1773046437880</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1773046437880</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -554,7 +564,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/apps/api" />
     </ignored-roots>
-    <MESSAGE value="feat: add logger + mutations" />
     <MESSAGE value="feat: add level" />
     <MESSAGE value="feat: Utable" />
     <MESSAGE value="feat: stats" />
@@ -579,6 +588,7 @@
     <MESSAGE value="feat: modal + lyric preview" />
     <MESSAGE value="feat: audio-preload + UModal" />
     <MESSAGE value="feat: lyric sync" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: lyric sync" />
+    <MESSAGE value="feat: providers" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: providers" />
   </component>
 </project>
