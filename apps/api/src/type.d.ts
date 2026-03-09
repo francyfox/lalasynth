@@ -37,6 +37,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/song/local": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List local songs with optional title filter and pagination */
+        get: operations["getSongLocal"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/song/{id}": {
         parameters: {
             query?: never;
@@ -392,6 +409,68 @@ export interface operations {
                     "application/json": "OK";
                     "multipart/form-data": "OK";
                     "text/plain": "OK";
+                };
+            };
+        };
+    };
+    getSongLocal: {
+        parameters: {
+            query: {
+                /** @description Filter by title (case-insensitive substring) */
+                title?: string;
+                limit: number;
+                offset: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: {
+                            filename: string;
+                            title: string;
+                            artist: (string | null) | null;
+                            albumArt: (string | null) | null;
+                            duration: (number | null) | null;
+                            lrcFilename: (string | null) | null;
+                        }[];
+                        total: number;
+                        limit: number;
+                        offset: number;
+                    };
+                    "multipart/form-data": {
+                        items: {
+                            filename: string;
+                            title: string;
+                            artist: (string | null) | null;
+                            albumArt: (string | null) | null;
+                            duration: (number | null) | null;
+                            lrcFilename: (string | null) | null;
+                        }[];
+                        total: number;
+                        limit: number;
+                        offset: number;
+                    };
+                    "text/plain": {
+                        items: {
+                            filename: string;
+                            title: string;
+                            artist: (string | null) | null;
+                            albumArt: (string | null) | null;
+                            duration: (number | null) | null;
+                            lrcFilename: (string | null) | null;
+                        }[];
+                        total: number;
+                        limit: number;
+                        offset: number;
+                    };
                 };
             };
         };
