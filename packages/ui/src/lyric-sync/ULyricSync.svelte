@@ -23,6 +23,8 @@
 	let playing = $state(false);
 	let currentTime = $state(0);
 	let canvas = $state<HTMLCanvasElement | null>(null);
+	let audioReady = $state(false);
+	let audioError = $state<string | null>(null);
 
 	// ── audio nodes ───────────────────────────────────────────────────────
 	let internalCtx: AudioContext | null = null;
@@ -72,9 +74,27 @@
 
 	$effect(() => {
 		if (!audioEl) return;
+
+		// Sync initial readyState (element may already be ready when component mounts)
+		audioReady = audioEl.readyState >= 3;
+		audioError = audioEl.error ? (audioEl.error.message || "Audio error") : null;
+
+		const onCanPlay = () => { audioReady = true; audioError = null; };
 		const onEnded = () => { playing = false; };
+		const onError = () => {
+			audioReady = false;
+			playing = false;
+			audioError = audioEl.error?.message || "Failed to load audio";
+		};
+
+		audioEl.addEventListener("canplay", onCanPlay);
 		audioEl.addEventListener("ended", onEnded);
-		return () => audioEl?.removeEventListener("ended", onEnded);
+		audioEl.addEventListener("error", onError);
+		return () => {
+			audioEl?.removeEventListener("canplay", onCanPlay);
+			audioEl?.removeEventListener("ended", onEnded);
+			audioEl?.removeEventListener("error", onError);
+		};
 	});
 
 	// ── render loop ───────────────────────────────────────────────────────
@@ -256,6 +276,7 @@
 
 	// ── controls ──────────────────────────────────────────────────────────
 	async function togglePlay() {
+		if (!audioReady) return;
 		// Resume whichever AudioContext owns this element
 		const ctx = internalCtx ?? (analyserNode ? (analyserNode.context as AudioContext) : null);
 		if (ctx?.state === "suspended") await ctx.resume();
@@ -263,8 +284,13 @@
 			audioEl.pause();
 			playing = false;
 		} else {
-			await audioEl.play();
-			playing = true;
+			try {
+				await audioEl.play();
+				playing = true;
+			} catch (err) {
+				audioError = (err as Error).message;
+				playing = false;
+			}
 		}
 	}
 
@@ -347,11 +373,18 @@
 
 		<!-- Controls row -->
 		<div class="flex items-center gap-3 flex-wrap">
+			{#if audioError}
+				<span class="text-error text-xs">{audioError}</span>
+			{/if}
 			<button
 				class="btn btn-sm {playing ? 'btn-warning' : 'btn-primary'}"
 				onclick={togglePlay}
+				disabled={!audioReady}
 			>
-				{#if playing}
+				{#if !audioReady}
+					<span class="loading loading-spinner loading-xs"></span>
+					Loading…
+				{:else if playing}
 					<svg xmlns="http://www.w3.org/2000/svg" class="size-4 fill-current" viewBox="0 0 24 24">
 						<rect x="6" y="4" width="4" height="16"/>
 						<rect x="14" y="4" width="4" height="16"/>

@@ -4,15 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: audio-preload + UModal">
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/lyric-sync/ULyricSync.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/lyric-sync/lyric-sync.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/ui/src/lyric-sync/lyric-sync.types.ts" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: lyric sync">
+      <change afterPath="$PROJECT_DIR$/.claude/agents/tester.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/local-audio.provider.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.provider.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/lobby/AppLobby.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/lobby/AppLobby.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/songs.svelte.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/songs.svelte.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/search-song/USearchSong.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/search-song/USearchSong.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song-lrclib.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/lrclib.provider.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song-yt.service.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/ytdlp.provider.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song-yt.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/providers/ytdlp.provider.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/song.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/song.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/lyric-sync/ULyricSync.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/lyric-sync/ULyricSync.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,11 +103,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/api/src/modules/song" />
+      <recent name="$PROJECT_DIR$/apps/api/src/modules/song/providers" />
       <recent name="$PROJECT_DIR$/docs" />
       <recent name="$PROJECT_DIR$/apps/web/src/assets" />
       <recent name="$PROJECT_DIR$/packages/ui/src/navbar" />
-      <recent name="$PROJECT_DIR$/apps/web/src/lib" />
-      <recent name="$PROJECT_DIR$/apps/api/public/sound" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -152,7 +154,12 @@
       <workItem from="1772376408874" duration="6567000" />
       <workItem from="1772435267644" duration="19227000" />
       <workItem from="1772513322760" duration="29101000" />
-      <workItem from="1772604677159" duration="14819000" />
+      <workItem from="1772604677159" duration="15033000" />
+      <workItem from="1772698868081" duration="4360000" />
+      <workItem from="1772954646854" duration="103000" />
+      <workItem from="1772983753660" duration="213000" />
+      <workItem from="1772983976129" duration="3267000" />
+      <workItem from="1773025628023" duration="9462000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <option name="closed" value="true" />
@@ -506,7 +513,15 @@
       <option name="project" value="LOCAL" />
       <updated>1772618731302</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="feat: lyric sync">
+      <option name="closed" value="true" />
+      <created>1772627928409</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1772627928409</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -539,7 +554,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/apps/api" />
     </ignored-roots>
-    <MESSAGE value="feat: intro" />
     <MESSAGE value="feat: add logger + mutations" />
     <MESSAGE value="feat: add level" />
     <MESSAGE value="feat: Utable" />
@@ -564,6 +578,7 @@
     <MESSAGE value="fix: removed broken header from controller + fix dlp cookie" />
     <MESSAGE value="feat: modal + lyric preview" />
     <MESSAGE value="feat: audio-preload + UModal" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: audio-preload + UModal" />
+    <MESSAGE value="feat: lyric sync" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: lyric sync" />
   </component>
 </project>

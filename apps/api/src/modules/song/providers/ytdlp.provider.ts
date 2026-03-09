@@ -1,5 +1,7 @@
 import { spawn } from "bun";
 import { Innertube } from "youtubei.js";
+import type { AudioBaseProvider } from "@/modules/song/song.types";
+
 
 // Cache resolved audio metadata for 5 hours (YouTube URLs expire in ~6h)
 const URL_CACHE_TTL_MS = 5 * 60 * 60 * 1000;
@@ -23,6 +25,12 @@ const BROWSERS = [
 	"brave-browser",
 ];
 
+const YT_URI_REGEX =
+	/(?:music\.youtube\.com\/watch\?v=|youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
+const YT_ID_REGEX = /^([a-zA-Z0-9_-]{11})$/;
+const EXTRACT_ERROR = "Invalid YouTube URL or video ID";
+const NOT_FOUND = "No audio URL available for this video";
+
 async function detectBrowser(): Promise<string | null> {
 	for (const browser of BROWSERS) {
 		const proc = spawn(["which", browser], {
@@ -38,27 +46,33 @@ async function detectBrowser(): Promise<string | null> {
 // webm/opus — universally supported by MSE in all modern browsers
 export const STREAM_MIME = 'audio/webm; codecs="opus"';
 
+export const dlpArgs = (browser: string, videoId: string) => [
+	"yt-dlp",
+	"--cookies-from-browser",
+	browser,
+	"--js-runtimes",
+	"node:/usr/bin/node",
+	"--remote-components",
+	"ejs:github",
+	"-f",
+	"bestaudio[ext=webm]/bestaudio",
+	"--no-playlist",
+	"-o",
+	"-",
+	`https://www.youtube.com/watch?v=${videoId}`,
+];
 function ytdlpStream(
 	videoId: string,
 	browser: string,
 ): ReadableStream<Uint8Array> {
-	const proc = spawn(
-		[
-			"yt-dlp",
-			"--cookies-from-browser", browser,
-			"--js-runtimes", "node:/usr/bin/node",
-			"--remote-components", "ejs:github",
-			"-f", "bestaudio[ext=webm]/bestaudio",
-			"--no-playlist",
-			"-o", "-",
-			`https://www.youtube.com/watch?v=${videoId}`,
-		],
-		{ stdout: "pipe", stderr: "ignore" },
-	);
+	const proc = spawn(dlpArgs(browser, videoId), {
+		stdout: "pipe",
+		stderr: "ignore",
+	});
 	return proc.stdout as unknown as ReadableStream<Uint8Array>;
 }
 
-export const SongYtService = () => {
+export const YtdlpProvider = (): AudioBaseProvider => {
 	let youtube: Innertube | null = null;
 
 	async function getClient() {
@@ -69,10 +83,7 @@ export const SongYtService = () => {
 	}
 
 	function extractVideoId(url: string): string {
-		const patterns = [
-			/(?:music\.youtube\.com\/watch\?v=|youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
-			/^([a-zA-Z0-9_-]{11})$/,
-		];
+		const patterns = [YT_URI_REGEX, YT_ID_REGEX];
 
 		for (const pattern of patterns) {
 			const match = url.match(pattern);
@@ -81,7 +92,7 @@ export const SongYtService = () => {
 			}
 		}
 
-		throw new Error("Invalid YouTube URL or video ID");
+		throw new Error(EXTRACT_ERROR);
 	}
 
 	async function getAudioFromYouTube(urlOrId: string): Promise<CachedAudio> {
@@ -101,7 +112,7 @@ export const SongYtService = () => {
 		// decipher() transforms the n-parameter even for direct URLs (prevents 403/throttling)
 		const audioUrl = await format.decipher(yt.session.player);
 		if (!audioUrl) {
-			throw new Error("No audio URL available for this video");
+			throw new Error(NOT_FOUND);
 		}
 
 		const result: CachedAudio = {
@@ -133,8 +144,42 @@ export const SongYtService = () => {
 		};
 	}
 
+	async function validate(): Promise<{ ok: boolean; reason?: string }> {
+		// 1. Check yt-dlp is installed
+		const dlpProc = spawn(["which", "yt-dlp"], {
+			stdout: "pipe",
+			stderr: "ignore",
+		});
+		const dlpPath = await new Response(dlpProc.stdout).text();
+		if (!dlpPath.trim()) {
+			return { ok: false, reason: "yt-dlp not installed" };
+		}
+
+		// 2. Check a browser is available for cookie extraction
+		const browser = await detectBrowser();
+		if (!browser) {
+			return {
+				ok: false,
+				reason: "No browser available for cookie extraction",
+			};
+		}
+
+		// 3. Check YouTube is reachable and not blocked (resolve audio URL for a known short clip)
+		try {
+			await getAudioFromYouTube("dQw4w9WgXcQ");
+			return { ok: true };
+		} catch (err) {
+			return {
+				ok: false,
+				reason: `YouTube unreachable or blocked: ${err instanceof Error ? err.message : String(err)}`,
+			};
+		}
+	}
+
 	return {
-		getAudioFromYouTube,
+		id: "ytdlp",
+		getSong: getAudioFromYouTube,
 		streamAudio,
+		validate,
 	};
 };

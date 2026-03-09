@@ -20,6 +20,3 @@ export const LyricSchema = t.Object({
 	plainLyrics: t.Nullable(t.String()),
 	syncedLyrics: t.Nullable(t.String()),
 });
-
-export type Song = Static<typeof SongSchema>;
-export type Lyric = Static<typeof LyricSchema>;
