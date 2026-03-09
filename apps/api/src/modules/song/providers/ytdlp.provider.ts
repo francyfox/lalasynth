@@ -164,14 +164,17 @@ export const YtdlpProvider = (): AudioBaseProvider => {
 			};
 		}
 
-		// 3. Check YouTube is reachable and not blocked (resolve audio URL for a known short clip)
+		// 3. Check YouTube is reachable (lightweight HEAD — avoids youtubei.js parser noise)
 		try {
-			await getAudioFromYouTube("dQw4w9WgXcQ");
+			const res = await fetch("https://www.youtube.com", { method: "HEAD" });
+			if (!res.ok && res.status >= 500) {
+				return { ok: false, reason: `YouTube returned HTTP ${res.status}` };
+			}
 			return { ok: true };
 		} catch (err) {
 			return {
 				ok: false,
-				reason: `YouTube unreachable or blocked: ${err instanceof Error ? err.message : String(err)}`,
+				reason: `YouTube unreachable: ${err instanceof Error ? err.message : String(err)}`,
 			};
 		}
 	}

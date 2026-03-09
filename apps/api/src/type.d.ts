@@ -4,6 +4,22 @@
  */
 
 export interface paths {
+    "/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getIndex"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health": {
         parameters: {
             query?: never;
@@ -28,7 +44,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Get audio from YouTube by id/url */
+        /** @description Get audio metadata and lyrics by YouTube id/url */
         get: operations["getSongById"];
         put?: never;
         post?: never;
@@ -45,7 +61,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** @description Proxy audio stream from YouTube with required headers */
+        /** @description Proxy audio stream from the selected provider */
         get: operations["getSongStreamById"];
         put?: never;
         post?: never;
@@ -341,6 +357,23 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    getIndex: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     getHealth: {
         parameters: {
             query?: never;
@@ -365,7 +398,10 @@ export interface operations {
     };
     getSongById: {
         parameters: {
-            query?: never;
+            query?: {
+                audioProvider?: string;
+                lyricProvider?: string;
+            };
             header?: never;
             path: {
                 id: string;
@@ -451,7 +487,9 @@ export interface operations {
     };
     getSongStreamById: {
         parameters: {
-            query?: never;
+            query?: {
+                audioProvider?: string;
+            };
             header?: never;
             path: {
                 id: string;

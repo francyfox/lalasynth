@@ -6,6 +6,7 @@ import { StatsController } from "@/modules/stats/stats.controller";
 import { UserController } from "@/modules/user/user.controller";
 
 export const routes = new Elysia().use([
+	new Elysia().get("/", () => Bun.file("./public/ups.png")),
 	HealthController,
 	SongController,
 	ScenesController,
