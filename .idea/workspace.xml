@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: local-songs component">
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="fix: local song store">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppAudioProviders.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppAudioProviders.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppLocalSongList.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppLocalSongList.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/local-songs.store.svelte.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/local-songs.store.svelte.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/local-songs.store.svelte.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/local-songs.store.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/ui/src/local-song-list/ULocalSongList.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/local-song-list/ULocalSongList.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -158,15 +157,7 @@
       <workItem from="1772983753660" duration="213000" />
       <workItem from="1772983976129" duration="3267000" />
       <workItem from="1773025628023" duration="23366000" />
-      <workItem from="1773125370601" duration="8342000" />
-    </task>
-    <task id="LOCAL-00003" summary="refactor: format">
-      <option name="closed" value="true" />
-      <created>1771067115930</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1771067115930</updated>
+      <workItem from="1773125370601" duration="10111000" />
     </task>
     <task id="LOCAL-00004" summary="feat: get song from yt">
       <option name="closed" value="true" />
@@ -552,7 +543,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773137888888</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="fix: local song store">
+      <option name="closed" value="true" />
+      <created>1773140697534</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1773140697534</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -585,7 +584,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/apps/api" />
     </ignored-roots>
-    <MESSAGE value="feat: sm stats" />
     <MESSAGE value="fix: hide stats" />
     <MESSAGE value="feat: text-scroller" />
     <MESSAGE value="feat: update turbo" />
@@ -610,6 +608,7 @@
     <MESSAGE value="feat: local songs" />
     <MESSAGE value="fix: types" />
     <MESSAGE value="feat: local-songs component" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: local-songs component" />
+    <MESSAGE value="fix: local song store" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: local song store" />
   </component>
 </project>

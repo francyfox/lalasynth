@@ -8,7 +8,7 @@
 		createLocalSongStore,
 		LOCAL_SONG_PAGE_SIZE,
 		type LocalSongItem,
-	} from "@/lib/stores/local-songs.store.svelte";
+	} from "@/lib/stores/local-songs.js";
 
 	interface Props {
 		onSelect?: (song: LocalSongItem) => void;
@@ -23,34 +23,25 @@
 	const debouncedSearch = new Debounced(() => searchInput, 400);
 
 	const store = createLocalSongStore(() => ({ search: debouncedSearch.current, page }));
-
-	function handleSearchInput(e: Event) {
-		searchInput = (e.target as HTMLInputElement).value;
-		page = 1;
-	}
 </script>
 
 <div class="flex flex-col gap-4 {className ?? ''}">
 	<UInput
-		value={searchInput}
-		oninput={handleSearchInput}
+		bind:value={searchInput}
 		placeholder="Song name..."
 		label="Search"
 		required={false}
 	/>
-	{ store.items[0]?.title }
 
 	<ULocalSongList
-		items={store.items}
-		loading={store.isLoading}
+		items={store.getItems()}
+		loading={store.isLoading()}
 		{onSelect}
 	/>
 
-	{#if store.total > LOCAL_SONG_PAGE_SIZE}
-		<UPagination
+	<UPagination
 			bind:page
 			pageSize={LOCAL_SONG_PAGE_SIZE}
-			total={store.total}
-		/>
-	{/if}
+			total={store.getTotal()}
+	/>
 </div>

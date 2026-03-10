@@ -25,6 +25,12 @@
 		const s = Math.floor(seconds % 60);
 		return `${m}:${s.toString().padStart(2, "0")}`;
 	}
+
+	function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+		e.preventDefault();
+
+		onSelect?.(song)
+	}
 </script>
 
 <div class={cn("flex flex-col gap-1", className)}>
@@ -60,10 +66,10 @@
 		</div>
 	{:else}
 		{#each items as song (song.filename)}
-			<button
-				type="button"
+			<a
+				href="#"
 				class="flex items-center gap-3 p-3 rounded-lg hover:bg-base-200 transition-colors text-left w-full"
-				onclick={() => onSelect?.(song)}
+				onclick={handleClick}
 			>
 				{#if song.albumArt}
 					<img
@@ -101,7 +107,7 @@
 				<span class="text-xl text-base-content/50 shrink-0 tabular-nums">
 					{formatDuration(song.duration)}
 				</span>
-			</button>
+			</a>
 		{/each}
 	{/if}
 </div>

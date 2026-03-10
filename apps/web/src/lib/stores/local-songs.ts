@@ -17,7 +17,7 @@ interface LocalSongResponse {
 	offset: number;
 }
 
-export const LOCAL_SONG_PAGE_SIZE = 20;
+export const LOCAL_SONG_PAGE_SIZE = 8;
 
 export function createLocalSongStore(
 	params: () => { search: string; page: number },
@@ -46,14 +46,16 @@ export function createLocalSongStore(
 		};
 	});
 
-	const items = $derived(query.data?.items ?? []);
-	const total = $derived(query.data?.total ?? 0);
-	const isLoading = $derived(query.isLoading);
-
 	return {
 		query,
-		items,
-		total,
-		isLoading,
+		getItems() {
+			return query.data?.items ?? [];
+		},
+		getTotal() {
+			return query.data?.total ?? 0;
+		},
+		isLoading() {
+			return query.isLoading;
+		},
 	};
 }
