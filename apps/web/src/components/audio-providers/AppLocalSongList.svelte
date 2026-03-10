@@ -38,6 +38,7 @@
 		label="Search"
 		required={false}
 	/>
+	{ store.items[0]?.title }
 
 	<ULocalSongList
 		items={store.items}

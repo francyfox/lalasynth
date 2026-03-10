@@ -69,10 +69,10 @@
 					<img
 						src={song.albumArt}
 						alt={song.title}
-						class="w-12 h-12 rounded-md object-cover shrink-0"
+						class="size-24 rounded-full object-cover shrink-0"
 					/>
 				{:else}
-					<div class="w-12 h-12 rounded-md bg-base-300 flex items-center justify-center shrink-0">
+					<div class="size-24 rounded-md bg-base-300 flex items-center justify-center shrink-0">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							class="w-6 h-6 text-base-content/40"
@@ -92,13 +92,13 @@
 				{/if}
 
 				<div class="flex flex-col flex-1 min-w-0">
-					<span class="text-sm font-medium truncate">{song.title}</span>
+					<span class="text-2xl font-medium truncate">{song.title}</span>
 					{#if song.artist}
 						<span class="text-xs text-base-content/60 truncate">{song.artist}</span>
 					{/if}
 				</div>
 
-				<span class="text-xs text-base-content/50 shrink-0 tabular-nums">
+				<span class="text-xl text-base-content/50 shrink-0 tabular-nums">
 					{formatDuration(song.duration)}
 				</span>
 			</button>

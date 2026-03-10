@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="fix: types">
-      <change afterPath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppAudioProviders.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppLocalSongList.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/web/src/components/lobby-state/AppLobbyState.svelte" afterDir="false" />
+    <list default="true" id="d605d06d-3108-483d-8c2a-ecd7fcb33ebe" name="Changes" comment="feat: local-songs component">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/api/src/modules/song/local-song.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/api/src/modules/song/local-song.schema.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/web/src/components/lobby/AppLobby.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/lobby/AppLobby.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/ui/src/search-song/USearchSong.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/search-song/USearchSong.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppAudioProviders.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppAudioProviders.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppLocalSongList.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/components/audio-providers/AppLocalSongList.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/web/src/lib/stores/local-songs.store.svelte.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/web/src/lib/stores/local-songs.store.svelte.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ui/src/local-song-list/ULocalSongList.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/packages/ui/src/local-song-list/ULocalSongList.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,15 +158,7 @@
       <workItem from="1772983753660" duration="213000" />
       <workItem from="1772983976129" duration="3267000" />
       <workItem from="1773025628023" duration="23366000" />
-      <workItem from="1773125370601" duration="6439000" />
-    </task>
-    <task id="LOCAL-00002" summary="init">
-      <option name="closed" value="true" />
-      <created>1771066231172</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1771066231172</updated>
+      <workItem from="1773125370601" duration="8342000" />
     </task>
     <task id="LOCAL-00003" summary="refactor: format">
       <option name="closed" value="true" />
@@ -555,7 +544,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773062368869</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="feat: local-songs component">
+      <option name="closed" value="true" />
+      <created>1773137888887</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1773137888888</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -588,7 +585,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$/apps/api" />
     </ignored-roots>
-    <MESSAGE value="chore: tz" />
     <MESSAGE value="feat: sm stats" />
     <MESSAGE value="fix: hide stats" />
     <MESSAGE value="feat: text-scroller" />
@@ -613,6 +609,7 @@
     <MESSAGE value="feat: CONTRIBUTING.md" />
     <MESSAGE value="feat: local songs" />
     <MESSAGE value="fix: types" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: types" />
+    <MESSAGE value="feat: local-songs component" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: local-songs component" />
   </component>
 </project>

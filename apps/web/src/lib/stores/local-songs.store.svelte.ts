@@ -1,4 +1,5 @@
 import { createQuery } from "@tanstack/svelte-query";
+import { client } from "@/lib/api";
 
 export interface LocalSongItem {
 	filename: string;
@@ -18,7 +19,9 @@ interface LocalSongResponse {
 
 export const LOCAL_SONG_PAGE_SIZE = 20;
 
-export function createLocalSongStore(params: () => { search: string; page: number }) {
+export function createLocalSongStore(
+	params: () => { search: string; page: number },
+) {
 	const query = createQuery<LocalSongResponse>(() => {
 		const { search, page } = params();
 		const offset = (page - 1) * LOCAL_SONG_PAGE_SIZE;
@@ -26,11 +29,18 @@ export function createLocalSongStore(params: () => { search: string; page: numbe
 			queryKey: ["local-songs", search, page],
 			queryFn: async () => {
 				const title = encodeURIComponent(search);
-				const res = await fetch(
-					`http://localhost:3000/song/local?title=${title}&limit=${LOCAL_SONG_PAGE_SIZE}&offset=${offset}`,
-				);
-				if (!res.ok) throw new Error("Failed to fetch local songs");
-				const data = await res.json();
+				const { data } = await client.GET("/song/local", {
+					params: {
+						query: {
+							title,
+							limit: LOCAL_SONG_PAGE_SIZE,
+							offset,
+						},
+					},
+				});
+
+				if (!data) throw new Error("Failed to fetch local songs");
+
 				return data as LocalSongResponse;
 			},
 		};
@@ -40,5 +50,10 @@ export function createLocalSongStore(params: () => { search: string; page: numbe
 	const total = $derived(query.data?.total ?? 0);
 	const isLoading = $derived(query.isLoading);
 
-	return { items, total, isLoading };
+	return {
+		query,
+		items,
+		total,
+		isLoading,
+	};
 }

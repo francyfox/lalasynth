@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { cn } from "@/utils/cn";
 	import UModal from "@package/ui/modal/UModal.svelte";
-	import AppLocalSongList from "./AppLocalSongList.svelte";
 
 	interface Props {
 		className?: string;
@@ -10,6 +9,7 @@
 	const { className }: Props = $props();
 
 	let localOpen = $state(false);
+	let lazyAppLocalSongList = import("./AppLocalSongList.svelte")
 </script>
 
 <div class={cn(className, "audio-providers flex flex-wrap gap-3")}>
@@ -23,5 +23,9 @@
 </div>
 
 <UModal bind:open={localOpen} title="Local Collection">
-	<AppLocalSongList onSelect={(song) => { localOpen = false; }} />
+	{#if localOpen}
+		{#await lazyAppLocalSongList then { default: LazyComponent}}
+			<LazyComponent />
+		{/await}
+	{/if}
 </UModal>
