@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Lyric, Song } from "@app/api/src/modules/song/song.schema.ts";
+	import type { Lyric, Song } from "@app/api/src/modules/song/song.types.ts";
 	import { parseSyncedLyrics } from '../lyric-sync/lyric-sync.service.ts'
 	import UInput from "../input/UInput.svelte";
 	import UListPreview from "../list-preview/UListPreview.svelte";
@@ -57,14 +57,14 @@
 </script>
 
 <div class="flex flex-col items-center gap-3">
-	<a href="https://music.youtube.com" target="_blank" class="btn btn-secondary text-2xl">
-		Go to YouTube.Music
-	</a>
+	<div class="flex flex-wrap gap-3">
+
+	</div>
 
 	<UInput
 		bind:value={url}
-		placeholder="Paste your YoutubeMusic track"
-		label="Search"
+		placeholder="Paste your url"
+		label="Get audio from remote origin"
 	/>
 
 	{#if preloadStatus === "loading"}

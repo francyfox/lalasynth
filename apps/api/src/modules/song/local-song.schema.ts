@@ -1,6 +1,5 @@
-import { InferSelectModel, sql } from "drizzle-orm";
+import { type InferSelectModel, sql } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { t } from "elysia";
 
 export const LocalSongSchema = sqliteTable("local_song", {
 	// filename is the stable identity — matches the file on disk

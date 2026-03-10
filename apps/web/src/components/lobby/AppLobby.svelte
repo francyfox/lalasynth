@@ -1,4 +1,6 @@
 <script lang="ts">
+	import AppAudioProviders from '@/components/audio-providers/AppAudioProviders.svelte'
+	import AppLobbyState from '@/components/lobby-state/AppLobbyState.svelte'
 	import UCounter from "@package/ui/counter/UCounter.svelte";
 	import { USearchSong } from "@package/ui/index";
 	import UTable from "@package/ui/table/UTable.svelte";
@@ -17,11 +19,12 @@
 	let {
 		isWinner = false,
 		winner,
-		lobbyState = "selected",
+		lobbyState = "timer",
 		countdown = $bindable(90),
 	}: Props = $props();
 
 	const songStore = createSongStore();
+	const gameMode = $state<'single' | 'multiplayer'>('single');
 
 	type LobbyUser = { no: number; name: string; bestWpm: number; totalWins: number };
 
@@ -39,11 +42,15 @@
 </script>
 
 <div class="mx-auto mt-5 w-full max-w-2xl flex flex-col gap-5 p-5 bg-base-300/90 rounded-lg">
-	{#if /selected|playing/.test(lobbyState)}
+	{#if /selected|playing/.test(lobbyState) && gameMode === 'multiplayer'}
 		<div class="flex justify-center">
 			<UCounter {countdown} />
 		</div>
 	{/if}
+
+	<AppLobbyState />
+
+	<AppAudioProviders />
 
 	<USearchSong
 		audioEl={songStore.audioEl}
@@ -53,24 +60,16 @@
 		preloadStatus={songStore.status}
 	/>
 
-	{#if lobbyState === "timer" && !isWinner}
-		<p class="text-2xl text-center text-gray-400">
-			Only winner in last game can select a song <br />
-			<span class="inline-flex gap-2 items-center">
-				<span aria-label="status" class="status status-primary animate-bounce"></span>
-				<span>User: <span class="text-warning">{winner?.name}</span> selecting a song...</span>
-			</span>
-		</p>
-	{/if}
-
 	{#if lobbyState === "selected"}
 		<p class="text-4xl text-center text-primary font-bold">
 			Get ready for the next battle
 		</p>
 	{/if}
 
-	<h2 class="text-4xl text-center">
-		<span>#0000</span> players in lobby
-	</h2>
-	<UTable data={users} {columns} />
+	{#if gameMode === "multiplayer"}
+		<h2 class="text-4xl text-center">
+			<span>#0000</span> players in lobby
+		</h2>
+		<UTable data={users} {columns} />
+	{/if}
 </div>
