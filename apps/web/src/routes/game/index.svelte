@@ -7,7 +7,6 @@ import { UUserLeadership } from '@package/ui/index.js'
 import UTextScroller from '@package/ui/text-scroller/UTextScroller.svelte'
 import { TextScrollerMock } from '@package/ui/text-scroller/text-scroller.mock'
 import { UserLeadershipMock } from '@package/ui/user-leadership/user-leadership.mock'
-import { fade } from 'svelte/transition'
 
 let currentMode: UIType = $state("game")
 let isPlaying: boolean = $state(false)

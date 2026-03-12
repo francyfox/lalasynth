@@ -68,7 +68,7 @@
 		{#each items as song (song.filename)}
 			<a
 				href="#"
-				class="flex items-center gap-3 p-3 rounded-lg hover:bg-base-200 transition-colors text-left w-full"
+				class="flex items-center gap-3 p-3 hover:bg-base-200 transition-colors text-left w-full"
 				onclick={(e) => handleClick(e, song)}
 			>
 				{#if song.albumArt}

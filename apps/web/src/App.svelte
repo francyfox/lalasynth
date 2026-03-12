@@ -7,6 +7,28 @@ import { Toaster, type ToastOptions } from 'svelte-sonner'
 import { Router } from '@roxi/routify'
 import { QueryClientProvider, QueryClient } from '@tanstack/svelte-query'
 import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools'
+import { settingsStore } from '@/lib/stores/settings.svelte'
+
+$effect(() => {
+	const res = settingsStore.resolution;
+
+	if (res === 'native') {
+		document.body.style.transform = '';
+		document.body.style.width = '';
+		document.body.style.height = '';
+		return;
+	}
+
+	const [targetW, targetH] = res.split('x').map(Number);
+	const scaleX = window.innerWidth / targetW;
+	const scaleY = window.innerHeight / targetH;
+	const scale = Math.min(scaleX, scaleY);
+
+	document.body.style.transformOrigin = 'top left';
+	document.body.style.transform = `scale(${1 / scale})`;
+	document.body.style.width = `${targetW}px`;
+	document.body.style.height = `${targetH}px`;
+});
 
 const toastOptions: ToastOptions = {
   duration: 2200,

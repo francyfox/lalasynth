@@ -41,7 +41,7 @@
 	];
 </script>
 
-<div class="mx-auto mt-5 w-full max-w-2xl flex flex-col gap-5 p-5 bg-base-300/90 rounded-lg">
+<div class="mx-auto mt-5 card w-full max-w-2xl flex flex-col gap-5 p-5 bg-base-300/90">
 	{#if /selected|playing/.test(lobbyState) && gameMode === 'multiplayer'}
 		<div class="flex justify-center">
 			<UCounter {countdown} />

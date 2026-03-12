@@ -2,8 +2,12 @@
     import { authClient } from '@/lib/auth-client'
     import { cn } from '@/utils/cn'
     import { goto } from '@roxi/routify'
+    import AppSettingsModal from '@/components/settings/AppSettingsModal.svelte'
 
     const _init = $goto;
+
+    let settingsOpen = $state(false);
+
 
     const MenuNav = [
       {
@@ -24,8 +28,8 @@
       {
         id: 2,
         label: 'Settings',
-        disabled: true,
         action: () => {
+          settingsOpen = true;
         },
       }
     ]
@@ -37,9 +41,7 @@
 </script>
 
 <div class="relative p-[3px] bg-[#c0c0c0] shadow-[1px_1px_0_rgba(0,0,0,1),-1px_-1px_0_rgba(255,255,255,1)]">
-
     <div class="bg-[#000080] p-1 shadow-[inset_1px_1px_0_rgba(0,0,0,1),inset_-1px_-1px_0_rgba(255,255,255,1)]">
-
         <nav class="flex flex-col min-w-[240px] bg-gradient-to-b from-[#000080] via-[#0000aa] to-[#000080] bg-[length:100%_4px] space-y-1 p-2">
 
             {#each MenuNav as i (i.id)}
@@ -71,3 +73,5 @@
         </nav>
     </div>
 </div>
+
+<AppSettingsModal bind:open={settingsOpen} />

@@ -4,8 +4,8 @@ import type { GuardFn } from "@/lib/guards/types";
 import { queryClient } from "@/lib/query-client";
 
 export const skipIntroGuard: GuardFn = async ({ route }) => {
-	const meta = (route as { meta: RoutifyMeta }).meta;
-	if (meta._auth || meta._skip) return true;
+	const meta = (route as { meta: RoutifyMeta & { dynamic?: boolean; dynamicSpread?: boolean } }).meta;
+	if (meta._auth || meta._skip || meta.dynamicSpread) return true;
 
 	let session: { user: unknown } | null = queryClient.getQueryData([
 		"session",
