@@ -26,7 +26,7 @@ export const skipIntroGuard: GuardFn = async ({ route }) => {
 	}
 
 	if (session?.user) {
-		window.location.href = `/lobby`;
+		window.location.href = `/menu`;
 		return false;
 	}
 

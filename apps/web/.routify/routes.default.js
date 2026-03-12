@@ -128,6 +128,38 @@ export const routes = {
       ]
     },
     {
+      "meta": {},
+      "id": "_default_menu",
+      "name": "menu",
+      "module": false,
+      "file": {
+        "path": "src/routes/menu",
+        "dir": "src/routes",
+        "base": "menu",
+        "ext": "",
+        "name": "menu"
+      },
+      "children": [
+        {
+          "meta": {
+            "isDefault": true,
+            "_auth": true
+          },
+          "id": "_default_menu_index_svelte",
+          "name": "index",
+          "file": {
+            "path": "src/routes/menu/index.svelte",
+            "dir": "src/routes/menu",
+            "base": "index.svelte",
+            "ext": ".svelte",
+            "name": "index"
+          },
+          "asyncModule": () => import('../src/routes/menu/index.svelte'),
+          "children": []
+        }
+      ]
+    },
+    {
       "meta": {
         "dynamic": true,
         "dynamicSpread": true,

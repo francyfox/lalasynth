@@ -26,7 +26,7 @@
 		return `${m}:${s.toString().padStart(2, "0")}`;
 	}
 
-	function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+	function handleClick(e: Event, song: LocalSongItem) {
 		e.preventDefault();
 
 		onSelect?.(song)
@@ -69,7 +69,7 @@
 			<a
 				href="#"
 				class="flex items-center gap-3 p-3 rounded-lg hover:bg-base-200 transition-colors text-left w-full"
-				onclick={handleClick}
+				onclick={(e) => handleClick(e, song)}
 			>
 				{#if song.albumArt}
 					<img

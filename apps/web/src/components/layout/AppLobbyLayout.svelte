@@ -30,9 +30,8 @@
       currentMode = 'lobby'
     }
   })
-  async function logOut() {
-    await authClient.signOut()
-    $goto('/auth')
+  async function exit() {
+    $goto('/menu')
   }
 
   function next() {
@@ -67,7 +66,7 @@
             {noAvatar}
             github="https://github.com/francyfox/lalasynth"
             onSound="{() => ''}"
-            {logOut}
+            {exit}
     />
 
     <main class="relative flex flex-col mx-10 my-2 z-10">

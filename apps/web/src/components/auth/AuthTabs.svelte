@@ -22,7 +22,7 @@
 		const success = await authStore.login(formData);
 
 		if (success) {
-			$goto('/lobby')
+			$goto('/menu')
 		}
 	}
 
@@ -30,7 +30,7 @@
 		const success = await authStore.signup(formData);
 
 		if (success) {
-			$goto('/lobby')
+			$goto('/menu')
 		}
 	}
 </script>

@@ -36,7 +36,7 @@ export default defineConfig({
 		strictPort: true,
 		proxy: {
 			"/song": "http://localhost:3000",
-			"/auth": "http://localhost:3000",
+			"/api/auth": "http://localhost:3000",
 		},
 	},
 });

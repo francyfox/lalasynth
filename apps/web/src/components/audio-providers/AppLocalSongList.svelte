@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Debounced } from "runed";
+	import { goto } from '@roxi/routify'
 	import ULocalSongList from "@package/ui/local-song-list/ULocalSongList.svelte";
 	import UPagination from "@package/ui/pagination/UPagination.svelte";
 	import UInput from "@package/ui/input/UInput.svelte";
@@ -8,14 +9,15 @@
 		createLocalSongStore,
 		LOCAL_SONG_PAGE_SIZE,
 		type LocalSongItem,
-	} from "@/lib/stores/local-songs.js";
+	} from "@/lib/stores/local-songs.svelte.js";
 
 	interface Props {
-		onSelect?: (song: LocalSongItem) => void;
 		className?: string;
 	}
 
-	const { onSelect, className }: Props = $props();
+	const _init = $goto;
+
+	const { className }: Props = $props();
 
 	let searchInput = $state("");
 	let page = $state(1);
@@ -23,6 +25,11 @@
 	const debouncedSearch = new Debounced(() => searchInput, 400);
 
 	const store = createLocalSongStore(() => ({ search: debouncedSearch.current, page }));
+
+	function onSelect(song: LocalSongItem) {
+		store.currentSong = song
+		$goto('/game')
+	}
 </script>
 
 <div class="flex flex-col gap-4 {className ?? ''}">
