@@ -14,9 +14,9 @@
 	}
 
 	const layers: LayerConfig[] = [
-		{ image: "menu_bg3.webp", speed: 6 },
-		{ image: "menu_bg1.webp", speed: 14 },
-		{ image: "menu_bg2.webp", speed: 22 },
+		{ image: "menu_bg3.webp", speed: 16 },
+		{ image: "menu_bg1.webp", speed: 24 },
+		{ image: "menu_bg2.webp", speed: 50 },
 	]
 
 	let offsets = $state<{ x: number; y: number }[]>(
@@ -55,13 +55,18 @@
 	})
 </script>
 
-<div class="parallax-container">
+<div class="parallax-container"
+>
 	{#each layers as layer, i (layer.image)}
 		<div
 			class="parallax-layer"
 			style="background-image: url('{baseUrl}/{layer.image}'); transform: translate({offsets[i].x}px, {offsets[i].y}px); z-index: {i};"
 		></div>
 	{/each}
+
+	<div class="parallax-noise"
+		 style="background-image: url('{baseUrl}/noise.gif');"
+	/>
 
 	<div class="parallax-content">
 		{@render children?.()}
@@ -74,6 +79,22 @@
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
+		background-size: 400px 400px;
+		background-position: center;
+		background-repeat: repeat;
+	}
+
+	.parallax-noise {
+		z-index: 2;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		background-size: 400px 400px;
+		background-position: center;
+		background-repeat: repeat;
+		opacity: 0.1;
 	}
 
 	.parallax-layer {
