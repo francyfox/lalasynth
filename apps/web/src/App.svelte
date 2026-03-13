@@ -3,6 +3,7 @@ import { runGuards } from '@/lib/guards'
 import { queryClient } from '@/lib/query-client'
 import { router } from '@/router'
 import UModalProvider from '@package/ui/modal/UModalProvider.svelte'
+import AppHelper from '@/components/helpers/AppHelper.svelte'
 import { Toaster, type ToastOptions } from 'svelte-sonner'
 import { Router } from '@roxi/routify'
 import { QueryClientProvider, QueryClient } from '@tanstack/svelte-query'
@@ -47,6 +48,7 @@ const toastOptions: ToastOptions = {
 
 <QueryClientProvider client={queryClient}>
     <UModalProvider />
+    <AppHelper />
     <Router {router} beforeUrlChange={runGuards} />
     <Toaster
             {toastOptions}

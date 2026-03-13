@@ -14,9 +14,10 @@ function createSettingsStore() {
 	let resolution = $state<Resolution>(
 		(get("lala.resolution") as Resolution) ?? "native",
 	);
-	let sound = $state<boolean>(get("lala.sound") !== "false");
 	let volume = $state<number>(Number(get("lala.volume") ?? 80));
+	let prevVolume = $state<number>(volume || 80);
 	let uwu = $state<boolean>(get("lala.uwu") === "true");
+	let hints = $state<boolean>(get("lala.hints") !== "false");
 
 	return {
 		get resolution() {
@@ -27,18 +28,26 @@ function createSettingsStore() {
 			set("lala.resolution", v);
 		},
 
+		/** Derived: true when volume > 0 */
 		get sound() {
-			return sound;
+			return volume > 0;
 		},
+		/** Toggling sound mutes/unmutes — does not stop playback */
 		set sound(v: boolean) {
-			sound = v;
-			set("lala.sound", String(v));
+			if (!v) {
+				prevVolume = volume || 80;
+				volume = 0;
+			} else {
+				volume = prevVolume;
+			}
+			set("lala.volume", String(volume));
 		},
 
 		get volume() {
 			return volume;
 		},
 		set volume(v: number) {
+			if (v > 0) prevVolume = v;
 			volume = v;
 			set("lala.volume", String(v));
 		},
@@ -49,6 +58,14 @@ function createSettingsStore() {
 		set uwu(v: boolean) {
 			uwu = v;
 			set("lala.uwu", String(v));
+		},
+
+		get hints() {
+			return hints;
+		},
+		set hints(v: boolean) {
+			hints = v;
+			set("lala.hints", String(v));
 		},
 	};
 }

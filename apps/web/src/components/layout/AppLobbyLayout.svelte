@@ -4,6 +4,7 @@
   import { authClient } from '@/lib/auth-client'
   import { getSessionMutations, getSessionStore } from '@/lib/stores/session'
   import { getScenesStore } from '@/lib/stores/scenes'
+  import { settingsStore } from '@/lib/stores/settings.svelte'
   import { UNavbar } from '@package/ui/index.js'
   import USceneDialogue from '@package/ui/scene-dialogue/USceneDialogue.svelte'
   import noAvatar from '@/assets/noavatar.gif?inline'
@@ -42,6 +43,10 @@
       currentMode = 'lobby'
     }
   }
+
+  function changeSound() {
+    settingsStore.sound = !settingsStore.sound
+  }
 </script>
 
 {#if currentMode === 'dialogue'}
@@ -62,10 +67,9 @@
     </div>
     <UNavbar
             user={sessionStore.data?.user}
-            hasSound={false}
+            bind:hasSound={settingsStore.sound}
             {noAvatar}
             github="https://github.com/francyfox/lalasynth"
-            onSound="{() => ''}"
             {exit}
     />
 

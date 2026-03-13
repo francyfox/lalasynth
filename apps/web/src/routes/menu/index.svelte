@@ -4,13 +4,23 @@
     import AppBsdEgg from '@/components/eggs/AppBsdEgg.svelte'
     import AppMainMenu from '@/components/main-menu/AppMainMenu.svelte'
     import AppMenuParallax from '@/components/main-menu/AppMenuParallax.svelte'
+    import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
+    import { helperStore } from '@/lib/stores/helper.svelte'
+    import { bgAudioStore } from '@/lib/stores/bg-audio.svelte'
 
     const bgBaseUrl = "http://localhost:3000/static/bg"
 
     const showEggs = $state({
       bsd: false,
     });
+
+    onMount(() => {
+      bgAudioStore.play('dialogue')
+      setTimeout(() => {
+        helperStore.show(['listen', 'fullscreen'])
+      }, 500)
+    })
 </script>
 
 <section class="w-full h-full bg-gray-950">

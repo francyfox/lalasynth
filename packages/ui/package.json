@@ -16,18 +16,16 @@
 		"svelte": "^5.0.0",
 		"@app/api": "workspace:*"
 	},
-	"dependencies": {
-		"@tanstack/table-core": "^8.21.3",
-		"animejs": "^4.3.6",
-		"clsx": "^2.1.1",
-		"lucide-svelte": "^0.577.0",
-		"runed": "^0.37.1",
-		"svelte-use-debounce": "^0.0.2",
-		"tailwind-merge": "^3.5.0"
-	},
 	"peerDependencies": {
 		"typescript": "^5",
 		"tailwindcss": "^4",
-		"daisyui": "^5"
+		"daisyui": "^5",
+		"lucide-svelte": "^0.577.0",
+		"animejs": "^4.3.6",
+		"clsx": "^2.1.1",
+		"runed": "^0.37.1",
+		"svelte-use-debounce": "^0.0.2",
+		"tailwind-merge": "^3.5.0",
+		"@tanstack/table-core": "^8.21.3"
 	}
 }

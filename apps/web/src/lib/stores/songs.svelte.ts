@@ -1,6 +1,8 @@
 import type { Lyric, Song } from "@app/src/modules/song/song.schema";
 import * as Tone from "tone";
 import { client } from "@/lib/api";
+import { bgAudioStore } from "@/lib/stores/bg-audio.svelte";
+import { settingsStore } from "@/lib/stores/settings.svelte";
 
 type PlayerState = "idle" | "loading" | "ready" | "error";
 
@@ -97,13 +99,14 @@ export function createSongStore() {
 	}
 
 	async function play() {
+		bgAudioStore.stop();
 		await Tone.start();
 		buildChain();
 		const ctx = Tone.getContext().rawContext as AudioContext;
 		await audioEl.play();
 		if (!gainNode) return;
 		gainNode.gain.cancelScheduledValues(ctx.currentTime);
-		gainNode.gain.linearRampToValueAtTime(1, ctx.currentTime + FADE_SEC);
+		gainNode.gain.linearRampToValueAtTime(settingsStore.volume / 100, ctx.currentTime + FADE_SEC);
 	}
 
 	function pause() {
@@ -131,6 +134,17 @@ export function createSongStore() {
 		if (crusherNode)
 			crusherNode.curve = makeCrusherCurve(is16bit ? 4 : 16) as Float32Array<ArrayBuffer>;
 	}
+
+	// Sync gain with volume setting in real time
+	$effect.root(() => {
+		$effect(() => {
+			const v = settingsStore.volume / 100;
+			if (!gainNode) return;
+			const ctx = Tone.getContext().rawContext as AudioContext;
+			gainNode.gain.cancelScheduledValues(ctx.currentTime);
+			gainNode.gain.linearRampToValueAtTime(v, ctx.currentTime + FADE_SEC);
+		});
+	});
 
 	return {
 		/** Always the same element — safe to pass as a prop without null checks. */

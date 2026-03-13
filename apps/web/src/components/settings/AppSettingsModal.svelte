@@ -94,6 +94,14 @@
 					bind:checked={settingsStore.uwu}
 				/>
 			</SettingRow>
+
+			<SettingRow label="Hints" description="Show gameplay hints and tips">
+				<input
+					type="checkbox"
+					class="toggle toggle-primary"
+					bind:checked={settingsStore.hints}
+				/>
+			</SettingRow>
 		</div>
 
 		<div class="modal-action">

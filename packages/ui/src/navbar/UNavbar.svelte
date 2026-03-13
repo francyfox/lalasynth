@@ -1,12 +1,11 @@
 <script lang="ts">
-    import { Github, Volume2, Volume, LogOut } from 'lucide-svelte';
-    const {
+    import { Github, Volume2, VolumeX, LogOut } from 'lucide-svelte';
+    let {
       user,
       noAvatar,
       github,
       exit,
-      hasSound,
-      onSound,
+      hasSound = $bindable(false),
     } = $props<{
       user?: {
         name: string
@@ -16,7 +15,6 @@
       github: string
       hasSound: boolean
       exit: () => void
-      onSound: () => void
     }>();
 
     const userImage = $derived.by(() => {
@@ -24,7 +22,11 @@
       return noAvatar;
     })
 
-    const version = import.meta.env.VITE_APP_VERSION || '';
+    const version = (import.meta as any).env.VITE_APP_VERSION || '';
+
+    function onSound() {
+      hasSound = !hasSound;
+    }
 </script>
 
 <div class="navbar bg-base-200/90 shadow-sm px-10 z-20">
@@ -54,7 +56,7 @@
             {#if hasSound}
                 <Volume2 class="size-10" />
             {:else}
-                <Volume class="size-10" />
+                <VolumeX class="size-10" />
             {/if}
         </button>
 
