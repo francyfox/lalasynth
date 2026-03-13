@@ -31,23 +31,17 @@ $effect(() => {
 });
 
 const toastOptions: ToastOptions = {
-  duration: 2200,
-  style: `
-        background-color: var(--color-neutral);
-        color: var(--fallback-bc, oklch(var(--bc)));
-        border: 1px solid oklch(var(--b3));
-        border-radius: var(--rounded-box, 0.5rem);
-        padding: 16px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-        font-size: 20px;
-        font-family: 'Fredoka', sans-serif;
-      `,
-  classes: {
-    success: 'dracula-success',
-    error: 'dracula-error',
-    info: 'dracula-info',
-    warning: 'dracula-warning'
-  }
+	duration: 2200,
+	classes: {
+		toast: 'alert shadow-lg font-[Fredoka] text-[20px]',
+		success: 'alert-success',
+		error: 'alert-error',
+		info: 'alert-info',
+		warning: 'alert-warning',
+		title: 'font-semibold',
+		description: 'text-md opacity-80',
+		closeButton: 'btn btn-ghost btn-xs',
+	},
 }
 </script>
 
@@ -58,6 +52,7 @@ const toastOptions: ToastOptions = {
             {toastOptions}
             position="top-center"
             visibleToasts={2}
+            unstyled
     />
     <SvelteQueryDevtools />
 </QueryClientProvider>

@@ -1,12 +1,15 @@
 <script lang="ts">
+    import AppCredits from '@/components/credits/AppCredits.svelte'
     import { authClient } from '@/lib/auth-client'
     import { cn } from '@/utils/cn'
     import { goto } from '@roxi/routify'
     import AppSettingsModal from '@/components/settings/AppSettingsModal.svelte'
+    import UModal from '@package/ui/modal/UModal.svelte'
 
     const _init = $goto;
 
     let settingsOpen = $state(false);
+    let creditsOpen = $state(false);
 
 
     const MenuNav = [
@@ -30,6 +33,13 @@
         label: 'Settings',
         action: () => {
           settingsOpen = true;
+        },
+      },
+      {
+        id: 3,
+        label: 'Credits',
+        action: () => {
+          creditsOpen = true;
         },
       }
     ]
@@ -75,3 +85,7 @@
 </div>
 
 <AppSettingsModal bind:open={settingsOpen} />
+
+<UModal bind:open={creditsOpen} title="Credits">
+    <AppCredits />
+</UModal>

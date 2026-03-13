@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from "svelte";
+	import { Pause, Play } from "lucide-svelte";
 	import type { LyricLine } from './lyric-sync.types.ts'
 
 	interface Props {
@@ -385,15 +386,10 @@
 					<span class="loading loading-spinner loading-xs"></span>
 					Loading…
 				{:else if playing}
-					<svg xmlns="http://www.w3.org/2000/svg" class="size-4 fill-current" viewBox="0 0 24 24">
-						<rect x="6" y="4" width="4" height="16"/>
-						<rect x="14" y="4" width="4" height="16"/>
-					</svg>
+					<Pause class="size-4" />
 					Pause
 				{:else}
-					<svg xmlns="http://www.w3.org/2000/svg" class="size-4 fill-current" viewBox="0 0 24 24">
-						<path d="M8 5v14l11-7z"/>
-					</svg>
+					<Play class="size-4" />
 					Play
 				{/if}
 			</button>

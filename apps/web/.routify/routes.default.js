@@ -176,6 +176,38 @@ export const routes = {
           "children": []
         }
       ]
+    },
+    {
+      "meta": {},
+      "id": "_default_terms",
+      "name": "terms",
+      "module": false,
+      "file": {
+        "path": "src/routes/terms",
+        "dir": "src/routes",
+        "base": "terms",
+        "ext": "",
+        "name": "terms"
+      },
+      "children": [
+        {
+          "meta": {
+            "isDefault": true,
+            "_skip": true
+          },
+          "id": "_default_terms_index_svelte",
+          "name": "index",
+          "file": {
+            "path": "src/routes/terms/index.svelte",
+            "dir": "src/routes/terms",
+            "base": "index.svelte",
+            "ext": ".svelte",
+            "name": "index"
+          },
+          "asyncModule": () => import('../src/routes/terms/index.svelte'),
+          "children": []
+        }
+      ]
     }
   ]
 }

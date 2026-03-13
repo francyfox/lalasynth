@@ -42,13 +42,13 @@
 			<div class="menu menu-vertical lg:menu-horizontal bg-base-200 w-full">
 				<button
 						class="tab tab-lg text-2xl font-medium {activeTab === 'login' ? 'tab-active' : ''}"
-						on:click={() => switchTab('login')}
+						onclick={() => switchTab('login')}
 				>
 					Login
 				</button>
 				<button
 						class="tab tab-lg text-2xl font-medium {activeTab === 'signup' ? 'tab-active' : ''}"
-						on:click={() => switchTab('signup')}
+						onclick={() => switchTab('signup')}
 				>
 					Register
 				</button>
@@ -80,5 +80,11 @@
 				{/if}
 			</div>
 		</div>
+		<p class="text-center text-md text-base-content/40 py-3">
+			By signing in you agree to our
+			<button class="underline hover:text-base-content/70 transition-colors" onclick={() => $goto('/terms')}>
+				Terms of Service
+			</button>
+		</p>
 	</div>
 </div>
