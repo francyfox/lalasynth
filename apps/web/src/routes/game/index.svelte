@@ -13,6 +13,8 @@ let isPlaying: boolean = $state(false)
 const song = TextScrollerMock
 const users = UserLeadershipMock;
 
+console.log(song)
+
 function handleStartGame() {
   setTimeout(() => {
     isPlaying = true

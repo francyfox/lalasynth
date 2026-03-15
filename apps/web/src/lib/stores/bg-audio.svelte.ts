@@ -9,6 +9,8 @@ function createBgAudioStore() {
 	audioEl.volume = 0;
 
 	let current = $state<string | null>(null);
+	let playing = $state(false);
+	let pending = $state<string | null>(null);
 	let rafId: number | null = null;
 
 	function cancelFade() {
@@ -21,8 +23,11 @@ function createBgAudioStore() {
 	function fadeTo(target: number, onDone?: () => void) {
 		cancelFade();
 		const start = audioEl.volume;
+		if (start === target) {
+			onDone?.();
+			return;
+		}
 		const startTime = performance.now();
-
 		function tick(now: number) {
 			const t = Math.min((now - startTime) / FADE_MS, 1);
 			audioEl.volume = start + (target - start) * t;
@@ -40,31 +45,38 @@ function createBgAudioStore() {
 		return settingsStore.volume / 100;
 	}
 
-	async function play(name: string) {
-		if (current === name && !audioEl.paused) return;
-
+	async function tryPlay(name: string, loop = true) {
 		const url = `${API_BASE}/static/sounds/${name}.webm`;
-
 		if (current !== name) {
-			fadeTo(0, async () => {
-				audioEl.src = url;
-				audioEl.load();
-				current = name;
-				try {
-					await audioEl.play();
-					fadeTo(masterVolume());
-				} catch {
-					// autoplay blocked
-				}
-			});
-		} else {
-			try {
-				await audioEl.play();
-				fadeTo(masterVolume());
-			} catch {
-				// autoplay blocked
-			}
+			audioEl.loop = loop;
+			audioEl.src = url;
+			audioEl.load();
+			current = name;
 		}
+		try {
+			await audioEl.play();
+			playing = true;
+			pending = null;
+			fadeTo(masterVolume());
+		} catch {
+			playing = false;
+			pending = name;
+		}
+	}
+
+	async function play(name: string, loop = true) {
+		if (current === name && !audioEl.paused) return;
+		if (current && !audioEl.paused) {
+			fadeTo(0, () => tryPlay(name, loop));
+		} else {
+			await tryPlay(name, loop);
+		}
+	}
+
+	async function resume() {
+		const target = pending ?? current;
+		if (!target) return;
+		await tryPlay(target);
 	}
 
 	function stop() {
@@ -72,19 +84,40 @@ function createBgAudioStore() {
 			audioEl.pause();
 		});
 		current = null;
+		playing = false;
+		pending = null;
 	}
 
-	// Sync volume when settings change
 	$effect.root(() => {
 		$effect(() => {
 			void settingsStore.volume;
 			if (!audioEl.paused) fadeTo(masterVolume());
 		});
+
+		function onVisibilityChange() {
+			if (document.hidden) {
+				cancelFade();
+				audioEl.volume = 0;
+			} else if (!audioEl.paused) {
+				fadeTo(masterVolume());
+			}
+		}
+		document.addEventListener("visibilitychange", onVisibilityChange);
+		return () => document.removeEventListener("visibilitychange", onVisibilityChange);
 	});
 
 	return {
-		get current() { return current; },
+		get current() {
+			return current;
+		},
+		get playing() {
+			return playing;
+		},
+		get pending() {
+			return pending;
+		},
 		play,
+		resume,
 		stop,
 	};
 }

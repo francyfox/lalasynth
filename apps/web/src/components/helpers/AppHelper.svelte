@@ -1,12 +1,46 @@
 <script lang="ts">
 	import { UModal } from "@package/ui/index.js";
-	import { Fullscreen, Headphones, ShieldAlert, ShieldCheck } from "lucide-svelte";
+	import { Fullscreen, Headphones, ShieldAlert, ShieldCheck, Volume2 } from "lucide-svelte";
 	import { helperStore } from "@/lib/stores/helper.svelte";
 	import { settingsStore } from "@/lib/stores/settings.svelte";
 
 	function disableHints() {
 		settingsStore.hints = false;
 		helperStore.close();
+	}
+
+	type BrowserHint = { name: string; steps: string[] };
+
+	function getBrowserHint(): BrowserHint {
+		const ua = navigator.userAgent;
+		if (/Firefox/i.test(ua)) {
+			return {
+				name: "Firefox",
+				steps: [
+					"Click the lock icon in the address bar",
+					'Select "Permissions"',
+					'Find "Autoplay" and set it to "Allow Audio and Video"',
+				],
+			};
+		}
+		if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) {
+			return {
+				name: "Safari",
+				steps: [
+					'Open "Safari" menu → "Settings for This Website…"',
+					'Set "Auto-Play" to "Allow All Auto-Play"',
+				],
+			};
+		}
+		// Chrome / Edge / Brave
+		return {
+			name: "Chrome / Edge",
+			steps: [
+				"Click the lock icon in the address bar",
+				'Select "Site settings"',
+				'Set "Sound" to "Allow"',
+			],
+		};
 	}
 </script>
 
@@ -18,24 +52,33 @@
 				Use headphones for the best experience. This app uses audio — make sure browser access is allowed.
 			</p>
 
-			{#if helperStore.audioStatus === "checking"}
-				<div class="flex items-center gap-2 text-base-content/50">
-					<span class="loading loading-spinner loading-sm"></span>
-					<span class="text-sm">Checking audio…</span>
-				</div>
-			{:else if helperStore.audioStatus === "allowed"}
+			{#if helperStore.audioStatus === "allowed"}
 				<div class="flex items-center gap-2 text-success">
 					<ShieldCheck class="size-5" />
 					<span class="text-sm">Audio playback is allowed</span>
 				</div>
-			{:else if helperStore.audioStatus === "blocked"}
-				<div class="alert alert-error text-left">
-					<ShieldAlert class="size-5 shrink-0" />
+			{:else if helperStore.audioStatus === "allowed-muted"}
+				<div class="alert alert-warning text-left">
+					<Volume2 class="size-5 shrink-0" />
 					<div>
-						<p class="font-semibold text-sm">Autoplay is blocked</p>
-						<p class="text-xs opacity-80">Click anywhere on the page first, or allow autoplay in your browser settings.</p>
+						<p class="font-semibold text-sm">Audio allowed (muted only)</p>
+						<p class="text-xs opacity-80">Browser allows muted autoplay. Click "Retry" or interact with the page to unmute.</p>
 					</div>
 					<button class="btn btn-xs btn-ghost ml-auto" onclick={() => helperStore.retryAudio()}>Retry</button>
+				</div>
+			{:else if helperStore.audioStatus === "blocked"}
+				{@const hint = getBrowserHint()}
+				<div class="alert alert-error text-left flex-col items-start">
+					<div class="flex items-center gap-2">
+						<ShieldAlert class="size-5 shrink-0" />
+						<p class="font-semibold text-sm">Autoplay is blocked in {hint.name}</p>
+					</div>
+					<ol class="list-decimal list-inside text-xs opacity-80 space-y-0.5 mt-1">
+						{#each hint.steps as step}
+							<li>{step}</li>
+						{/each}
+					</ol>
+					<button class="btn btn-xs btn-ghost mt-2" onclick={() => helperStore.retryAudio()}>Retry</button>
 				</div>
 			{/if}
 		</div>

@@ -1,33 +1,27 @@
+import { bgAudioStore } from "@/lib/stores/bg-audio.svelte";
+
 export type HintType = "listen" | "fullscreen";
-export type AudioStatus = "checking" | "allowed" | "blocked";
+export type AudioStatus = "allowed" | "blocked" | "allowed-muted";
+
+function getAutoplayStatus(): AudioStatus {
+	const nav = navigator as any;
+	if (typeof nav.getAutoplayPolicy === "function") {
+		const policy: string = nav.getAutoplayPolicy("mediaelement");
+		if (policy === "allowed") return "allowed";
+		if (policy === "allowed-muted") return "allowed-muted";
+		return "blocked";
+	}
+	// Fallback for Firefox/Safari: rely on actual play result
+	if (bgAudioStore.playing) return "allowed";
+	return "blocked"; // assume blocked until proven otherwise
+}
 
 function createHelperStore() {
 	let queue = $state<HintType[]>([]);
 	let index = $state(0);
 	let open = $state(false);
-	let audioStatus = $state<AudioStatus>("checking");
 
-	async function checkAutoplay() {
-		// Chrome 100+ has getAutoplayPolicy
-		if ("getAutoplayPolicy" in navigator) {
-			const policy = (navigator as any).getAutoplayPolicy("mediaelement");
-			audioStatus = policy === "allowed" ? "allowed" : "blocked";
-			return;
-		}
-		// Fallback: try playing a silent audio element
-		try {
-			const audio = new Audio();
-			audio.volume = 0;
-			audio.src = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAA==";
-			await audio.play();
-			audio.pause();
-			audioStatus = "allowed";
-		} catch {
-			audioStatus = "blocked";
-		}
-	}
-
-	checkAutoplay();
+	let audioStatus = $derived.by((): AudioStatus => getAutoplayStatus());
 
 	return {
 		get open() { return open; },
@@ -35,7 +29,7 @@ function createHelperStore() {
 		get hasNext() { return index < queue.length - 1; },
 		get step() { return index + 1; },
 		get total() { return queue.length; },
-		get audioStatus() { return audioStatus; },
+		get audioStatus(): AudioStatus { return audioStatus; },
 
 		show(hints: HintType[]) {
 			if (hints.length === 0) return;
@@ -54,10 +48,10 @@ function createHelperStore() {
 			open = false;
 			queue = [];
 			index = 0;
+			bgAudioStore.resume();
 		},
 		async retryAudio() {
-			audioStatus = "checking";
-			await checkAutoplay();
+			await bgAudioStore.resume();
 		},
 	};
 }

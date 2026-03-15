@@ -37,11 +37,11 @@
                             </div>
                         {/if}
 
-                        <h1 class="text-center text-4xl bg-[#c0c0c0] text-black py-1 px-2 shadow-[1px_1px_0_rgba(0,0,0,1),-1px_-1px_0_rgba(255,255,255,1)]"
+                        <div class="text-center text-4xl bg-[#c0c0c0] text-black py-1 px-2 shadow-[1px_1px_0_rgba(0,0,0,1),-1px_-1px_0_rgba(255,255,255,1)]"
                             onclick={() => showEggs.bsd = true}
                         >
                             Lalasynth
-                        </h1>
+                        </div>
 
                         <AppMainMenu />
                     </div>

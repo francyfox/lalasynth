@@ -22,7 +22,6 @@ export const LOCAL_SONG_PAGE_SIZE = 8;
 export function createLocalSongStore(
 	params: () => { search: string; page: number },
 ) {
-	const currentSong: LocalSongItem | null = $state(null);
 	const query = createQuery<LocalSongResponse>(() => {
 		const { search, page } = params();
 		const offset = (page - 1) * LOCAL_SONG_PAGE_SIZE;
@@ -49,7 +48,6 @@ export function createLocalSongStore(
 
 	return {
 		query,
-		currentSong,
 		getItems() {
 			return query.data?.items ?? [];
 		},
