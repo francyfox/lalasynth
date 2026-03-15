@@ -11,6 +11,7 @@ export const AUDIO_PROVIDERS = {
 
 export const LYRIC_PROVIDERS = {
 	lrclib: "lrclib",
+	localLyric: "local-lyric",
 } as const;
 
 type ValueOf<T> = T[keyof T];
