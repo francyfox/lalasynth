@@ -3,17 +3,21 @@
 import AppLobbyLayout from '@/components/layout/AppLobbyLayout.svelte'
 import type { UIType } from '@/components/layout/game.layout.types'
 import AppTraffic from '@/components/traffic/AppTraffic.svelte'
+import { gameStore } from '@/lib/stores/game.svelte'
 import { UUserLeadership } from '@package/ui/index.js'
 import UTextScroller from '@package/ui/text-scroller/UTextScroller.svelte'
 import { TextScrollerMock } from '@package/ui/text-scroller/text-scroller.mock'
 import { UserLeadershipMock } from '@package/ui/user-leadership/user-leadership.mock'
+import { goto } from "@roxi/routify";
+const _init = $goto;
 
 let currentMode: UIType = $state("game")
 let isPlaying: boolean = $state(false)
-const song = TextScrollerMock
+const song = gameStore.selectedSong?.song
 const users = UserLeadershipMock;
 
 console.log(song)
+if (!song) $goto('/lobby')
 
 function handleStartGame() {
   setTimeout(() => {

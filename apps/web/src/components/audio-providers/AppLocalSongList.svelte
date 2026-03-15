@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { gameStore } from '@/lib/stores/game.svelte'
 	import { Debounced } from "runed";
 	import { goto } from '@roxi/routify'
 	import ULocalSongList from "@package/ui/local-song-list/ULocalSongList.svelte";
@@ -27,7 +28,10 @@
 	const store = createLocalSongStore(() => ({ search: debouncedSearch.current, page }));
 
 	function onSelect(song: LocalSongItem) {
-		store.currentSong = song
+		gameStore.selectedSong = {
+			type: 'local',
+			song
+		}
 		$goto('/game')
 	}
 </script>

@@ -2,14 +2,14 @@
 import type { Lyrics } from './text-scroller.types.ts'
 import { cn } from '../utils.ts'
 interface Props {
-  song: Lyrics
+  song?: Lyrics
   onError?: (error: string) => void
   isPlaying: boolean
   className?: string
 }
 
 const { song, isPlaying = true, className = '', onError }: Props = $props();
-const lyrics = $derived.by(() => song.plainLyrics?.split("\n") || '')
+const lyrics = $derived.by(() => song?.plainLyrics?.split("\n") || '')
 
 let currentLineIdx = $state(0)
 let cursor = $state(0);
@@ -18,17 +18,17 @@ let key = $state('')
 let isWrong = $state(false)
 
 let progress = $derived.by(() => {
-  const match = song.plainLyrics?.match(`^(?:.*\\n){${currentLineIdx}}`)
-  const idx = match[0].length + cursor
-  return match ? Math.round((idx / song.plainLyrics?.length) * 100) : 0;
+  const match = song?.plainLyrics?.match(`^(?:.*\\n){${currentLineIdx}}`)
+  const idx = match ? match[0].length + cursor : 0
+  return match ? Math.round((idx / (song?.plainLyrics?.length ?? 0)) * 100) : 0;
 })
 
 let startTime = $state(0);
 let currentTime = $state(0);
 
 let wpm = $derived.by(() => {
-  const match = song.plainLyrics?.match(`^(?:.*\\n){${currentLineIdx}}`)
-  const correctChars = match[0].length + cursor
+  const match = song?.plainLyrics?.match(`^(?:.*\\n){${currentLineIdx}}`)
+  const correctChars = match ? match[0].length + cursor : 0
 
   if (!startTime || currentTime <= startTime) return 0;
 
@@ -41,6 +41,8 @@ let wpm = $derived.by(() => {
 const handleKeydown = (e: KeyboardEvent) => {
   if (!isPlaying) return;
   if (e.key.length !== 1) return;
+  if (!lyrics[currentLineIdx]) return;
+  // @ts-ignore-next-line
   const targetChar = lyrics[currentLineIdx][cursor];
   key = e.key;
 
@@ -48,6 +50,7 @@ const handleKeydown = (e: KeyboardEvent) => {
     isWrong = false;
     cursor++;
 
+    // @ts-ignore-next-line
     if (cursor === lyrics[currentLineIdx].length) {
       cursor = 0;
       currentLineIdx += 1;

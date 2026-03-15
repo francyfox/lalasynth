@@ -5,6 +5,7 @@
     import { goto } from '@roxi/routify'
     import AppSettingsModal from '@/components/settings/AppSettingsModal.svelte'
     import UModal from '@package/ui/modal/UModal.svelte'
+    import { gameStore } from '@/lib/stores/game.svelte'
 
     const _init = $goto;
 
@@ -17,6 +18,7 @@
         id: 0,
         label: 'Single Player',
         action: () => {
+          gameStore.mode = "single"
           $goto('/lobby')
         }
       },
@@ -25,6 +27,7 @@
         label: 'Multi Player',
         disabled: true,
         action: () => {
+          gameStore.mode = "multiplayer"
           $goto('/lobby')
         }
       },
