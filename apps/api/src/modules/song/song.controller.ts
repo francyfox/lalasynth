@@ -101,8 +101,11 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 		"/song/stream/:id",
 		async ({ params: { id }, query }) => {
 			const { getAudioProvider } = await provider;
-			const audioId = (query.audioProvider ??
-				AUDIO_PROVIDERS.ytdlp) as AudioProvider;
+			const isLocalFile = /\.[a-z0-9]+$/i.test(id);
+			const defaultProvider = isLocalFile
+				? AUDIO_PROVIDERS.localAudio
+				: AUDIO_PROVIDERS.ytdlp;
+			const audioId = (query.audioProvider ?? defaultProvider) as AudioProvider;
 
 			const { stream, mimeType } =
 				await getAudioProvider(audioId).streamAudio(id);
@@ -121,15 +124,25 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 			}),
 		},
 	)
-	.post(
+	.get(
 		"/song/lyric/:id",
-		async () => {
-			return {};
+		async ({ params: { id }, query }) => {
+			const { getLyricProvider } = await provider;
+			const lyricId = (query.lyricProvider ??
+				LYRIC_PROVIDERS.localLyric) as LyricProvider;
+
+			const lyrics = (await getLyricProvider(lyricId).getLyrics(id, 0)) as Lyric[];
+			return lyrics;
 		},
 		{
 			detail: {
-				description: "Select lyric for the song",
+				description: "Get lyrics for a local song by filename",
 				tags: ["Song"],
 			},
+			params: t.Object({ id: t.String() }),
+			query: t.Object({
+				lyricProvider: t.Optional(t.String()),
+			}),
+			response: t.Array(LyricSchema),
 		},
 	);

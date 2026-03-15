@@ -1,4 +1,5 @@
 import { LocalAudioProvider } from "@/modules/song/adapters/local-audio.adapter";
+import { LocalLyricProvider } from "@/modules/song/adapters/local-lyric.adapter";
 import { LrclibProvider } from "@/modules/song/adapters/lrclib.adapter";
 import { YtdlpProvider } from "@/modules/song/adapters/ytdlp.adapter";
 import type { AudioBaseProvider, LyricBaseProvider } from "@/modules/song/song.types";
@@ -30,6 +31,7 @@ export const songProvider = async () => {
 
 	const lyricProviders = new Map<string, LyricBaseProvider>([
 		[LYRIC_PROVIDERS.lrclib, LrclibProvider()],
+		[LYRIC_PROVIDERS.localLyric, LocalLyricProvider()],
 	]);
 
 	await validateProviders(audioProviders);
