@@ -8,11 +8,11 @@
  * structurally correct.
  *
  * Run with:
- *   bun test src/modules/song/providers/ytdlp.validate.test.ts
+ *   bun test src/modules/song/adapters/ytdlp.validate.adapter.test.ts
  */
 
 import { describe, expect, it } from "vitest";
-import { YtdlpProvider } from "./ytdlp.provider";
+import { YtdlpProvider } from "./ytdlp.adapter";
 
 describe("YtdlpProvider.validate() — integration", () => {
 	it(

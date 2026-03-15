@@ -1,6 +1,6 @@
-import { LocalAudioProvider } from "@/modules/song/providers/local-audio.provider";
-import { LrclibProvider } from "@/modules/song/providers/lrclib.provider";
-import { YtdlpProvider } from "@/modules/song/providers/ytdlp.provider";
+import { LocalAudioProvider } from "@/modules/song/adapters/local-audio.adapter";
+import { LrclibProvider } from "@/modules/song/adapters/lrclib.adapter";
+import { YtdlpProvider } from "@/modules/song/adapters/ytdlp.adapter";
 import type { AudioBaseProvider, LyricBaseProvider } from "@/modules/song/song.types";
 import {
 	AUDIO_PROVIDERS,

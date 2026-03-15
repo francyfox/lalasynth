@@ -1,6 +1,6 @@
-# Adding Song & Lyric Providers
+# Adding Song & Lyric Adapters
 
-Lalasynth uses a provider system to decouple audio sourcing and lyric fetching from the rest of the application. You can plug in new providers without touching the controller or business logic — just implement the interface, register the provider, and add its ID to the constants.
+Lalasynth uses an adapter system to decouple audio sourcing and lyric fetching from the rest of the application. You can plug in new adapters without touching the controller or business logic — just implement the interface, register the adapter, and add its ID to the constants.
 
 ---
 
@@ -8,11 +8,11 @@ Lalasynth uses a provider system to decouple audio sourcing and lyric fetching f
 
 | Term | What it does |
 |------|-------------|
-| **Audio provider** | Resolves a song identifier → metadata + audio stream |
-| **Lyric provider** | Searches for synced/plain lyrics by song title and duration |
-| **`validate()`** | Called at startup; returning `{ ok: false }` disables the provider automatically |
+| **Audio adapter** | Resolves a song identifier → metadata + audio stream |
+| **Lyric adapter** | Searches for synced/plain lyrics by song title and duration |
+| **`validate()`** | Called at startup; returning `{ ok: false }` disables the adapter automatically |
 
-Providers that fail `validate()` are removed from the active map and never exposed to requests. This means a missing binary, a blocked IP, or an unreachable API will not crash the server — the provider is simply not available.
+Adapters that fail `validate()` are removed from the active map and never exposed to requests. This means a missing binary, a blocked IP, or an unreachable API will not crash the server — the adapter is simply not available.
 
 ---
 
@@ -20,23 +20,23 @@ Providers that fail `validate()` are removed from the active map and never expos
 
 ```
 apps/api/src/modules/song/
-├── providers/
-│   ├── ytdlp.provider.ts        # Audio: yt-dlp + youtubei.js
-│   ├── local-audio.provider.ts  # Audio: local .webm files
-│   └── lrclib.provider.ts       # Lyrics: lrclib.net
-├── song.provider.ts             # Registry — registers & validates all providers
-├── song.types.ts                # Interfaces + provider ID constants
-└── song.controller.ts           # HTTP layer — selects provider from query param
+├── adapters/
+│   ├── ytdlp.adapter.ts        # Audio: yt-dlp + youtubei.js
+│   ├── local-audio.adapter.ts  # Audio: local .webm files
+│   └── lrclib.adapter.ts       # Lyrics: lrclib.net
+├── song.provider.ts             # Registry — registers & validates all adapters
+├── song.types.ts                # Interfaces + adapter ID constants
+└── song.controller.ts           # HTTP layer — selects adapter from query param
 ```
 
 ---
 
 ## Step 1 — Implement the interface
 
-### Audio provider (`AudioBaseProvider`)
+### Audio adapter (`AudioBaseProvider`)
 
 ```ts
-// apps/api/src/modules/song/providers/my-audio.provider.ts
+// apps/api/src/modules/song/adapters/my-audio.adapter.ts
 
 import type { AudioBaseProvider, Song } from "@/modules/song/song.types";
 
@@ -82,10 +82,10 @@ export function MyAudioProvider(): AudioBaseProvider {
 }
 ```
 
-### Lyric provider (`LyricBaseProvider`)
+### Lyric adapter (`LyricBaseProvider`)
 
 ```ts
-// apps/api/src/modules/song/providers/my-lyric.provider.ts
+// apps/api/src/modules/song/adapters/my-lyric.adapter.ts
 
 import type { Lyric, LyricBaseProvider } from "@/modules/song/song.types";
 
@@ -120,7 +120,7 @@ export function MyLyricProvider(): LyricBaseProvider {
 
 ## Step 2 — Register the ID constant
 
-Open `apps/api/src/modules/song/song.types.ts` and add your provider's ID to the appropriate constant:
+Open `apps/api/src/modules/song/song.types.ts` and add your adapter's ID to the appropriate constant:
 
 ```ts
 // song.types.ts
@@ -137,17 +137,17 @@ export const LYRIC_PROVIDERS = {
 } as const;
 ```
 
-The derived types `AudioProvider` and `LyricProvider` are inferred automatically — no further type changes needed.
+The derived union types `AudioProvider` and `LyricProvider` are inferred automatically — no further type changes needed.
 
 ---
 
 ## Step 3 — Add to the registry
 
-Open `apps/api/src/modules/song/song.provider.ts` and add your provider to the map:
+Open `apps/api/src/modules/song/song.provider.ts` and add your adapter to the map:
 
 ```ts
-import { MyAudioProvider } from "@/modules/song/providers/my-audio.provider";
-import { MyLyricProvider } from "@/modules/song/providers/my-lyric.provider";
+import { MyAudioProvider } from "@/modules/song/adapters/my-audio.adapter";
+import { MyLyricProvider } from "@/modules/song/adapters/my-lyric.adapter";
 
 export const songProvider = async () => {
 	const audioProviders = new Map<string, AudioBaseProvider>([
@@ -161,18 +161,18 @@ export const songProvider = async () => {
 		[LYRIC_PROVIDERS.myLyrics, MyLyricProvider()],   // <-- add this
 	]);
 
-	// validate() is called for every provider here — failed ones are removed
+	// validate() is called for every adapter here — failed ones are removed
 	// ...
 };
 ```
 
-If your provider needs async initialization (e.g. connecting to a database), make your factory function async and `await` it in the map initializer, just like `LocalAudioProvider`.
+If your adapter needs async initialization (e.g. connecting to a database), make your factory function async and `await` it in the map initializer, just like `LocalAudioProvider`.
 
 ---
 
 ## Step 4 — Use it in a request
 
-Clients select a provider via query parameters. No controller changes are required.
+Clients select an adapter via query parameters. No controller changes are required.
 
 ```
 GET /song/dQw4w9WgXcQ?audioProvider=my-audio&lyricProvider=my-lyrics
@@ -200,7 +200,7 @@ async function validate(): Promise<{ ok: boolean; reason?: string }> {
 }
 ```
 
-A provider that returns `{ ok: false }` is silently removed from the map and logs a warning to the console. Requests that specify a disabled provider receive a runtime error (`"Audio provider X is not available"`).
+An adapter that returns `{ ok: false }` is silently removed from the map and logs a warning to the console. Requests that specify a disabled adapter receive a runtime error (`"Audio provider X is not available"`).
 
 ---
 

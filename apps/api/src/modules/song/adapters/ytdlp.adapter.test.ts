@@ -55,7 +55,7 @@ await mock.module("youtubei.js", () => ({
 // Dynamic import AFTER mock installation.
 // ---------------------------------------------------------------------------
 
-const { STREAM_MIME, YtdlpProvider, dlpArgs } = await import("./ytdlp.provider");
+const { STREAM_MIME, YtdlpProvider, dlpArgs } = await import("./ytdlp.adapter");
 
 // ---------------------------------------------------------------------------
 // Reset shared state before each test.

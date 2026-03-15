@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { STREAM_MIME } from "@/modules/song/providers/ytdlp.provider";
+import { STREAM_MIME } from "@/modules/song/adapters/ytdlp.adapter";
 import { searchLocalSongs } from "@/modules/song/local-song.service";
 import {
 	AUDIO_PROVIDERS,
