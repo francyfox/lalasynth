@@ -1,4 +1,4 @@
-import type { Song } from "@app/src/modules/song/song.schema";
+import type { Song } from "@app/src/modules/song/song.types";
 import type { LocalSongItem } from "@/lib/stores/local-songs.svelte";
 
 export type GameMode = "single" | "multiplayer";
