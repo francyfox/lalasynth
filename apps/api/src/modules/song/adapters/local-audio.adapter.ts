@@ -113,7 +113,7 @@ export async function LocalAudioProvider(): Promise<AudioBaseProvider> {
 		if (!row) throw new Error(`Local song not found: ${filename}`);
 
 		return {
-			videoId: row.filename.replace(/\.[^.]+$/, ""),
+			videoId: row.filename,
 			title: row.title,
 			author: row.artist ?? undefined,
 			duration: row.duration ?? undefined,

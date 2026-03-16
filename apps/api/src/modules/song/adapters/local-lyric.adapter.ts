@@ -1,5 +1,5 @@
 import { access } from "node:fs/promises";
-import { findSongByFilename } from "@/modules/song/local-song.repository";
+import { findSongByFilename, findSongByTitle } from "@/modules/song/local-song.repository";
 import type { Lyric, LyricBaseProvider } from "@/modules/song/song.types";
 import { filenameHash, lrcToPlain, safeFilename } from "@/utils/file";
 
@@ -11,7 +11,7 @@ export function LocalLyricProvider(): LyricBaseProvider {
 		_duration: number,
 	): Promise<Lyric[]> {
 		const safeFile = safeFilename(filename);
-		const row = await findSongByFilename(safeFile);
+		const row = (await findSongByFilename(safeFile)) ?? (await findSongByTitle(filename));
 		if (!row?.lrcFilename) return [];
 
 		const lrcPath = `${SONG_PATH}/${row.lrcFilename}`;

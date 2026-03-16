@@ -4,25 +4,42 @@ import AppLobbyLayout from '@/components/layout/AppLobbyLayout.svelte'
 import type { UIType } from '@/components/layout/game.layout.types'
 import AppTraffic from '@/components/traffic/AppTraffic.svelte'
 import { gameStore } from '@/lib/stores/game.svelte'
+import { songStore } from '@/lib/stores/songs.svelte'
 import { UUserLeadership } from '@package/ui/index.js'
 import UTextScroller from '@package/ui/text-scroller/UTextScroller.svelte'
-import { TextScrollerMock } from '@package/ui/text-scroller/text-scroller.mock'
 import { UserLeadershipMock } from '@package/ui/user-leadership/user-leadership.mock'
 import { goto } from "@roxi/routify";
+import { onDestroy, onMount } from 'svelte'
 const _init = $goto;
 
 let currentMode: UIType = $state("game")
 let isPlaying: boolean = $state(false)
-const song = gameStore.selectedSong?.song
+const selectedSong = gameStore.selectedSong
 const users = UserLeadershipMock;
 
-console.log(song)
-if (!song) $goto('/lobby')
+if (!selectedSong) $goto('/lobby')
 
-function handleStartGame() {
-  setTimeout(() => {
-    isPlaying = true
-  }, 1000)
+onMount(() => {
+	if (!selectedSong) return;
+	if (selectedSong.type === 'local') {
+		songStore.load(selectedSong.song.filename, {
+			audioProvider: 'local-audio',
+			lyricProvider: 'local-lyric',
+		});
+	} else {
+		songStore.load(selectedSong.song.videoId);
+	}
+});
+
+onDestroy(() => {
+	songStore.pause();
+});
+
+async function handleStartGame() {
+	setTimeout(async () => {
+		await songStore.play();
+		isPlaying = true;
+	}, 1000)
 }
 </script>
 
@@ -35,7 +52,7 @@ function handleStartGame() {
             />
         {/if}
         <UTextScroller
-                {song}
+                song={songStore.lyrics[0]}
                 {isPlaying}
         />
     </div>

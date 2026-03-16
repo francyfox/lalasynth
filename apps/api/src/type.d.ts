@@ -95,10 +95,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** @description Get lyrics for a local song by filename */
+        get: operations["getSongLyricById"];
         put?: never;
-        /** @description Select lyric for the song */
-        post: operations["postSongLyricById"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -602,9 +602,11 @@ export interface operations {
             };
         };
     };
-    postSongLyricById: {
+    getSongLyricById: {
         parameters: {
-            query?: never;
+            query?: {
+                lyricProvider?: string;
+            };
             header?: never;
             path: {
                 id: string;
@@ -617,7 +619,41 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": {
+                        id: number;
+                        name: string;
+                        trackName: string;
+                        artistName: string;
+                        albumName: string;
+                        duration: number;
+                        instrumental: boolean;
+                        plainLyrics: (string | null) | null;
+                        syncedLyrics: (string | null) | null;
+                    }[];
+                    "multipart/form-data": {
+                        id: number;
+                        name: string;
+                        trackName: string;
+                        artistName: string;
+                        albumName: string;
+                        duration: number;
+                        instrumental: boolean;
+                        plainLyrics: (string | null) | null;
+                        syncedLyrics: (string | null) | null;
+                    }[];
+                    "text/plain": {
+                        id: number;
+                        name: string;
+                        trackName: string;
+                        artistName: string;
+                        albumName: string;
+                        duration: number;
+                        instrumental: boolean;
+                        plainLyrics: (string | null) | null;
+                        syncedLyrics: (string | null) | null;
+                    }[];
+                };
             };
         };
     };

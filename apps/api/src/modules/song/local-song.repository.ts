@@ -35,6 +35,10 @@ export async function findSongByFilename(filename: string): Promise<LocalSong | 
 	return db.select().from(LocalSongSchema).where(eq(LocalSongSchema.filename, filename)).get();
 }
 
+export async function findSongByTitle(title: string): Promise<LocalSong | undefined> {
+	return db.select().from(LocalSongSchema).where(eq(LocalSongSchema.title, title)).get();
+}
+
 export async function findExistingArt(
 	filename: string,
 ): Promise<{ albumArt: string | null } | undefined> {

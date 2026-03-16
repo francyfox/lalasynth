@@ -6,7 +6,7 @@
 	import UTable from "@package/ui/table/UTable.svelte";
 	import type { ColumnDef } from "@tanstack/table-core";
 	import type { User } from "better-auth";
-	import { createSongStore } from "@/lib/stores/songs.svelte";
+	import { songStore } from "@/lib/stores/songs.svelte";
 
 	interface Props {
 		countdown?: number;
@@ -23,7 +23,6 @@
 		countdown = $bindable(90),
 	}: Props = $props();
 
-	const songStore = createSongStore();
 	const gameMode = $state<'single' | 'multiplayer'>('single');
 
 	type LobbyUser = { no: number; name: string; bestWpm: number; totalWins: number };

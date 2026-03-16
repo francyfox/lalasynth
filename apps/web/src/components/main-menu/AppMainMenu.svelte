@@ -1,6 +1,7 @@
 <script lang="ts">
     import AppCredits from '@/components/credits/AppCredits.svelte'
     import { authClient } from '@/lib/auth-client'
+    import { getSessionStore } from '@/lib/stores/session'
     import { cn } from '@/utils/cn'
     import { goto } from '@roxi/routify'
     import AppSettingsModal from '@/components/settings/AppSettingsModal.svelte'
@@ -9,9 +10,9 @@
 
     const _init = $goto;
 
+    const sessionStore = getSessionStore();
     let settingsOpen = $state(false);
     let creditsOpen = $state(false);
-
 
     const MenuNav = [
       {
@@ -73,6 +74,14 @@
 
 
             <div class="h-[2px] my-1 bg-gray-400 shadow-[0_1px_0_rgba(255,255,255,0.5)]"></div>
+
+            <button
+                    class="group opacity-50 pointer-events-none relative px-4 py-2 text-left text-[#ffffff]"
+            >
+              <span class="relative z-10 font-mono text-lg uppercase group-focus:text-[#ffff00] group-hover:text-[#ffff00]">
+                ${sessionStore.data?.user.name}
+              </span>
+            </button>
 
             <button
                     class="group relative px-4 py-2 text-left text-[#ffffff]"

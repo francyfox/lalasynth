@@ -1,4 +1,4 @@
-import type { Lyric, Song } from "@app/src/modules/song/song.schema";
+import type { Lyric, Song } from "@app/src/modules/song/song.types";
 import * as Tone from "tone";
 import { client } from "@/lib/api";
 import { bgAudioStore } from "@/lib/stores/bg-audio.svelte";
@@ -19,7 +19,7 @@ function makeCrusherCurve(bits: number): Float32Array<ArrayBuffer> {
 	return curve;
 }
 
-export function createSongStore() {
+function createSongStore() {
 	// Single element, created once — never null, never proxied by Svelte
 	const audioEl: HTMLAudioElement = new Audio();
 
@@ -70,14 +70,17 @@ export function createSongStore() {
 		gainNode.connect(ctx.destination);
 	}
 
-	async function load(ytUrl: string) {
+	async function load(
+		id: string,
+		providers?: { audioProvider?: string; lyricProvider?: string },
+	) {
 		teardown();
 		status = "loading";
 		song = null;
 		lyrics = [];
 
 		const { data, error } = await client.GET("/song/{id}", {
-			params: { path: { id: ytUrl } },
+			params: { path: { id }, query: providers },
 		});
 
 		if (error || !data) {
@@ -162,3 +165,5 @@ export function createSongStore() {
 		toggle16bit,
 	};
 }
+
+export const songStore = createSongStore();
