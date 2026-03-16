@@ -1,48 +1,29 @@
 import type { Lyric, Song } from "@app/src/modules/song/song.types";
 import * as Tone from "tone";
 import { client } from "@/lib/api";
-import { bgAudioStore } from "@/lib/stores/bg-audio.svelte";
 import { settingsStore } from "@/lib/stores/settings.svelte";
 
 type PlayerState = "idle" | "loading" | "ready" | "error";
 
 const FADE_SEC = 0.4;
 
-function makeCrusherCurve(bits: number): Float32Array<ArrayBuffer> {
-	const n = 512;
-	const curve = new Float32Array(new ArrayBuffer(n * 4));
-	const step = 0.5 ** (bits - 1);
-	for (let i = 0; i < n; i++) {
-		const x = (i * 2) / n - 1;
-		curve[i] = Math.round(x / step) * step;
-	}
-	return curve;
-}
-
-function createSongStore() {
-	// Single element, created once — never null, never proxied by Svelte
+export function createSongStore() {
 	const audioEl: HTMLAudioElement = new Audio();
 
 	let song = $state<Song | null>(null);
 	let lyrics = $state<Lyric[]>([]);
 	let status = $state<PlayerState>("idle");
-	let is16bit = $state(false);
+	let isPlaying = $state(false);
 
 	// Audio chain — built once on first play, reused across songs
 	let gainNode: GainNode | null = null;
-	let crusherNode: WaveShaperNode | null = null;
 	let chainBuilt = false;
 
-	/**
-	 * Stop playback and clear the src without touching the audio chain.
-	 * MediaElementSource stays connected — src change is enough for a new song.
-	 */
 	function teardown() {
 		audioEl.pause();
 		audioEl.src = "";
 		audioEl.load();
 
-		// Immediately silence gain so there's no bleed into the next load
 		if (gainNode) {
 			const ctx = Tone.getContext().rawContext as AudioContext;
 			gainNode.gain.cancelScheduledValues(ctx.currentTime);
@@ -55,18 +36,12 @@ function createSongStore() {
 		chainBuilt = true;
 
 		const ctx = Tone.getContext().rawContext as AudioContext;
-		// createMediaElementSource is called exactly once for this element
 		const source = ctx.createMediaElementSource(audioEl);
-
-		crusherNode = ctx.createWaveShaper();
-		crusherNode.curve = makeCrusherCurve(is16bit ? 4 : 16) as Float32Array<ArrayBuffer>;
-		crusherNode.oversample = "4x";
 
 		gainNode = ctx.createGain();
 		gainNode.gain.value = 0;
 
-		source.connect(crusherNode);
-		crusherNode.connect(gainNode);
+		source.connect(gainNode);
 		gainNode.connect(ctx.destination);
 	}
 
@@ -75,6 +50,7 @@ function createSongStore() {
 		providers?: { audioProvider?: string; lyricProvider?: string },
 	) {
 		teardown();
+		isPlaying = false;
 		status = "loading";
 		song = null;
 		lyrics = [];
@@ -102,22 +78,33 @@ function createSongStore() {
 	}
 
 	async function play() {
-		bgAudioStore.stop();
 		await Tone.start();
 		buildChain();
 		const ctx = Tone.getContext().rawContext as AudioContext;
 		await audioEl.play();
+		isPlaying = true;
 		if (!gainNode) return;
 		gainNode.gain.cancelScheduledValues(ctx.currentTime);
 		gainNode.gain.linearRampToValueAtTime(settingsStore.volume / 100, ctx.currentTime + FADE_SEC);
 	}
 
+	/** Graceful fade-out pause — for in-game pause button. */
 	function pause() {
+		isPlaying = false;
 		if (!gainNode) return;
 		const ctx = Tone.getContext().rawContext as AudioContext;
 		gainNode.gain.cancelScheduledValues(ctx.currentTime);
 		gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + FADE_SEC);
 		setTimeout(() => audioEl.pause(), FADE_SEC * 1000);
+	}
+
+	/** Immediate stop — use when navigating away or switching audio channel. */
+	function stop() {
+		isPlaying = false;
+		teardown();
+		song = null;
+		lyrics = [];
+		status = "idle";
 	}
 
 	function seekTo(seconds: number) {
@@ -132,17 +119,11 @@ function createSongStore() {
 		return audioEl.duration ?? 0;
 	}
 
-	function toggle16bit() {
-		is16bit = !is16bit;
-		if (crusherNode)
-			crusherNode.curve = makeCrusherCurve(is16bit ? 4 : 16) as Float32Array<ArrayBuffer>;
-	}
-
-	// Sync gain with volume setting in real time
+	// Sync gain with volume setting — only while playing
 	$effect.root(() => {
 		$effect(() => {
 			const v = settingsStore.volume / 100;
-			if (!gainNode) return;
+			if (!gainNode || !isPlaying) return;
 			const ctx = Tone.getContext().rawContext as AudioContext;
 			gainNode.gain.cancelScheduledValues(ctx.currentTime);
 			gainNode.gain.linearRampToValueAtTime(v, ctx.currentTime + FADE_SEC);
@@ -150,20 +131,18 @@ function createSongStore() {
 	});
 
 	return {
-		/** Always the same element — safe to pass as a prop without null checks. */
 		audioEl,
 		get song() { return song; },
 		get lyrics() { return lyrics; },
 		get status() { return status; },
-		get is16bit() { return is16bit; },
 		load,
 		play,
 		pause,
+		stop,
 		seekTo,
 		currentTime,
 		duration,
-		toggle16bit,
 	};
 }
 
-export const songStore = createSongStore();
+export type SongStore = ReturnType<typeof createSongStore>;

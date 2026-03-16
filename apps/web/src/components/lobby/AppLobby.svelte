@@ -6,7 +6,7 @@
 	import UTable from "@package/ui/table/UTable.svelte";
 	import type { ColumnDef } from "@tanstack/table-core";
 	import type { User } from "better-auth";
-	import { songStore } from "@/lib/stores/songs.svelte";
+	import { audioManager } from "@/lib/stores/audio-manager.svelte";
 
 	interface Props {
 		countdown?: number;
@@ -52,11 +52,11 @@
 	<AppAudioProviders />
 
 	<USearchSong
-		audioEl={songStore.audioEl}
-		song={songStore.song}
-		lyrics={songStore.lyrics}
-		onSongUrl={songStore.load}
-		preloadStatus={songStore.status}
+		audioEl={audioManager.audioEl}
+		song={audioManager.songData}
+		lyrics={audioManager.lyrics}
+		onSongUrl={audioManager.loadSong}
+		preloadStatus={audioManager.songStatus}
 	/>
 
 	{#if lobbyState === "selected"}

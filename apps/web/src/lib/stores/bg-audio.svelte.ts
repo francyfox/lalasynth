@@ -3,7 +3,7 @@ import { settingsStore } from "@/lib/stores/settings.svelte";
 const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 const FADE_MS = 1000;
 
-function createBgAudioStore() {
+export function createBgAudioStore() {
 	const audioEl = new Audio();
 	audioEl.loop = true;
 	audioEl.volume = 0;
@@ -122,4 +122,4 @@ function createBgAudioStore() {
 	};
 }
 
-export const bgAudioStore = createBgAudioStore();
+export type BgAudioStore = ReturnType<typeof createBgAudioStore>;

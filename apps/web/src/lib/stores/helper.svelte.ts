@@ -1,4 +1,4 @@
-import { bgAudioStore } from "@/lib/stores/bg-audio.svelte";
+import { audioManager } from "@/lib/stores/audio-manager.svelte";
 
 export type HintType = "listen" | "fullscreen";
 export type AudioStatus = "allowed" | "blocked" | "allowed-muted";
@@ -12,7 +12,7 @@ function getAutoplayStatus(): AudioStatus {
 		return "blocked";
 	}
 	// Fallback for Firefox/Safari: rely on actual play result
-	if (bgAudioStore.playing) return "allowed";
+	if (audioManager.bgPlaying) return "allowed";
 	return "blocked"; // assume blocked until proven otherwise
 }
 
@@ -48,10 +48,10 @@ function createHelperStore() {
 			open = false;
 			queue = [];
 			index = 0;
-			bgAudioStore.resume();
+			audioManager.resumeBg();
 		},
 		async retryAudio() {
-			await bgAudioStore.resume();
+			await audioManager.resumeBg();
 		},
 	};
 }

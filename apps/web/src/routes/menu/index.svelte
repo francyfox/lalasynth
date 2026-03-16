@@ -7,7 +7,7 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { helperStore } from '@/lib/stores/helper.svelte'
-    import { bgAudioStore } from '@/lib/stores/bg-audio.svelte'
+    import { audioManager } from '@/lib/stores/audio-manager.svelte'
 
     const bgBaseUrl = "http://localhost:3000/static/bg"
 
@@ -16,7 +16,7 @@
     });
 
     onMount(() => {
-      bgAudioStore.play('dialogue')
+      audioManager.playBg('dialogue')
       setTimeout(() => {
         helperStore.show(['listen', 'fullscreen'])
       }, 500)

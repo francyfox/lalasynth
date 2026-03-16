@@ -3,8 +3,8 @@
 import AppLobbyLayout from '@/components/layout/AppLobbyLayout.svelte'
 import type { UIType } from '@/components/layout/game.layout.types'
 import AppTraffic from '@/components/traffic/AppTraffic.svelte'
+import { audioManager } from '@/lib/stores/audio-manager.svelte'
 import { gameStore } from '@/lib/stores/game.svelte'
-import { songStore } from '@/lib/stores/songs.svelte'
 import { UUserLeadership } from '@package/ui/index.js'
 import UTextScroller from '@package/ui/text-scroller/UTextScroller.svelte'
 import { UserLeadershipMock } from '@package/ui/user-leadership/user-leadership.mock'
@@ -22,22 +22,22 @@ if (!selectedSong) $goto('/lobby')
 onMount(() => {
 	if (!selectedSong) return;
 	if (selectedSong.type === 'local') {
-		songStore.load(selectedSong.song.filename, {
+		audioManager.loadSong(selectedSong.song.filename, {
 			audioProvider: 'local-audio',
 			lyricProvider: 'local-lyric',
 		});
 	} else {
-		songStore.load(selectedSong.song.videoId);
+		audioManager.loadSong(selectedSong.song.videoId);
 	}
 });
 
 onDestroy(() => {
-	songStore.pause();
+	audioManager.stopSong();
 });
 
 async function handleStartGame() {
 	setTimeout(async () => {
-		await songStore.play();
+		await audioManager.startSong();
 		isPlaying = true;
 	}, 1000)
 }
@@ -52,7 +52,7 @@ async function handleStartGame() {
             />
         {/if}
         <UTextScroller
-                song={songStore.lyrics[0]}
+                song={audioManager.lyrics[0]}
                 {isPlaying}
         />
     </div>
