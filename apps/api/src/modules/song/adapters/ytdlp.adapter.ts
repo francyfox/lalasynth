@@ -186,3 +186,30 @@ export const YtdlpProvider = (): AudioBaseProvider => {
 		validate,
 	};
 };
+
+const dlpDownloadArgs = (browser: string, videoId: string, dest: string) => [
+	"yt-dlp",
+	"--cookies-from-browser",
+	browser,
+	"--js-runtimes",
+	"node:/usr/bin/node",
+	"--remote-components",
+	"ejs:github",
+	"-f",
+	"bestaudio[ext=webm]/bestaudio",
+	"--no-playlist",
+	"-o",
+	dest,
+	`https://www.youtube.com/watch?v=${videoId}`,
+];
+
+export async function downloadToFile(videoId: string, destPath: string): Promise<void> {
+	const browser = await detectBrowser();
+	if (!browser) throw new Error("No browser found for cookie extraction");
+	const proc = spawn(dlpDownloadArgs(browser, videoId, destPath), {
+		stdout: "ignore",
+		stderr: "ignore",
+	});
+	const exitCode = await proc.exited;
+	if (exitCode !== 0) throw new Error(`yt-dlp download failed: exit ${exitCode}`);
+}

@@ -105,6 +105,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/song/save": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Download a YouTube song to local collection with synced lyrics */
+        post: operations["postSongSave"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/sounds": {
         parameters: {
             query?: never;
@@ -433,7 +450,6 @@ export interface operations {
     getSongLocal: {
         parameters: {
             query: {
-                /** @description Filter by title (case-insensitive substring) */
                 title?: string;
                 limit: number;
                 offset: number;
@@ -653,6 +669,63 @@ export interface operations {
                         plainLyrics: (string | null) | null;
                         syncedLyrics: (string | null) | null;
                     }[];
+                };
+            };
+        };
+    };
+    postSongSave: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    videoId: string;
+                    title: string;
+                    artist?: string;
+                    syncedLyrics: string;
+                    /** @default 0 */
+                    offsetMs: number;
+                };
+                "multipart/form-data": {
+                    videoId: string;
+                    title: string;
+                    artist?: string;
+                    syncedLyrics: string;
+                    /** @default 0 */
+                    offsetMs: number;
+                };
+                "text/plain": {
+                    videoId: string;
+                    title: string;
+                    artist?: string;
+                    syncedLyrics: string;
+                    /** @default 0 */
+                    offsetMs: number;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        filename: string;
+                        lrcFilename: string;
+                    };
+                    "multipart/form-data": {
+                        filename: string;
+                        lrcFilename: string;
+                    };
+                    "text/plain": {
+                        filename: string;
+                        lrcFilename: string;
+                    };
                 };
             };
         };

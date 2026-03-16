@@ -9,7 +9,7 @@ import {
 import { findSongByFilename } from "@/modules/song/local-song.repository";
 import type { AudioBaseProvider, Song } from "@/modules/song/song.types";
 
-const SONG_PATH = `${process.cwd()}/public/songs`;
+export const SONG_PATH = `${process.cwd()}/public/songs`;
 const AUDIO_EXT = "webm";
 const LRC_EXT = "lrc";
 const LOCAL_MIME = 'audio/webm; codecs="opus"';
@@ -90,6 +90,24 @@ async function indexSongs(): Promise<void> {
 			console.warn(`[local-audio] failed to index ${filename}:`, err);
 		}
 	}
+}
+
+export async function indexSong(filename: string, lrcFilenameOverride?: string): Promise<void> {
+	const fullPath = `${SONG_PATH}/${filename}`;
+	const baseName = filename.replace(/\.[^.]+$/, "");
+	const { title, artist } = parseFilename(baseName);
+
+	const [probe, albumArt] = await Promise.all([
+		ffprobe(fullPath),
+		extractAlbumArt(fullPath),
+	]);
+
+	const lrcFilename =
+		lrcFilenameOverride ??
+		((await file(`${SONG_PATH}/${baseName}.lrc`).exists()) ? `${baseName}.lrc` : null);
+
+	await upsertSong({ filename, lrcFilename, title, artist, albumArt, ...probe, mimeType: LOCAL_MIME });
+	await rebuildFts();
 }
 
 export async function LocalAudioProvider(): Promise<AudioBaseProvider> {

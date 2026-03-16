@@ -65,7 +65,7 @@
 						class="size-24 rounded-full object-cover shrink-0"
 					/>
 				{:else}
-					<div class="size-24 rounded-md bg-base-300 flex items-center justify-center shrink-0">
+					<div class="size-24 rounded-full bg-base-300 flex items-center justify-center shrink-0">
 						<Music class="w-6 h-6 text-base-content/40" aria-hidden="true" />
 					</div>
 				{/if}

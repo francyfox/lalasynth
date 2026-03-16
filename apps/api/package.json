@@ -3,7 +3,8 @@
 	"version": "1.0.50",
 	"exports": {
 		".": "./src/type.d.ts",
-		"./auth": "./src/auth.ts"
+		"./auth": "./src/auth.ts",
+		"./providers": "./src/providers.ts"
 	},
 	"scripts": {
 		"schema": "npx openapi-typescript http://localhost:3000/swagger/json -o ./src/type.d.ts",

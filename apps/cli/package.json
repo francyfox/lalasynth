@@ -1,0 +1,32 @@
+{
+	"name": "@app/cli",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "A CLI built with Bunli",
+	"author": "",
+	"bin": {
+		"cli": "./dist/index.js"
+	},
+	"scripts": {
+		"postinstall": "bunli generate",
+		"dev": "bun run src/index.ts",
+		"build": "bunli build",
+		"test": "bun test",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@bunli/core": "latest",
+		"@app/api": "workspace:*"
+	},
+	"devDependencies": {
+		"@bunli/test": "latest",
+		"@types/bun": "latest",
+		"bunli": "latest",
+		"typescript": "^5.0.0",
+		"zod": "^4.3.6"
+	},
+	"bunli": {
+		"entry": "./src/index.ts",
+		"outDir": "./dist"
+	}
+}
