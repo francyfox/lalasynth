@@ -62,10 +62,10 @@
 					<img
 						src={song.albumArt}
 						alt={song.title}
-						class="size-24 rounded-full object-cover shrink-0"
+						class="size-16 rounded-full object-cover shrink-0"
 					/>
 				{:else}
-					<div class="size-24 rounded-full bg-base-300 flex items-center justify-center shrink-0">
+					<div class="size-16 rounded-full bg-base-300 flex items-center justify-center shrink-0">
 						<Music class="w-6 h-6 text-base-content/40" aria-hidden="true" />
 					</div>
 				{/if}
@@ -73,7 +73,7 @@
 				<div class="flex flex-col flex-1 min-w-0">
 					<span class="text-2xl font-medium truncate">{song.title}</span>
 					{#if song.artist}
-						<span class="text-xs text-base-content/60 truncate">{song.artist}</span>
+						<span class="text-xl text-base-content/60 truncate">{song.artist}</span>
 					{/if}
 				</div>
 

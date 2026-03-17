@@ -8,6 +8,7 @@
 	import type { User } from "better-auth";
 	import { audioManager } from "@/lib/stores/audio-manager.svelte";
 	import { client } from "@/lib/api";
+	import { toast } from "svelte-sonner";
 
 	interface Props {
 		countdown?: number;
@@ -25,10 +26,6 @@
 	}: Props = $props();
 
 	const gameMode = $state<'single' | 'multiplayer'>('single');
-	let offsetMs = $state(0);
-	let saving = $state(false);
-	let saveError = $state<string | null>(null);
-	let saveSuccess = $state(false);
 
 	type LobbyUser = { no: number; name: string; bestWpm: number; totalWins: number };
 
@@ -51,31 +48,27 @@
 		audioManager.lyrics[0].syncedLyrics !== null
 	);
 
-	async function saveSong() {
+	async function handleSaveSong() {
 		const song = audioManager.songData;
 		const lyric = audioManager.lyrics[0];
 		if (!song || !lyric?.syncedLyrics) return;
 
-		saving = true;
-		saveError = null;
-		saveSuccess = false;
-
-		const { error } = await client.POST("/song/save", {
+		const response = client.POST("/song/save", {
 			body: {
 				videoId: song.videoId,
 				title: song.title ?? song.videoId,
 				artist: song.author,
 				syncedLyrics: lyric.syncedLyrics,
-				offsetMs,
+				offsetMs: 0,
 			},
 		});
 
-		saving = false;
-		if (error) {
-			saveError = "Failed to save song";
-		} else {
-			saveSuccess = true;
-		}
+		const { error } = await response
+
+		if (error) toast.error("Error! Cant save the song on local disk")
+		toast.success("Complete. Check the local collection")
+
+		return response;
 	}
 </script>
 
@@ -95,44 +88,9 @@
 		song={audioManager.songData}
 		lyrics={audioManager.lyrics}
 		onSongUrl={audioManager.loadSong}
+		onSaveSong={handleSaveSong}
 		preloadStatus={audioManager.songStatus}
 	/>
-
-	{#if canSave}
-		<div class="flex flex-col gap-3 p-4 bg-base-200 rounded-xl">
-			<div class="flex items-center gap-3">
-				<label class="text-sm font-medium w-32 shrink-0">Lyric offset (ms)</label>
-				<input
-					type="number"
-					class="input input-sm input-bordered flex-1"
-					bind:value={offsetMs}
-					step="100"
-				/>
-			</div>
-
-			<div class="flex items-center gap-3">
-				<button
-					class="btn btn-primary btn-sm"
-					onclick={saveSong}
-					disabled={saving}
-				>
-					{#if saving}
-						<span class="loading loading-spinner loading-xs"></span>
-						Downloading...
-					{:else}
-						Save to collection
-					{/if}
-				</button>
-
-				{#if saveSuccess}
-					<span class="text-success text-sm">Saved to local collection</span>
-				{/if}
-				{#if saveError}
-					<span class="text-error text-sm">{saveError}</span>
-				{/if}
-			</div>
-		</div>
-	{/if}
 
 	{#if lobbyState === "selected"}
 		<p class="text-4xl text-center text-primary font-bold">

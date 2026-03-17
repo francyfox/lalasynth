@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from "@/utils/cn";
 	import UModal from "@package/ui/modal/UModal.svelte";
+	import { HardDrive, Youtube } from 'lucide-svelte'
 
 	interface Props {
 		className?: string;
@@ -13,16 +14,18 @@
 </script>
 
 <div class={cn(className, "audio-providers flex flex-wrap gap-3")}>
-	<a href="https://music.youtube.com" target="_blank" class="btn btn-secondary text-2xl">
-		Go to YouTube.Music
-	</a>
-
 	<button type="button" class="btn btn-accent text-2xl" onclick={() => (localOpen = true)}>
+		<HardDrive class="size-6" />
 		Local collection
 	</button>
+
+	<a href="https://music.youtube.com" target="_blank" class="btn btn-secondary text-2xl">
+		<Youtube class="size-6" />
+		Go to YouTube.Music
+	</a>
 </div>
 
-<UModal bind:open={localOpen} title="Local Collection">
+<UModal bind:open={localOpen} title="Local Collection" className="min-h-full">
 	{#if localOpen}
 		{#await lazyAppLocalSongList then { default: LazyComponent}}
 			<LazyComponent />

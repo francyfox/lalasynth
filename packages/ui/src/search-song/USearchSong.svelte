@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Lyric, Song } from "@app/api/src/modules/song/song.types.ts";
+	import type { Lyric, Song } from "@app/src/modules/song/song.types";
 	import { parseSyncedLyrics } from '../lyric-sync/lyric-sync.service.ts'
 	import UInput from "../input/UInput.svelte";
 	import UListPreview from "../list-preview/UListPreview.svelte";
@@ -7,12 +7,14 @@
 	import UModal from "../modal/UModal.svelte";
 	import { Debounced } from "runed";
 	import { fade } from 'svelte/transition'
+	import { Settings, Download } from 'lucide-svelte';
 
 	interface Props {
 		song?: Song | null;
 		lyrics?: Lyric[];
 		onSongUrl?: (url: string) => void;
 		onLyricSelect?: (lyric: Lyric) => void;
+		onSaveSong?: () => Promise<void>;
 		preloadStatus?: "idle" | "loading" | "ready" | "error";
 		audioEl: HTMLAudioElement; // always provided by the store
 	}
@@ -20,6 +22,7 @@
 	const {
 		onSongUrl,
 		onLyricSelect,
+		onSaveSong,
 		preloadStatus = "idle",
 		song,
 		lyrics,
@@ -30,11 +33,11 @@
 	let showLyrics = $state(false);
 	let selectedLyric: Lyric | null = $state(null);
 
+	let saving = $state(false);
+	let offset = $state(0);
+
 	const lines = $derived.by(() => parseSyncedLyrics(selectedLyric?.syncedLyrics || '', selectedLyric?.duration || 0))
-	let offset = $state(0)
-
 	const debouncedUrl = new Debounced(() => url, 600);
-
 	const ytPattern = /(?:music\.youtube\.com\/watch|youtube\.com\/watch|youtu\.be)\S*/;
 
 	$effect(() => {
@@ -54,33 +57,54 @@
 	function handleConfirm() {
 		showLyrics = false;
 	}
+
+	async function saveSong() {
+		saving = true
+		try {
+			if (onSaveSong) await onSaveSong()
+		} finally {
+			saving = false;
+		}
+	}
 </script>
 
 <div class="flex flex-col items-center gap-3">
-	<div class="flex flex-wrap gap-3">
+	<div class="w-full flex gap-3 items-end">
+		<UInput
+				bind:value={url}
+				placeholder="Paste your url"
+				label="Get audio from remote origin"
+		/>
+		<button
+				type="button"
+				class="btn btn-accent text-2xl"
+				transition:fade
+				onclick={() => showLyrics = true}
+				disabled={preloadStatus !== "ready"}
+				title="Song settings"
+				aria-label="Song settings"
+		>
+			{#if preloadStatus === "loading"}
+				<span class="loading loading-spinner loading-sm"></span>
+
+				{:else }
+				<Settings class="size-6" />
+			{/if}
+		</button>
+
+		<button
+				class="btn btn-primary text-2xl"
+				onclick={saveSong}
+				disabled={!saving && preloadStatus !== "ready"}
+		>
+			{#if saving}
+				<span class="loading loading-spinner loading-xs"></span>
+			{:else}
+				<Download class="size-6" />
+			{/if}
+		</button>
 
 	</div>
-
-	<UInput
-		bind:value={url}
-		placeholder="Paste your url"
-		label="Get audio from remote origin"
-	/>
-
-	{#if preloadStatus === "loading"}
-		<button transition:fade type="button" class="loading loading-spinner loading-sm"></button>
-	{:else if preloadStatus === "ready"}
-		<button
-			type="button"
-			class="btn btn-accent text-2xl"
-			transition:fade
-			onclick={showLyrics = true}
-			>
-			Lyrics settings
-		</button>
-	{:else if preloadStatus === "error"}
-		<span transition:fade class="text-red-500 text-sm">Failed to load</span>
-	{/if}
 </div>
 
 <UModal
