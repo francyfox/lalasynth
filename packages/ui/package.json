@@ -6,7 +6,8 @@
 	"exports": {
 		".": {
 			"svelte": "./src/index.ts"
-		}
+		},
+		"./use-keyboard-shortcut": "./src/use-keyboard-shortcut.ts"
 	},
 	"files": [
 		"src"
@@ -24,6 +25,7 @@
 		"animejs": "^4.3.6",
 		"clsx": "^2.1.1",
 		"runed": "^0.37.1",
+		"svelte-sonner": "^1.0.0",
 		"svelte-use-debounce": "^0.0.2",
 		"tailwind-merge": "^3.5.0",
 		"@tanstack/table-core": "^8.21.3"

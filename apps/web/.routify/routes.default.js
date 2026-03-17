@@ -36,6 +36,38 @@ export const routes = {
     },
     {
       "meta": {},
+      "id": "_default_achievements",
+      "name": "achievements",
+      "module": false,
+      "file": {
+        "path": "src/routes/achievements",
+        "dir": "src/routes",
+        "base": "achievements",
+        "ext": "",
+        "name": "achievements"
+      },
+      "children": [
+        {
+          "meta": {
+            "isDefault": true,
+            "_auth": true
+          },
+          "id": "_default_achievements_index_svelte",
+          "name": "index",
+          "file": {
+            "path": "src/routes/achievements/index.svelte",
+            "dir": "src/routes/achievements",
+            "base": "index.svelte",
+            "ext": ".svelte",
+            "name": "index"
+          },
+          "asyncModule": () => import('../src/routes/achievements/index.svelte'),
+          "children": []
+        }
+      ]
+    },
+    {
+      "meta": {},
       "id": "_default_auth",
       "name": "auth",
       "module": false,

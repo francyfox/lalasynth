@@ -1,25 +1,35 @@
 <script lang="ts">
   import { runGuards } from '@/lib/guards'
   import { getSystemStats } from '@/lib/stores/stats'
+  import { settingsStore } from '@/lib/stores/settings.svelte'
   import UStats from '@package/ui/stats/UStats.svelte'
+  import { useKeyboardShortcut } from '@package/ui/use-keyboard-shortcut'
   import { beforeUrlChange, activeRoute } from '@roxi/routify';
   import { router } from '@/router'
   import ProgressBar from '@roxi/routify/components/ProgressBar.svelte';
   import { fade } from 'svelte/transition';
 
-  // const stats = getSystemStats()
-  let isAllowed = $state(false);
-  let showStats: boolean = $state(true);
+  const stats = getSystemStats();
+
+  // ── Global keyboard shortcuts ──────────────────────────────────────────────
+  useKeyboardShortcut(["⌘", "Shift", "S"], () => {
+    settingsStore.showStats = !settingsStore.showStats;
+  }, { toast: () => settingsStore.showStats ? "Stats visible" : "Stats hidden" });
+
+  useKeyboardShortcut(["M"], () => {
+    settingsStore.sound = !settingsStore.sound;
+  }, { toast: () => settingsStore.sound ? "Sound ON" : "Sound OFF" });
+
+  useKeyboardShortcut(["]"], () => {
+    settingsStore.volume = Math.min(100, settingsStore.volume + 10);
+  }, { toast: () => `Volume: ${settingsStore.volume}%` });
+
+  useKeyboardShortcut(["["], () => {
+    settingsStore.volume = Math.max(0, settingsStore.volume - 10);
+  }, { toast: () => `Volume: ${settingsStore.volume}%` });
+
   async function performCheck(currentRoute: Route) {
     const canContinue = await runGuards({ route: currentRoute, router: $router });
-    if (canContinue) {
-      isAllowed = true;
-    }
-  }
-
-  function toggleStats() {
-	  showStats = !showStats
-	  console.log(showStats)
   }
 
   performCheck($activeRoute);
@@ -31,12 +41,9 @@
 
 <ProgressBar />
 
-<!--<UStats-->
-<!--	{...stats.data}-->
-<!--	className={showStats ? '' : 'hidden'}-->
-<!--	onShortcut="{toggleStats}"-->
-<!--/>-->
-
+{#if settingsStore.showStats && stats.data}
+  <UStats {...stats.data} className="!fixed" />
+{/if}
 
 {#key $activeRoute.url}
 	<div transition:fade={{ duration: 300 }} class="page-transition h-full">

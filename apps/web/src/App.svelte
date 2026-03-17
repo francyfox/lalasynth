@@ -6,7 +6,7 @@ import UModalProvider from '@package/ui/modal/UModalProvider.svelte'
 import AppHelper from '@/components/helpers/AppHelper.svelte'
 import { Toaster, type ToastOptions } from 'svelte-sonner'
 import { Router } from '@roxi/routify'
-import { QueryClientProvider, QueryClient } from '@tanstack/svelte-query'
+import { QueryClientProvider } from '@tanstack/svelte-query'
 import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools'
 import { settingsStore } from '@/lib/stores/settings.svelte'
 
@@ -17,6 +17,10 @@ $effect(() => {
 		document.body.style.transform = '';
 		document.body.style.width = '';
 		document.body.style.height = '';
+        document.documentElement.style.backgroundImage = ""
+        document.documentElement.style.backgroundRepeat = "";
+        document.documentElement.style.backgroundSize = "";
+        document.documentElement.style.backgroundPosition = "";
 		return;
 	}
 
@@ -29,6 +33,10 @@ $effect(() => {
 	document.body.style.transform = `scale(${1 / scale})`;
 	document.body.style.width = `${targetW}px`;
 	document.body.style.height = `${targetH}px`;
+    document.documentElement.style.backgroundImage = "url('http://localhost:3000/static/16bit.webp')"
+    document.documentElement.style.backgroundRepeat = "no-repeat";
+    document.documentElement.style.backgroundSize = "contain";
+    document.documentElement.style.backgroundPosition = "center center";
 });
 
 const toastOptions: ToastOptions = {

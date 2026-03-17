@@ -2,7 +2,6 @@
 	import { settingsStore } from "@/lib/stores/settings.svelte";
 	import type { Resolution } from "@/lib/stores/settings.svelte";
 	import SettingRow from "./SettingRow.svelte";
-
 	let { open = $bindable(false) }: { open?: boolean } = $props();
 
 	let dialog = $state<HTMLDialogElement | undefined>(undefined);
@@ -14,7 +13,7 @@
 
 	const [nativeW, nativeH] = nativeResolution.split("x").map(Number);
 
-	const ALL_RESOLUTIONS = ["1920x1080", "1280x720", "1024x768", "800x600"] as const;
+	const ALL_RESOLUTIONS = ["1920x1080", "1280x720", "1024x768", "800x600", "640x400"] as const;
 
 	const resolutions: { value: Resolution; label: string }[] = [
 		{ value: "native", label: `Native (${nativeResolution})` },
@@ -100,6 +99,14 @@
 					type="checkbox"
 					class="toggle toggle-primary"
 					bind:checked={settingsStore.hints}
+				/>
+			</SettingRow>
+
+			<SettingRow label="Show Stats" description="Display performance stats overlay (⌘+Shift+S)">
+				<input
+					type="checkbox"
+					class="toggle toggle-primary"
+					bind:checked={settingsStore.showStats}
 				/>
 			</SettingRow>
 		</div>

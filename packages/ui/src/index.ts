@@ -1,5 +1,6 @@
 // @ts-nocheck
 import UBadge from "./badge/UBadge.svelte";
+import UMMButton from "./mm-button/UMMButton.svelte";
 import UCounter from "./counter/UCounter.svelte";
 import Input from "./input/UInput.svelte";
 import UListPreview from "./list-preview/UListPreview.svelte";
@@ -15,6 +16,7 @@ import USearchSong from "./search-song/USearchSong.svelte";
 import UStats from "./stats/UStats.svelte";
 import UTable from "./table/UTable.svelte";
 import { TextScrollerMock } from "./text-scroller/text-scroller.mock.ts";
+import { useKeyboardShortcut } from "./use-keyboard-shortcut.ts";
 import UTextScroller from "./text-scroller/UTextScroller.svelte";
 import UUserLeadership from "./user-leadership/UUserLeadership.svelte";
 
@@ -39,4 +41,6 @@ export {
 	modalState,
 	ULocalSongList,
 	UPagination,
+	UMMButton,
+	useKeyboardShortcut,
 };
