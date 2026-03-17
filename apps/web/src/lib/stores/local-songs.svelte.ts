@@ -28,11 +28,10 @@ export function createLocalSongStore(
 		return {
 			queryKey: ["local-songs", search, page],
 			queryFn: async () => {
-				const title = encodeURIComponent(search);
 				const { data } = await client.GET("/song/local", {
 					params: {
 						query: {
-							title,
+							title: search || undefined,
 							limit: LOCAL_SONG_PAGE_SIZE,
 							offset,
 						},

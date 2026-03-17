@@ -54,15 +54,28 @@ export async function searchByFts(
 	limit: number,
 	offset: number,
 ): Promise<{ rows: LocalSong[]; total: number }> {
-	const ftsQuery = `"${query.replace(/"/g, '""')}"*`;
+	const ftsQuery = query
+		.trim()
+		.split(/\s+/)
+		.map((w) => `${w.replace(/"/g, '""')}*`)
+		.join(" ");
 
 	const [rows, countRows] = await Promise.all([
 		db.all<LocalSong>(sql`
-			SELECT s.*
-			FROM local_song_fts f
-			JOIN local_song s ON s.filename = f.filename
+			SELECT
+				s.filename,
+				s.lrc_filename    AS lrcFilename,
+				s.title,
+				s.artist,
+				s.album_art       AS albumArt,
+				s.duration,
+				s.bitrate,
+				s.mime_type       AS mimeType,
+				s.indexed_at      AS indexedAt
+			FROM local_song_fts f, local_song s
 			WHERE local_song_fts MATCH ${ftsQuery}
-			ORDER BY rank
+			  AND s.filename = f.filename
+			ORDER BY f.rank
 			LIMIT  ${limit}
 			OFFSET ${offset}
 		`),

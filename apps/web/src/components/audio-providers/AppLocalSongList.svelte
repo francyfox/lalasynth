@@ -23,7 +23,7 @@
 	let searchInput = $state("");
 	let page = $state(1);
 
-	const debouncedSearch = new Debounced(() => searchInput, 400);
+	const debouncedSearch = new Debounced(() => searchInput, 500);
 
 	const store = createLocalSongStore(() => ({ search: debouncedSearch.current, page }));
 

@@ -1,4 +1,7 @@
-import { findAllSongs, searchByFts } from "@/modules/song/local-song.repository";
+import {
+	findAllSongs,
+	searchByFts,
+} from "@/modules/song/local-song.repository";
 
 export type SearchLocalSongsOptions = {
 	title?: string;

@@ -4,6 +4,7 @@ import { env } from "@/env";
 export default defineConfig({
 	schema: "./src/db/schema.ts",
 	out: "./migrations",
+	casing: "camelCase",
 	dialect: env.NODE_ENV === "production" ? "turso" : "sqlite",
 	dbCredentials: {
 		url:
