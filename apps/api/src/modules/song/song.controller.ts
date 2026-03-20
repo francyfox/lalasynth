@@ -1,9 +1,9 @@
 import { file as bunFile } from "bun";
 import { Elysia, t } from "elysia";
-import { STREAM_MIME, downloadToFile } from "@/modules/song/adapters/ytdlp.adapter";
-import { SONG_PATH, indexSong } from "@/modules/song/adapters/local-audio.adapter";
-import { findSongByFilename } from "@/modules/song/local-song.repository";
-import { searchLocalSongs } from "@/modules/song/local-song.service";
+import { SONG_PATH } from "@/modules/song/adapters/local-audio.adapter";
+import { STREAM_MIME } from "@/modules/song/adapters/ytdlp.adapter";
+import { LocalSongBodySchema } from "@/modules/song/local-song.schema";
+import { LocalSongService } from "@/modules/song/local-song.service";
 import {
 	AUDIO_PROVIDERS,
 	LYRIC_PROVIDERS,
@@ -16,9 +16,9 @@ import type {
 	LyricProvider,
 	Song,
 } from "@/modules/song/song.types";
-import { applyLrcOffset, sanitizeFilename } from "@/utils/file";
 
 const provider = songProvider();
+const service = LocalSongService();
 
 function parseRangeHeader(range: string, total: number): [number, number] {
 	const match = range.match(/bytes=(\d*)-(\d*)/);
@@ -34,28 +34,34 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 	.get(
 		"/song/local",
 		async ({ query }) => {
-			return searchLocalSongs({
+			return service.searchLocalSongs({
 				title: query.title,
 				limit: Math.min(query.limit, 100),
 				offset: query.offset,
 			});
 		},
 		{
-			detail: { description: "List local songs with optional title filter and pagination", tags: ["Song"] },
+			detail: {
+				description:
+					"List local songs with optional title filter and pagination",
+				tags: ["Song"],
+			},
 			query: t.Object({
 				title: t.Optional(t.String()),
 				limit: t.Number({ default: 20, minimum: 1, maximum: 100 }),
 				offset: t.Number({ default: 0, minimum: 0 }),
 			}),
 			response: t.Object({
-				items: t.Array(t.Object({
-					filename: t.String(),
-					title: t.String(),
-					artist: t.Nullable(t.String()),
-					albumArt: t.Nullable(t.String()),
-					duration: t.Nullable(t.Number()),
-					lrcFilename: t.Nullable(t.String()),
-				})),
+				items: t.Array(
+					t.Object({
+						filename: t.String(),
+						title: t.String(),
+						artist: t.Nullable(t.String()),
+						albumArt: t.Nullable(t.String()),
+						duration: t.Nullable(t.Number()),
+						lrcFilename: t.Nullable(t.String()),
+					}),
+				),
 				total: t.Number(),
 				limit: t.Number(),
 				offset: t.Number(),
@@ -66,21 +72,34 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 		"/song/:id",
 		async ({ params: { id }, query }) => {
 			const { getAudioProvider, getLyricProvider } = await provider;
-			const audioId = (query.audioProvider ?? AUDIO_PROVIDERS.ytdlp) as AudioProvider;
-			const lyricId = (query.lyricProvider ?? LYRIC_PROVIDERS.lrclib) as LyricProvider;
+			const audioId = (query.audioProvider ??
+				AUDIO_PROVIDERS.ytdlp) as AudioProvider;
+			const lyricId = (query.lyricProvider ??
+				LYRIC_PROVIDERS.lrclib) as LyricProvider;
 
 			const song = (await getAudioProvider(audioId).getSong(id)) as Song;
-			if (!song.title) throw new Error("Can't find lyrics without a song title");
+			if (!song.title)
+				throw new Error("Can't find lyrics without a song title");
 
-			const lyrics = (await getLyricProvider(lyricId).getLyrics(song.title, song.duration ?? 0)) as Lyric[];
+			const lyrics = (await getLyricProvider(lyricId).getLyrics(
+				song.title,
+				song.duration ?? 0,
+			)) as Lyric[];
 
 			return {
-				song: { ...song, audioUrl: `/song/stream/${song.videoId}`, mimeType: STREAM_MIME },
+				song: {
+					...song,
+					audioUrl: `/song/stream/${song.videoId}`,
+					mimeType: STREAM_MIME,
+				},
 				lyrics,
 			};
 		},
 		{
-			detail: { description: "Get audio metadata and lyrics by YouTube id/url", tags: ["Song"] },
+			detail: {
+				description: "Get audio metadata and lyrics by YouTube id/url",
+				tags: ["Song"],
+			},
 			params: t.Object({ id: t.String() }),
 			query: t.Object({
 				audioProvider: t.Optional(t.String()),
@@ -124,12 +143,17 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 
 			// YouTube: proxy stream (no range support)
 			const { getAudioProvider } = await provider;
-			const audioId = (query.audioProvider ?? AUDIO_PROVIDERS.ytdlp) as AudioProvider;
-			const { stream, mimeType } = await getAudioProvider(audioId).streamAudio(id);
+			const audioId = (query.audioProvider ??
+				AUDIO_PROVIDERS.ytdlp) as AudioProvider;
+			const { stream, mimeType } =
+				await getAudioProvider(audioId).streamAudio(id);
 			return new Response(stream, { headers: { "Content-Type": mimeType } });
 		},
 		{
-			detail: { description: "Proxy audio stream from the selected provider", tags: ["Song"] },
+			detail: {
+				description: "Proxy audio stream from the selected provider",
+				tags: ["Song"],
+			},
 			params: t.Object({ id: t.String() }),
 			query: t.Object({ audioProvider: t.Optional(t.String()) }),
 		},
@@ -138,12 +162,19 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 		"/song/lyric/:id",
 		async ({ params: { id }, query }) => {
 			const { getLyricProvider } = await provider;
-			const lyricId = (query.lyricProvider ?? LYRIC_PROVIDERS.localLyric) as LyricProvider;
-			const lyrics = (await getLyricProvider(lyricId).getLyrics(id, 0)) as Lyric[];
+			const lyricId = (query.lyricProvider ??
+				LYRIC_PROVIDERS.localLyric) as LyricProvider;
+			const lyrics = (await getLyricProvider(lyricId).getLyrics(
+				id,
+				0,
+			)) as Lyric[];
 			return lyrics;
 		},
 		{
-			detail: { description: "Get lyrics for a local song by filename", tags: ["Song"] },
+			detail: {
+				description: "Get lyrics for a local song by filename",
+				tags: ["Song"],
+			},
 			params: t.Object({ id: t.String() }),
 			query: t.Object({ lyricProvider: t.Optional(t.String()) }),
 			response: t.Array(LyricSchema),
@@ -154,36 +185,23 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 		async ({ body }) => {
 			const { videoId, title, artist, syncedLyrics, offsetMs } = body;
 
-			const baseName = sanitizeFilename(artist ? `${artist} - ${title}` : title);
-			const audioFilename = `${baseName}.webm`;
-			const lrcFilename = `${baseName}.lrc`;
-			const audioPath = `${SONG_PATH}/${audioFilename}`;
-			const lrcPath = `${SONG_PATH}/${lrcFilename}`;
+			const output = await service.saveLocalSong({
+				videoId,
+				title,
+				artist,
+				syncedLyrics,
+				offsetMs,
+			});
 
-			// Download audio if not already cached locally
-			const existing = await findSongByFilename(audioFilename);
-			if (!existing) {
-				await downloadToFile(videoId, audioPath);
-			}
-
-			// Write LRC with applied offset
-			const adjustedLrc = applyLrcOffset(syncedLyrics, offsetMs);
-			await Bun.write(lrcPath, adjustedLrc);
-
-			// Index (or re-index) into local_song table
-			await indexSong(audioFilename, lrcFilename);
-
-			return { filename: audioFilename, lrcFilename };
+			return output;
 		},
 		{
-			detail: { description: "Download a YouTube song to local collection with synced lyrics", tags: ["Song"] },
-			body: t.Object({
-				videoId: t.String(),
-				title: t.String(),
-				artist: t.Optional(t.String()),
-				syncedLyrics: t.String(),
-				offsetMs: t.Number({ default: 0 }),
-			}),
+			detail: {
+				description:
+					"Download a YouTube song to local collection with synced lyrics",
+				tags: ["Song"],
+			},
+			body: LocalSongBodySchema,
 			response: t.Object({
 				filename: t.String(),
 				lrcFilename: t.String(),

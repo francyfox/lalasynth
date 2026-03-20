@@ -64,7 +64,7 @@
 				</select>
 			</SettingRow>
 
-			<SettingRow label="Sound" description="Enable or disable game audio">
+			<SettingRow label="Sound" description="Enable or disable game audio (M)">
 				<input
 					type="checkbox"
 					class="toggle toggle-primary"
@@ -72,7 +72,7 @@
 				/>
 			</SettingRow>
 
-			<SettingRow label="Volume" description="Master volume level">
+			<SettingRow label="Volume" description="Master volume level ([ or ])">
 				<div class="flex items-center gap-2">
 					<input
 						type="range"
