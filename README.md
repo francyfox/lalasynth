@@ -6,6 +6,7 @@
 ![Svelte](https://img.shields.io/badge/Svelte-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
 
 <img height="200" src="apps/web/src/assets/lalasynth.webp" title="lala" width="200"/>
+<img height="200" src="apps/web/public/og.png" title="lala" alt="wrapper" />
 
 My dear `$user`, since you've lost your voice, I shall be your instrument. Lalasynth is a Svelte and 
 Elysia-powered rhythmic game where you pick a YouTube.Music track and outpace others in a typing 
