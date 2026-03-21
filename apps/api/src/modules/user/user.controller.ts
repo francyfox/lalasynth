@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { BADGE_TYPES, BadgeService } from "@/modules/user/badge.service";
+import { BADGE_TYPES, BadgeService } from "@/modules/badge/badge.service";
 import { UserService } from "@/modules/user/user.service";
 
 export const UserController = new Elysia({ name: "User.Controller" })
