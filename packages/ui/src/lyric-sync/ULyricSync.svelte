@@ -171,7 +171,7 @@
 				<span class="text-error text-xs">{audioError}</span>
 			{/if}
 			<button
-				class="btn btn-sm {playing ? 'btn-warning' : 'btn-primary'}"
+				class="w-25 btn btn-sm {playing ? 'btn-warning' : 'btn-primary'}"
 				onclick={togglePlay}
 				disabled={!audioReady}
 			>
@@ -188,7 +188,7 @@
 			</button>
 
 			<button
-				class="btn btn-sm btn-accent"
+				class="w-35 btn btn-sm btn-accent"
 				onclick={markNow}
 				title="Set lyric start to current playback position"
 			>
