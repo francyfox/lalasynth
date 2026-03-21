@@ -1,4 +1,5 @@
 // @ts-nocheck
+import UAudioTimeline from "./audio-timeline/UAudioTimeline.svelte";
 import UBadge from "./badge/UBadge.svelte";
 import UMMButton from "./mm-button/UMMButton.svelte";
 import UCounter from "./counter/UCounter.svelte";
@@ -21,6 +22,7 @@ import UTextScroller from "./text-scroller/UTextScroller.svelte";
 import UUserLeadership from "./user-leadership/UUserLeadership.svelte";
 
 export {
+	UAudioTimeline,
 	Input,
 	USceneDialogue,
 	UNavbar,

@@ -5,12 +5,18 @@
 
 	interface Props {
 		className?: string;
+		onSongSelected?: () => void;
 	}
 
-	const { className }: Props = $props();
+	const { className, onSongSelected }: Props = $props();
 
 	let localOpen = $state(false);
 	let lazyAppLocalSongList = import("./AppLocalSongList.svelte")
+
+	function handleSongSelected() {
+		localOpen = false;
+		onSongSelected?.();
+	}
 </script>
 
 <div class={cn(className, "audio-providers flex flex-wrap gap-3")}>
@@ -28,7 +34,7 @@
 <UModal bind:open={localOpen} title="Local Collection" className="min-h-full">
 	{#if localOpen}
 		{#await lazyAppLocalSongList then { default: LazyComponent}}
-			<LazyComponent />
+			<LazyComponent onSongSelected={handleSongSelected} />
 		{/await}
 	{/if}
 </UModal>

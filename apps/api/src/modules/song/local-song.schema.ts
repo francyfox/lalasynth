@@ -15,6 +15,7 @@ export const LocalSongSchema = sqliteTable("local_song", {
 	duration: integer("duration"),
 	bitrate: integer("bitrate"),
 	mimeType: text("mime_type").notNull(),
+	waveformBars: text("waveform_bars"),
 
 	indexedAt: integer("indexed_at", { mode: "timestamp_ms" })
 		.notNull()

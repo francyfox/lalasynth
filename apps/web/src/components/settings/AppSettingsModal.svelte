@@ -64,7 +64,7 @@
 				</select>
 			</SettingRow>
 
-			<SettingRow label="Sound" description="Enable or disable game audio (M)">
+			<SettingRow label="Sound" description="Enable or disable game audio (⌘+M)">
 				<input
 					type="checkbox"
 					class="toggle toggle-primary"

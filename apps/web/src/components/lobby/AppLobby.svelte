@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AppAudioProviders from '@/components/audio-providers/AppAudioProviders.svelte'
+		import AppAudioProviders from '@/components/audio-providers/AppAudioProviders.svelte'
 	import AppLobbyState from '@/components/lobby-state/AppLobbyState.svelte'
 	import UCounter from "@package/ui/counter/UCounter.svelte";
 	import { USearchSong } from "@package/ui/index";
@@ -9,6 +9,8 @@
 	import { audioManager } from "@/lib/stores/audio-manager.svelte";
 	import { client } from "@/lib/api";
 	import { toast } from "svelte-sonner";
+	import { goto } from "@roxi/routify";
+	import { PlayCircle } from "lucide-svelte";
 
 	interface Props {
 		countdown?: number;
@@ -26,6 +28,9 @@
 	}: Props = $props();
 
 	const gameMode = $state<'single' | 'multiplayer'>('single');
+	let openSettings = $state(false);
+
+	const _init = $goto;
 
 	type LobbyUser = { no: number; name: string; bestWpm: number; totalWins: number };
 
@@ -81,7 +86,7 @@
 
 	<AppLobbyState />
 
-	<AppAudioProviders />
+	<AppAudioProviders onSongSelected={() => openSettings = true} />
 
 	<USearchSong
 		audioEl={audioManager.audioEl}
@@ -90,7 +95,19 @@
 		onSongUrl={audioManager.loadSong}
 		onSaveSong={handleSaveSong}
 		preloadStatus={audioManager.songStatus}
+		apiBaseUrl={import.meta.env.VITE_API_URL ?? "http://localhost:3000"}
+		{openSettings}
 	/>
+
+	{#if audioManager.songStatus === "ready"}
+		<button
+			class="btn btn-primary btn-lg w-full"
+			onclick={() => $goto("/game")}
+		>
+			<PlayCircle class="size-6" />
+			Play Game
+		</button>
+	{/if}
 
 	{#if lobbyState === "selected"}
 		<p class="text-4xl text-center text-primary font-bold">

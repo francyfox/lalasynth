@@ -105,6 +105,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/song/waveform/{filename}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get precomputed waveform bars for a local song */
+        get: operations["getSongWaveformByFilename"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/song/save": {
         parameters: {
             query?: never;
@@ -686,6 +703,35 @@ export interface operations {
                         plainLyrics: (string | null) | null;
                         syncedLyrics: (string | null) | null;
                     }[];
+                };
+            };
+        };
+    };
+    getSongWaveformByFilename: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                filename: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        bars: number[];
+                    };
+                    "multipart/form-data": {
+                        bars: number[];
+                    };
+                    "text/plain": {
+                        bars: number[];
+                    };
                 };
             };
         };

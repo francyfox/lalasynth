@@ -118,7 +118,7 @@ export const YtdlpProvider = (): AudioBaseProvider => {
 		const result: CachedAudio = {
 			videoId,
 			title: info.basic_info.title,
-			author: info.basic_info.author,
+			author: info.basic_info.author?.replace(/\s*-\s*Topic$/i, "").trim(),
 			duration: info.basic_info.duration,
 			audioUrl,
 			mimeType: format.mime_type,

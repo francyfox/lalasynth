@@ -2,7 +2,7 @@ import { access, mkdir } from "node:fs/promises";
 import { file, Glob, spawn } from "bun";
 import {
 	createFtsTable,
-	findExistingArt,
+	findExistingMeta,
 	rebuildFts,
 	upsertSong,
 } from "@/modules/song/local-song.repository";
@@ -47,6 +47,37 @@ async function ffprobe(fullPath: string) {
  * Extract the first frame of the VP9 thumbnail track embedded by YouTube Music.
  * yt-dlp's bestaudio[ext=webm] always includes a 500x500 album art video track.
  */
+async function computeWaveformBars(fullPath: string, numBars = 800): Promise<string | null> {
+	try {
+		const proc = spawn(
+			["ffmpeg", "-i", fullPath, "-f", "f32le", "-ac", "1", "-ar", "22050", "pipe:1"],
+			{ stdout: "pipe", stderr: "ignore" },
+		);
+		const buf = await new Response(proc.stdout).arrayBuffer();
+		const floats = new Float32Array(buf);
+		if (floats.length === 0) return null;
+
+		const samplesPerBar = Math.floor(floats.length / numBars);
+		const bars = new Float32Array(numBars);
+		for (let b = 0; b < numBars; b++) {
+			const start = b * samplesPerBar;
+			let sumSq = 0;
+			for (let i = start; i < start + samplesPerBar; i++) {
+				sumSq += floats[i] * floats[i];
+			}
+			bars[b] = Math.sqrt(sumSq / samplesPerBar);
+		}
+
+		let max = 0;
+		for (let b = 0; b < numBars; b++) if (bars[b] > max) max = bars[b];
+		if (max > 0) for (let b = 0; b < numBars; b++) bars[b] /= max;
+
+		return JSON.stringify(Array.from(bars).map((v) => Math.round(v * 1000) / 1000));
+	} catch {
+		return null;
+	}
+}
+
 async function extractAlbumArt(fullPath: string): Promise<string | null> {
 	try {
 		const proc = spawn(
@@ -66,21 +97,25 @@ async function readMetadata(filename: string) {
 	const baseName = filename.replace(/\.[^.]+$/, "");
 	const { title, artist } = parseFilename(baseName);
 
-	const [probe, albumArt] = await Promise.all([ffprobe(fullPath), extractAlbumArt(fullPath)]);
+	const [probe, albumArt, waveformBars] = await Promise.all([
+		ffprobe(fullPath),
+		extractAlbumArt(fullPath),
+		computeWaveformBars(fullPath),
+	]);
 
 	const lrcFilename = (await file(`${SONG_PATH}/${baseName}.${LRC_EXT}`).exists())
 		? `${baseName}.${LRC_EXT}`
 		: null;
 
-	return { filename, lrcFilename, title, artist, albumArt, ...probe, mimeType: LOCAL_MIME };
+	return { filename, lrcFilename, title, artist, albumArt, waveformBars, ...probe, mimeType: LOCAL_MIME };
 }
 
 async function indexSongs(): Promise<void> {
 	const glob = new Glob(`*.${AUDIO_EXT}`);
 
 	for await (const filename of glob.scan(SONG_PATH)) {
-		const existing = await findExistingArt(filename);
-		if (existing?.albumArt) continue;
+		const existing = await findExistingMeta(filename);
+		if (existing?.albumArt && existing?.waveformBars) continue;
 
 		try {
 			const meta = await readMetadata(filename);
@@ -92,21 +127,28 @@ async function indexSongs(): Promise<void> {
 	}
 }
 
-export async function indexSong(filename: string, lrcFilenameOverride?: string): Promise<void> {
+export async function indexSong(
+	filename: string,
+	lrcFilenameOverride?: string,
+	albumArtOverride?: string,
+): Promise<void> {
 	const fullPath = `${SONG_PATH}/${filename}`;
 	const baseName = filename.replace(/\.[^.]+$/, "");
 	const { title, artist } = parseFilename(baseName);
 
-	const [probe, albumArt] = await Promise.all([
+	const [probe, extractedArt, waveformBars] = await Promise.all([
 		ffprobe(fullPath),
-		extractAlbumArt(fullPath),
+		albumArtOverride ? Promise.resolve(null) : extractAlbumArt(fullPath),
+		computeWaveformBars(fullPath),
 	]);
+
+	const albumArt = albumArtOverride ?? extractedArt;
 
 	const lrcFilename =
 		lrcFilenameOverride ??
 		((await file(`${SONG_PATH}/${baseName}.lrc`).exists()) ? `${baseName}.lrc` : null);
 
-	await upsertSong({ filename, lrcFilename, title, artist, albumArt, ...probe, mimeType: LOCAL_MIME });
+	await upsertSong({ filename, lrcFilename, title, artist, albumArt, waveformBars, ...probe, mimeType: LOCAL_MIME });
 	await rebuildFts();
 }
 

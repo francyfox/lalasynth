@@ -9,6 +9,7 @@ import {
 	LYRIC_PROVIDERS,
 	songProvider,
 } from "@/modules/song/song.provider";
+import { findWaveformByFilename } from "@/modules/song/local-song.repository";
 import { LyricSchema, SongSchema } from "@/modules/song/song.schema";
 import type {
 	AudioProvider,
@@ -178,6 +179,23 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 			params: t.Object({ id: t.String() }),
 			query: t.Object({ lyricProvider: t.Optional(t.String()) }),
 			response: t.Array(LyricSchema),
+		},
+	)
+	.get(
+		"/song/waveform/:filename",
+		async ({ params: { filename }, set }) => {
+			const row = await findWaveformByFilename(filename);
+			if (!row?.waveformBars) {
+				set.status = 404;
+				return { bars: [] };
+			}
+			set.headers["cache-control"] = "public, max-age=86400";
+			return { bars: JSON.parse(row.waveformBars) as number[] };
+		},
+		{
+			detail: { description: "Get precomputed waveform bars for a local song", tags: ["Song"] },
+			params: t.Object({ filename: t.String() }),
+			response: t.Object({ bars: t.Array(t.Number()) }),
 		},
 	)
 	.post(

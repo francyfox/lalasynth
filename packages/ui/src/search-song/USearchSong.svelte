@@ -17,6 +17,8 @@
 		onSaveSong?: () => Promise<void>;
 		preloadStatus?: "idle" | "loading" | "ready" | "error";
 		audioEl: HTMLAudioElement; // always provided by the store
+		apiBaseUrl?: string;
+		openSettings?: boolean;
 	}
 
 	const {
@@ -26,8 +28,21 @@
 		preloadStatus = "idle",
 		song,
 		lyrics,
-		audioEl
+		audioEl,
+		apiBaseUrl = "",
+		openSettings = false,
 	}: Props = $props();
+
+	$effect(() => {
+		if (openSettings) showLyrics = true;
+	});
+
+	const isLocalFile = (id: string) => /\.[a-z0-9]+$/i.test(id);
+	const waveformUrl = $derived(
+		song?.videoId && isLocalFile(song.videoId)
+			? `${apiBaseUrl}/song/waveform/${encodeURIComponent(song.videoId)}`
+			: undefined,
+	);
 
 	let url = $state("");
 	let showLyrics = $state(false);
@@ -52,6 +67,8 @@
 
 	function handleSelect(lyric: Lyric) {
 		selectedLyric = lyric;
+		const parsed = parseSyncedLyrics(lyric.syncedLyrics || "", lyric.duration || 0);
+		offset = parsed[0]?.start ?? 0;
 	}
 
 	function handleConfirm() {
@@ -118,6 +135,8 @@
 				{audioEl}
 				duration={song?.duration ?? 0}
 				lyrics={lines}
+				{offset}
+				{waveformUrl}
 				onOffsetChange={(v) => offset = v}
 		/>
 

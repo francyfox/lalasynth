@@ -27,8 +27,19 @@ export async function upsertSong(song: typeof LocalSongSchema.$inferInsert): Pro
 			duration: song.duration,
 			bitrate: song.bitrate,
 			lrcFilename: song.lrcFilename,
+			waveformBars: song.waveformBars,
 		},
 	});
+}
+
+export async function findWaveformByFilename(
+	filename: string,
+): Promise<{ waveformBars: string | null } | undefined> {
+	return db
+		.select({ waveformBars: LocalSongSchema.waveformBars })
+		.from(LocalSongSchema)
+		.where(eq(LocalSongSchema.filename, filename))
+		.get();
 }
 
 export async function findSongByFilename(filename: string): Promise<LocalSong | undefined> {
@@ -39,11 +50,11 @@ export async function findSongByTitle(title: string): Promise<LocalSong | undefi
 	return db.select().from(LocalSongSchema).where(eq(LocalSongSchema.title, title)).get();
 }
 
-export async function findExistingArt(
+export async function findExistingMeta(
 	filename: string,
-): Promise<{ albumArt: string | null } | undefined> {
+): Promise<{ albumArt: string | null; waveformBars: string | null } | undefined> {
 	return db
-		.select({ albumArt: LocalSongSchema.albumArt })
+		.select({ albumArt: LocalSongSchema.albumArt, waveformBars: LocalSongSchema.waveformBars })
 		.from(LocalSongSchema)
 		.where(eq(LocalSongSchema.filename, filename))
 		.get();

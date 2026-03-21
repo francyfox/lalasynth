@@ -28,6 +28,18 @@ export const LocalSongService = () => {
 		return { items: rows, total, limit, offset };
 	}
 
+	async function fetchYoutubeThumbnail(videoId: string): Promise<string | null> {
+		try {
+			const url = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+			const res = await fetch(url);
+			if (!res.ok) return null;
+			const buf = await res.arrayBuffer();
+			return `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`;
+		} catch {
+			return null;
+		}
+	}
+
 	async function saveLocalSong({
 		videoId,
 		title,
@@ -41,18 +53,19 @@ export const LocalSongService = () => {
 		const audioPath = `${SONG_PATH}/${audioFilename}`;
 		const lrcPath = `${SONG_PATH}/${lrcFilename}`;
 
-		// Download audio if not already cached locally
+		// Download audio and thumbnail in parallel
 		const existing = await findSongByFilename(audioFilename);
-		if (!existing) {
-			await downloadToFile(videoId, audioPath);
-		}
+		const [, thumbnailB64] = await Promise.all([
+			existing ? Promise.resolve() : downloadToFile(videoId, audioPath),
+			fetchYoutubeThumbnail(videoId),
+		]);
 
 		// Write LRC with applied offset
 		const adjustedLrc = applyLrcOffset(syncedLyrics, offsetMs);
 		await Bun.write(lrcPath, adjustedLrc);
 
 		// Index (or re-index) into local_song table
-		await indexSong(audioFilename, lrcFilename);
+		await indexSong(audioFilename, lrcFilename, thumbnailB64 ?? undefined);
 
 		return { filename: audioFilename, lrcFilename };
 	}

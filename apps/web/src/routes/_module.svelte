@@ -16,7 +16,7 @@
     settingsStore.showStats = !settingsStore.showStats;
   }, { toast: () => settingsStore.showStats ? "Stats visible" : "Stats hidden" });
 
-  useKeyboardShortcut(["M"], () => {
+  useKeyboardShortcut(["⌘", "M"], () => {
     settingsStore.sound = !settingsStore.sound;
   }, { toast: () => settingsStore.sound ? "Sound ON" : "Sound OFF" });
 
