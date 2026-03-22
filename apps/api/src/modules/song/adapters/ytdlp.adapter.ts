@@ -46,6 +46,9 @@ async function detectBrowser(): Promise<string | null> {
 // webm/opus — universally supported by MSE in all modern browsers
 export const STREAM_MIME = 'audio/webm; codecs="opus"';
 
+// Prefer webm audio-only, fallback to any https-streamable format (no HLS/m3u8 — can't pipe to stdout)
+const FORMAT_SELECTOR = "bestaudio[ext=webm]/bestaudio[protocol=https]/best[ext=mp4][protocol=https]/bestaudio/best";
+
 export const dlpArgs = (browser: string, videoId: string) => [
 	"yt-dlp",
 	"--cookies-from-browser",
@@ -55,7 +58,7 @@ export const dlpArgs = (browser: string, videoId: string) => [
 	"--remote-components",
 	"ejs:github",
 	"-f",
-	"bestaudio[ext=webm]/bestaudio",
+	FORMAT_SELECTOR,
 	"--no-playlist",
 	"-o",
 	"-",
@@ -187,7 +190,7 @@ export const YtdlpProvider = (): AudioBaseProvider => {
 	};
 };
 
-const dlpDownloadArgs = (browser: string, videoId: string, dest: string) => [
+const dlpDownloadArgs = (browser: string, videoId: string) => [
 	"yt-dlp",
 	"--cookies-from-browser",
 	browser,
@@ -196,20 +199,40 @@ const dlpDownloadArgs = (browser: string, videoId: string, dest: string) => [
 	"--remote-components",
 	"ejs:github",
 	"-f",
-	"bestaudio[ext=webm]/bestaudio",
+	FORMAT_SELECTOR,
 	"--no-playlist",
 	"-o",
-	dest,
+	"-",
 	`https://www.youtube.com/watch?v=${videoId}`,
 ];
 
-export async function downloadToFile(videoId: string, destPath: string): Promise<void> {
+export async function downloadToFile(videoId: string, destPath: string, bitrateKbps = 128): Promise<void> {
 	const browser = await detectBrowser();
 	if (!browser) throw new Error("No browser found for cookie extraction");
-	const proc = spawn(dlpDownloadArgs(browser, videoId, destPath), {
-		stdout: "ignore",
+
+	const dlp = spawn(dlpDownloadArgs(browser, videoId), {
+		stdout: "pipe",
 		stderr: "ignore",
 	});
-	const exitCode = await proc.exited;
-	if (exitCode !== 0) throw new Error(`yt-dlp download failed: exit ${exitCode}`);
+
+	const ffmpeg = spawn(
+		[
+			"ffmpeg", "-y", "-i", "pipe:0",
+			"-vn",
+			"-c:a", "libopus",
+			"-b:a", `${bitrateKbps}k`,
+			"-f", "webm",
+			destPath,
+		],
+		{ stdin: "pipe", stdout: "ignore", stderr: "ignore" },
+	);
+
+	for await (const chunk of dlp.stdout) {
+		ffmpeg.stdin.write(chunk);
+	}
+	ffmpeg.stdin.end();
+
+	const [dlpExit, ffmpegExit] = await Promise.all([dlp.exited, ffmpeg.exited]);
+	if (dlpExit !== 0) throw new Error(`yt-dlp download failed: exit ${dlpExit}`);
+	if (ffmpegExit !== 0) throw new Error(`ffmpeg transcode failed: exit ${ffmpegExit}`);
 }

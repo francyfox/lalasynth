@@ -10,6 +10,7 @@ import {
 } from "@/modules/song/local-song.repository";
 import { LocalSongBody } from "@/modules/song/local-song.schema";
 import { applyLrcOffset, sanitizeFilename } from "@/utils/file";
+import { env } from "@/env";
 
 export type SearchLocalSongsOptions = {
 	title?: string;
@@ -34,7 +35,17 @@ export const LocalSongService = () => {
 			const res = await fetch(url);
 			if (!res.ok) return null;
 			const buf = await res.arrayBuffer();
-			return `data:image/jpeg;base64,${Buffer.from(buf).toString("base64")}`;
+
+			const proc = Bun.spawn(
+				["ffmpeg", "-i", "pipe:0", "-vf", "scale=64:64:force_original_aspect_ratio=increase:flags=lanczos,crop=64:64", "-f", "webp", "pipe:1"],
+				{ stdin: "pipe", stdout: "pipe", stderr: "ignore" },
+			);
+			proc.stdin.write(new Uint8Array(buf));
+			proc.stdin.end();
+
+			const webp = await new Response(proc.stdout).arrayBuffer();
+			if (webp.byteLength === 0) return null;
+			return `data:image/webp;base64,${Buffer.from(webp).toString("base64")}`;
 		} catch {
 			return null;
 		}
@@ -56,7 +67,7 @@ export const LocalSongService = () => {
 		// Download audio and thumbnail in parallel
 		const existing = await findSongByFilename(audioFilename);
 		const [, thumbnailB64] = await Promise.all([
-			existing ? Promise.resolve() : downloadToFile(videoId, audioPath),
+			existing ? Promise.resolve() : downloadToFile(videoId, audioPath, env.LOCAL_SONGS_AUDIO_BITRATE_KBPS),
 			fetchYoutubeThumbnail(videoId),
 		]);
 

@@ -71,6 +71,7 @@ function createAudioManager() {
 	return {
 		// — Song state (reactive) —
 		get audioEl() { return song.audioEl; },
+		get analyserNode() { return song.analyserNode; },
 		get songData() { return song.song; },
 		get lyrics() { return song.lyrics; },
 		get songStatus() { return song.status; },

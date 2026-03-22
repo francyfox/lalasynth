@@ -81,12 +81,17 @@ async function computeWaveformBars(fullPath: string, numBars = 800): Promise<str
 async function extractAlbumArt(fullPath: string): Promise<string | null> {
 	try {
 		const proc = spawn(
-			["ffmpeg", "-i", fullPath, "-vframes", "1", "-f", "image2pipe", "-vcodec", "png", "pipe:1"],
+			[
+				"ffmpeg", "-i", fullPath,
+				"-vframes", "1",
+				"-vf", "scale=64:64:force_original_aspect_ratio=increase:flags=lanczos,crop=64:64",
+				"-f", "webp", "pipe:1",
+			],
 			{ stdout: "pipe", stderr: "ignore" },
 		);
 		const buf = await new Response(proc.stdout).arrayBuffer();
 		if (buf.byteLength === 0) return null;
-		return `data:image/png;base64,${Buffer.from(buf).toString("base64")}`;
+		return `data:image/webp;base64,${Buffer.from(buf).toString("base64")}`;
 	} catch {
 		return null;
 	}
@@ -136,13 +141,12 @@ export async function indexSong(
 	const baseName = filename.replace(/\.[^.]+$/, "");
 	const { title, artist } = parseFilename(baseName);
 
-	const [probe, extractedArt, waveformBars] = await Promise.all([
+	const [probe, waveformBars] = await Promise.all([
 		ffprobe(fullPath),
-		albumArtOverride ? Promise.resolve(null) : extractAlbumArt(fullPath),
 		computeWaveformBars(fullPath),
 	]);
 
-	const albumArt = albumArtOverride ?? extractedArt;
+	const albumArt = albumArtOverride ?? null;
 
 	const lrcFilename =
 		lrcFilenameOverride ??

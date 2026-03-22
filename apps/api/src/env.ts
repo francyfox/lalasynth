@@ -6,6 +6,7 @@ export const env = createEnv({
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
 			.default("development"),
+		LOCAL_SONGS_AUDIO_BITRATE_KBPS: z.coerce.number().int().min(48).max(320).default(128),
 		CLIENT_URL: z.url(),
 		TURSO_CONNECTION_URL: z.url(),
 		TURSO_AUTH_TOKEN: z.string(),

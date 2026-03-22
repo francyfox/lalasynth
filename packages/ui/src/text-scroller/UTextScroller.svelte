@@ -111,7 +111,7 @@ $effect(() => {
     </div>
 
     <div class="overflow-hidden flex justify-center">
-        <div class="h-[100px]">
+        <div class="w-full max-w-[50vw] h-[100px]">
             {#each lyrics as line, i (i)}
                 {#if i === currentLineIdx || i === currentLineIdx + 1}
                     <p

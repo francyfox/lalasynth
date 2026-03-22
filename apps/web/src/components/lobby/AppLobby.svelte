@@ -90,6 +90,7 @@
 
 	<USearchSong
 		audioEl={audioManager.audioEl}
+		analyserNode={audioManager.analyserNode ?? undefined}
 		song={audioManager.songData}
 		lyrics={audioManager.lyrics}
 		onSongUrl={audioManager.loadSong}

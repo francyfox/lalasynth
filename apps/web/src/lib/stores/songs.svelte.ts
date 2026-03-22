@@ -13,36 +13,28 @@ export function createSongStore() {
 	let song = $state<Song | null>(null);
 	let lyrics = $state<Lyric[]>([]);
 	let status = $state<PlayerState>("idle");
-	let isPlaying = $state(false);
 
-	// Audio chain — built once on first play, reused across songs
-	let gainNode: GainNode | null = null;
-	let chainBuilt = false;
+	// Audio chain — built immediately so Tone.js owns audioEl before anything else
+	const ctx = Tone.getContext().rawContext as AudioContext;
+	const source = ctx.createMediaElementSource(audioEl);
+
+	const analyserNodeInternal = ctx.createAnalyser();
+	analyserNodeInternal.fftSize = 512;
+	analyserNodeInternal.smoothingTimeConstant = 0.6;
+
+	const gainNode = ctx.createGain();
+	gainNode.gain.value = 0;
+
+	source.connect(analyserNodeInternal);
+	analyserNodeInternal.connect(gainNode);
+	gainNode.connect(ctx.destination);
 
 	function teardown() {
 		audioEl.pause();
 		audioEl.src = "";
 		audioEl.load();
-
-		if (gainNode) {
-			const ctx = Tone.getContext().rawContext as AudioContext;
-			gainNode.gain.cancelScheduledValues(ctx.currentTime);
-			gainNode.gain.value = 0;
-		}
-	}
-
-	function buildChain() {
-		if (chainBuilt) return;
-		chainBuilt = true;
-
-		const ctx = Tone.getContext().rawContext as AudioContext;
-		const source = ctx.createMediaElementSource(audioEl);
-
-		gainNode = ctx.createGain();
+		gainNode.gain.cancelScheduledValues(ctx.currentTime);
 		gainNode.gain.value = 0;
-
-		source.connect(gainNode);
-		gainNode.connect(ctx.destination);
 	}
 
 	async function load(
@@ -50,7 +42,7 @@ export function createSongStore() {
 		providers?: { audioProvider?: string; lyricProvider?: string },
 	) {
 		teardown();
-		isPlaying = false;
+
 		status = "loading";
 		song = null;
 		lyrics = [];
@@ -75,24 +67,20 @@ export function createSongStore() {
 
 		audioEl.src = `/song/stream/${data.song.videoId}`;
 		audioEl.load();
+		gainNode.gain.value = settingsStore.volume / 100;
 	}
 
 	async function play() {
 		await Tone.start();
-		buildChain();
-		const ctx = Tone.getContext().rawContext as AudioContext;
+		if (ctx.state === "suspended") await ctx.resume();
 		await audioEl.play();
-		isPlaying = true;
-		if (!gainNode) return;
 		gainNode.gain.cancelScheduledValues(ctx.currentTime);
 		gainNode.gain.linearRampToValueAtTime(settingsStore.volume / 100, ctx.currentTime + FADE_SEC);
 	}
 
 	/** Graceful fade-out pause — for in-game pause button. */
 	function pause() {
-		isPlaying = false;
-		if (!gainNode) return;
-		const ctx = Tone.getContext().rawContext as AudioContext;
+
 		gainNode.gain.cancelScheduledValues(ctx.currentTime);
 		gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + FADE_SEC);
 		setTimeout(() => audioEl.pause(), FADE_SEC * 1000);
@@ -100,7 +88,7 @@ export function createSongStore() {
 
 	/** Immediate stop — use when navigating away or switching audio channel. */
 	function stop() {
-		isPlaying = false;
+
 		teardown();
 		song = null;
 		lyrics = [];
@@ -119,12 +107,10 @@ export function createSongStore() {
 		return audioEl.duration ?? 0;
 	}
 
-	// Sync gain with volume setting — only while playing
+	// Sync gain with volume setting — always, so ULyricSync preview also respects mute/volume
 	$effect.root(() => {
 		$effect(() => {
 			const v = settingsStore.volume / 100;
-			if (!gainNode || !isPlaying) return;
-			const ctx = Tone.getContext().rawContext as AudioContext;
 			gainNode.gain.cancelScheduledValues(ctx.currentTime);
 			gainNode.gain.linearRampToValueAtTime(v, ctx.currentTime + FADE_SEC);
 		});
@@ -135,6 +121,7 @@ export function createSongStore() {
 		get song() { return song; },
 		get lyrics() { return lyrics; },
 		get status() { return status; },
+		get analyserNode() { return analyserNodeInternal; },
 		load,
 		play,
 		pause,

@@ -7,7 +7,7 @@
 	import UModal from "../modal/UModal.svelte";
 	import { Debounced } from "runed";
 	import { fade } from 'svelte/transition'
-	import { Settings, Download } from 'lucide-svelte';
+	import { Settings } from 'lucide-svelte';
 
 	interface Props {
 		song?: Song | null;
@@ -17,6 +17,7 @@
 		onSaveSong?: () => Promise<void>;
 		preloadStatus?: "idle" | "loading" | "ready" | "error";
 		audioEl: HTMLAudioElement; // always provided by the store
+		analyserNode?: AnalyserNode;
 		apiBaseUrl?: string;
 		openSettings?: boolean;
 	}
@@ -29,6 +30,7 @@
 		song,
 		lyrics,
 		audioEl,
+		analyserNode,
 		apiBaseUrl = "",
 		openSettings = false,
 	}: Props = $props();
@@ -48,7 +50,7 @@
 	let showLyrics = $state(false);
 	let selectedLyric: Lyric | null = $state(null);
 
-	let saving = $state(false);
+	let lastSavedUrl = $state("");
 	let offset = $state(0);
 
 	const lines = $derived.by(() => parseSyncedLyrics(selectedLyric?.syncedLyrics || '', selectedLyric?.duration || 0))
@@ -65,6 +67,13 @@
 		if (lyrics?.length) showLyrics = true;
 	});
 
+	$effect(() => {
+		if (preloadStatus === "ready" && debouncedUrl.current && debouncedUrl.current !== lastSavedUrl) {
+			lastSavedUrl = debouncedUrl.current;
+			onSaveSong?.();
+		}
+	});
+
 	function handleSelect(lyric: Lyric) {
 		selectedLyric = lyric;
 		const parsed = parseSyncedLyrics(lyric.syncedLyrics || "", lyric.duration || 0);
@@ -73,15 +82,6 @@
 
 	function handleConfirm() {
 		showLyrics = false;
-	}
-
-	async function saveSong() {
-		saving = true
-		try {
-			if (onSaveSong) await onSaveSong()
-		} finally {
-			saving = false;
-		}
 	}
 </script>
 
@@ -108,19 +108,6 @@
 				<Settings class="size-6" />
 			{/if}
 		</button>
-
-		<button
-				class="btn btn-primary text-2xl"
-				onclick={saveSong}
-				disabled={!saving && preloadStatus !== "ready"}
-		>
-			{#if saving}
-				<span class="loading loading-spinner loading-xs"></span>
-			{:else}
-				<Download class="size-6" />
-			{/if}
-		</button>
-
 	</div>
 </div>
 
@@ -133,6 +120,7 @@
 	<div class="pt-8 flex flex-col gap-5">
 		<ULyricSync
 				{audioEl}
+				{analyserNode}
 				duration={song?.duration ?? 0}
 				lyrics={lines}
 				{offset}
