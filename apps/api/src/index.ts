@@ -34,6 +34,7 @@ export const app = new Elysia()
 		rateLimit({
 			max: 20,
 			duration: 60000,
+			skip: (req) => new URL(req.url).pathname === "/stats",
 		}),
 	)
 	.use(

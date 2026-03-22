@@ -9,7 +9,7 @@
   import ProgressBar from '@roxi/routify/components/ProgressBar.svelte';
   import { fade } from 'svelte/transition';
 
-  const stats = getSystemStats();
+  const stats = getSystemStats(() => settingsStore.showStats);
 
   // ── Global keyboard shortcuts ──────────────────────────────────────────────
   useKeyboardShortcut(["⌘", "Shift", "S"], () => {

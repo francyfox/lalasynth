@@ -37,7 +37,9 @@ const data = $derived.by(() => {
         {#each data as [key, value] (key)}
         <div class="flex gap-2 items-center">
             <span class="w-[100px]">{ key }</span>
-            <progress class="progress w-56" value={!Number.isFinite(value) ? 0 : value} max="100"></progress>
+            <progress class="progress w-[80px]" value={!Number.isFinite(value) ? 0 : value} max="100">
+            </progress>
+            <span class="w-10 overflow-hidden">{ !Number.isFinite(value) ? 0 : value }</span>
         </div>
         {/each}
     </div>
