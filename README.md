@@ -5,8 +5,10 @@
 ![Elysia](https://img.shields.io/badge/Elysia-7C3AED?style=for-the-badge&logo=elysia&logoColor=white)
 ![Svelte](https://img.shields.io/badge/Svelte-FF3E00?style=for-the-badge&logo=svelte&logoColor=white)
 
+<div style="display: flex; gap: 1px;">
 <img height="200" src="apps/web/src/assets/lalasynth.webp" title="lala" width="200"/>
 <img height="200" src="apps/web/public/og.png" title="lala" alt="wrapper" />
+</div>
 
 My dear `$user`, since you've lost your voice, I shall be your instrument. Lalasynth is a Svelte and 
 Elysia-powered rhythmic game where you pick a YouTube.Music track and outpace others in a typing 
@@ -31,7 +33,6 @@ Win to claim your glory and a unique badge for your GitHub profile. Let your fin
 ## Documentation
 
 - [Adding audio & lyric providers](docs/adding-providers.md)
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on setting up the project locally, code style, and submitting pull requests.
+- [Contributing](docs/CONTRIBUTING.md)
+- [Legal Notice — IP & Licensing](docs/LEGAL.md)
+- [Disclaimer — Third-Party Content & Copyright](docs/disclaimer.md)

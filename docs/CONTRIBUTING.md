@@ -20,10 +20,13 @@ Thank you for your interest in contributing. This document covers everything you
 
 | Tool | Version | Notes |
 |------|---------|-------|
-| [Bun](https://bun.sh) | 1.3.4+ | Runtime and package manager |
+| [Bun](https://bun.sh) | 1.3.4+ | Runtime **and** package manager — replaces Node.js + npm |
+| [ffmpeg](https://ffmpeg.org) | 5.0+ | Audio transcoding, waveform generation, album art extraction |
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp) | latest | Required for audio streaming |
 | A Chromium-based or Firefox browser | any | Required for yt-dlp cookie extraction |
-| Node.js | 18+ | Used by yt-dlp JS runtime (`--js-runtimes`) |
+| Node.js | 18+ | Only used by yt-dlp JS runtime (`--js-runtimes`), not for running the app |
+
+> **Bun is the only supported runtime and package manager.** Do not use `npm`, `yarn`, or `pnpm` — the project relies on Bun-specific APIs (`bun:sqlite`, `Bun.spawn`, etc.) and will not work with Node.js alone.
 
 ---
 
