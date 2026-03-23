@@ -115,7 +115,7 @@ $effect(() => {
             {#each lyrics as line, i (i)}
                 {#if i === currentLineIdx || i === currentLineIdx + 1}
                     <p
-                            class="flex flex-wrap text-5xl leading-none transition-color duration-50"
+                            class="flex flex-wrap text-4xl leading-none transition-color duration-50"
                             class:opacity-100={i === currentLineIdx}
                             class:opacity-20={i !== currentLineIdx}
                     >
