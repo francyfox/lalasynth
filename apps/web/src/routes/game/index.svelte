@@ -3,10 +3,12 @@
 import AppLobbyLayout from '@/components/layout/AppLobbyLayout.svelte'
 import type { UIType } from '@/components/layout/game.layout.types'
 import AppTraffic from '@/components/traffic/AppTraffic.svelte'
-import { audioManager } from '@/lib/stores/audio-manager.svelte'
+import { audioManager } from '@/lib/audio/audio-manager.svelte'
 import { gameStore } from '@/lib/stores/game.svelte'
 import { UUserLeadership } from '@package/ui/index.js'
 import UTextScroller from '@package/ui/text-scroller/UTextScroller.svelte'
+import { parseSyncedLyrics } from '@package/ui/lyric-sync/lyric-sync.service'
+import type { LyricLine } from '@package/ui/lyric-sync/lyric-sync.types'
 import { UserLeadershipMock } from '@package/ui/user-leadership/user-leadership.mock'
 import { goto } from "@roxi/routify";
 import { onDestroy, onMount } from 'svelte'
@@ -15,6 +17,13 @@ const _init = $goto;
 let currentMode: UIType = $state("game")
 let isPlaying: boolean = $state(false)
 const selectedSong = gameStore.selectedSong
+
+const lines: LyricLine[] = $derived(
+	parseSyncedLyrics(
+		audioManager.lyrics[0]?.syncedLyrics ?? '',
+		audioManager.songData?.duration ?? 0
+	)
+)
 const users = UserLeadershipMock;
 
 if (!selectedSong) $goto('/lobby')
@@ -52,7 +61,10 @@ async function handleStartGame() {
             />
         {/if}
         <UTextScroller
-                song={audioManager.lyrics[0]}
+                {lines}
+                currentTime={audioManager.songCurrentTime}
+                onPlay={audioManager.pauseSong}
+                onStop={audioManager.stopSong}
                 {isPlaying}
         />
     </div>

@@ -7,7 +7,7 @@
     import { onMount } from 'svelte'
     import { fade } from 'svelte/transition'
     import { helperStore } from '@/lib/stores/helper.svelte'
-    import { audioManager } from '@/lib/stores/audio-manager.svelte'
+    import { audioManager } from '@/lib/audio/audio-manager.svelte'
 
     const bgBaseUrl = "http://localhost:3000/static/bg"
 

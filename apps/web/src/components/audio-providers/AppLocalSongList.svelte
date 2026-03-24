@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { gameStore } from "@/lib/stores/game.svelte";
-	import { audioManager } from "@/lib/stores/audio-manager.svelte";
+	import { audioManager } from "@/lib/audio/audio-manager.svelte";
 	import { Debounced } from "runed";
 	import ULocalSongList from "@package/ui/local-song-list/ULocalSongList.svelte";
 	import UPagination from "@package/ui/pagination/UPagination.svelte";

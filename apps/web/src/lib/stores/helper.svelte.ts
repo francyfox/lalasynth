@@ -1,4 +1,4 @@
-import { audioManager } from "@/lib/stores/audio-manager.svelte";
+import { audioManager } from "@/lib/audio/audio-manager.svelte";
 
 export type HintType = "listen" | "fullscreen";
 export type AudioStatus = "allowed" | "blocked" | "allowed-muted";

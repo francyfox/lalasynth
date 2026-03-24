@@ -6,7 +6,7 @@
 	import UTable from "@package/ui/table/UTable.svelte";
 	import type { ColumnDef } from "@tanstack/table-core";
 	import type { User } from "better-auth";
-	import { audioManager } from "@/lib/stores/audio-manager.svelte";
+	import { audioManager } from "@/lib/audio/audio-manager.svelte";
 	import { client } from "@/lib/api";
 	import { toast } from "svelte-sonner";
 	import { goto } from "@roxi/routify";
