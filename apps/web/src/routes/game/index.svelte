@@ -44,11 +44,32 @@ onDestroy(() => {
 	audioManager.stopSong();
 });
 
+function waitForReady(): Promise<void> {
+	return new Promise((resolve, reject) => {
+		if (audioManager.songStatus === "ready") { resolve(); return; }
+		if (audioManager.songStatus === "error") { reject(new Error("Song failed to load")); return; }
+
+		const stop = $effect.root(() => {
+			$effect(() => {
+				const s = audioManager.songStatus;
+				if (s === "ready") { stop(); resolve(); }
+				else if (s === "error") { stop(); reject(new Error("Song failed to load")); }
+			});
+		});
+	});
+}
+
 async function handleStartGame() {
-	setTimeout(async () => {
+	try {
+		await Promise.all([
+			new Promise(r => setTimeout(r, 1000)),
+			waitForReady(),
+		]);
 		await audioManager.startSong();
 		isPlaying = true;
-	}, 1000)
+	} catch {
+		// song failed to load — stay on screen, status reflects error
+	}
 }
 </script>
 
@@ -63,8 +84,8 @@ async function handleStartGame() {
         <UTextScroller
                 {lines}
                 currentTime={audioManager.songCurrentTime}
-                onPlay={audioManager.pauseSong}
-                onStop={audioManager.stopSong}
+                onPause={audioManager.pauseSong}
+                onResume={audioManager.resumeSong}
                 {isPlaying}
         />
     </div>

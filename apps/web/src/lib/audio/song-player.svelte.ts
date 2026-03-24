@@ -5,7 +5,6 @@ import { client } from "@/lib/api";
 import { settingsStore } from "@/lib/stores/settings.svelte";
 import type { AudioProviders, ISongPlayer, PlayerState } from "./audio.types";
 import { createWebAudioFader } from "./fader";
-import { setupVisibilityFader } from "./visibility-fader";
 
 export function createSongPlayer(): ISongPlayer {
 	const audioEl = new Audio();
@@ -33,9 +32,20 @@ export function createSongPlayer(): ISongPlayer {
 
 	const fader = createWebAudioFader(gainNode, ctx);
 
+	const FADE_MS = 400;
+
 	let loadAbort: AbortController | null = null;
+	let pauseTimeout: ReturnType<typeof setTimeout> | null = null;
+
+	function clearPauseTimeout() {
+		if (pauseTimeout !== null) {
+			clearTimeout(pauseTimeout);
+			pauseTimeout = null;
+		}
+	}
 
 	function teardown() {
+		clearPauseTimeout();
 		loadAbort?.abort();
 		loadAbort = null;
 		audioEl.pause();
@@ -67,7 +77,13 @@ export function createSongPlayer(): ISongPlayer {
 		song = data.song;
 		lyrics = data.lyrics;
 
-		audioEl.addEventListener("canplay", () => { status = "ready"; }, { once: true, signal });
+		audioEl.addEventListener(
+			"canplay",
+			() => {
+				status = "ready";
+			},
+			{ once: true, signal },
+		);
 		audioEl.addEventListener(
 			"error",
 			(e) => {
@@ -83,17 +99,32 @@ export function createSongPlayer(): ISongPlayer {
 	}
 
 	async function play() {
+		if (!audioEl.src) return;
 		await Tone.start();
 		if (ctx.state === "suspended") await ctx.resume();
-		await audioEl.play();
+		try {
+			await audioEl.play();
+		} catch (e) {
+			if (e instanceof DOMException) {
+				status = "error";
+				return;
+			}
+			throw e;
+		}
 		fader.fadeTo(settingsStore.volume / 100);
 	}
 
 	function pause() {
-		fader.fadeTo(0, () => audioEl.pause());
+		clearPauseTimeout();
+		fader.fadeTo(0);
+		pauseTimeout = setTimeout(() => {
+			audioEl.pause();
+			pauseTimeout = null;
+		}, FADE_MS);
 	}
 
 	async function resume() {
+		clearPauseTimeout();
 		fader.fadeTo(settingsStore.volume / 100);
 		if (audioEl.paused) await audioEl.play();
 	}
@@ -110,10 +141,18 @@ export function createSongPlayer(): ISongPlayer {
 	}
 
 	$effect.root(() => {
-		function onTimeUpdate() { currentTime = audioEl.currentTime; }
-		function onDurationChange() { duration = audioEl.duration ?? 0; }
-		function onPlay() { paused = false; }
-		function onPause() { paused = true; }
+		function onTimeUpdate() {
+			currentTime = audioEl.currentTime;
+		}
+		function onDurationChange() {
+			duration = audioEl.duration ?? 0;
+		}
+		function onPlay() {
+			paused = false;
+		}
+		function onPause() {
+			paused = true;
+		}
 
 		audioEl.addEventListener("timeupdate", onTimeUpdate);
 		audioEl.addEventListener("durationchange", onDurationChange);
@@ -129,26 +168,48 @@ export function createSongPlayer(): ISongPlayer {
 			}
 		});
 
-		const cleanupVisibility = setupVisibilityFader(fader, () => settingsStore.volume / 100);
+		function onVisibilityChange() {
+			if (document.hidden) {
+				fader.cancel();
+				fader.setImmediate(0);
+			} else if (!audioEl.paused && pauseTimeout === null) {
+				fader.fadeTo(settingsStore.volume / 100);
+			}
+		}
+		document.addEventListener("visibilitychange", onVisibilityChange);
 
 		return () => {
 			audioEl.removeEventListener("timeupdate", onTimeUpdate);
 			audioEl.removeEventListener("durationchange", onDurationChange);
 			audioEl.removeEventListener("play", onPlay);
 			audioEl.removeEventListener("pause", onPause);
-			cleanupVisibility();
+			document.removeEventListener("visibilitychange", onVisibilityChange);
 		};
 	});
 
 	return {
 		audioEl,
-		get song() { return song; },
-		get lyrics() { return lyrics; },
-		get status() { return status; },
-		get analyserNode() { return analyserNode; },
-		get currentTime() { return currentTime; },
-		get duration() { return duration; },
-		get paused() { return paused; },
+		get song() {
+			return song;
+		},
+		get lyrics() {
+			return lyrics;
+		},
+		get status() {
+			return status;
+		},
+		get analyserNode() {
+			return analyserNode;
+		},
+		get currentTime() {
+			return currentTime;
+		},
+		get duration() {
+			return duration;
+		},
+		get paused() {
+			return paused;
+		},
 		load,
 		play,
 		pause,

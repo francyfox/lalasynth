@@ -15,22 +15,12 @@ interface Props {
 const { className, delay = 1000, onGo }: Props = $props()
 let currentImg = $state(StopImage)
 
-async function* animationGenerator() {
-  const frames = [StopImage, WaitImage, GoImage];
-  while (true) {
-    for (const frame of frames) {
-      yield frame;
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
-  }
-}
-
 onMount(() => {
   setTimeout(async () => {
-    for await (const frame of animationGenerator()) {
+    for (const frame of [StopImage, WaitImage, GoImage]) {
       currentImg = frame;
-
-      if (frame === GoImage) onGo()
+      if (frame === GoImage) { onGo(); break; }
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
   }, delay)
 })

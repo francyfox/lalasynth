@@ -30,10 +30,13 @@ function createAudioManager(): IAudioManager {
 	}
 
 	async function startSong() {
+		console.log("play");
+		if (song.status !== "ready") return;
 		await song.play();
 	}
 
 	function pauseSong() {
+		console.log("pause");
 		song.pause();
 	}
 
@@ -59,14 +62,30 @@ function createAudioManager(): IAudioManager {
 	}
 
 	return {
-		get audioEl() { return song.audioEl; },
-		get songCurrentTime() { return song.currentTime; },
-		get songDuration() { return song.duration; },
-		get analyserNode() { return song.analyserNode; },
-		get songData() { return song.song; },
-		get lyrics() { return song.lyrics; },
-		get songStatus() { return song.status; },
-		get bgPlaying() { return bg.playing; },
+		get audioEl() {
+			return song.audioEl;
+		},
+		get songCurrentTime() {
+			return song.currentTime;
+		},
+		get songDuration() {
+			return song.duration;
+		},
+		get analyserNode() {
+			return song.analyserNode;
+		},
+		get songData() {
+			return song.song;
+		},
+		get lyrics() {
+			return song.lyrics;
+		},
+		get songStatus() {
+			return song.status;
+		},
+		get bgPlaying() {
+			return bg.playing;
+		},
 		playBg,
 		resumeBg,
 		loadSong,

@@ -1,35 +1,31 @@
 <script lang="ts">
-	import { untrack } from 'svelte'
-	import type { LyricLine } from '../lyric-sync/lyric-sync.types.ts'
-	import { cn } from '../utils.ts'
+	import { onMount } from 'svelte'
+	import type { LyricLine } from "../lyric-sync/lyric-sync.types.ts"
+	import { cn } from "../utils.ts"
 
 	interface Props {
 		lines: LyricLine[]
 		currentTime: number
-		onStop: () => void
-		onPlay: () => void
+		onPause: () => void
+		onResume: () => void
 		isPlaying: boolean
 		className?: string
 	}
 
-	const { lines, currentTime, onPlay, onStop, isPlaying, className = '' }: Props = $props()
+	const { lines, currentTime, onPause, onResume, isPlaying, className = "" }: Props = $props()
 
 	// --- Core game state ---
 
-	// Pair-based progression
 	let pairIdx = $state(0)
 	let lineInPair = $state(0) // 0 = typing line0, 1 = typing line1, 2 = pair complete
 	let cursor = $state(0)
 	let gamePaused = $state(false)
 
-	// Plain JS flag for rAF gate check — avoids Svelte 5 state batching issues
-	let gateBlocked = false
-
 	// Typing stats
 	let mistakes = $state(0)
 	let typedChars = $state(0)
 	let isWrong = $state(false)
-	let wrongKey = $state('')
+	let wrongKey = $state("")
 
 	// WPM tracking — wall-clock time, not audio time
 	let startTime = $state(0)
@@ -37,7 +33,7 @@
 
 	// --- Derived display values ---
 
-	const pairStart = $derived(pairIdx * 2)
+	const pairStart = $derived(pairIdx)
 	const line0 = $derived(lines[pairStart])
 	const line1 = $derived(lines[pairStart + 1])
 
@@ -56,7 +52,7 @@
 		const totalChars = lines.reduce((sum, l) => sum + l.text.length, 0)
 		if (totalChars === 0) return 0
 
-		// Count chars from all fully completed pairs before current pairIdx
+		// Count chars from all fully completed lines before current pairIdx
 		let completedChars = 0
 		for (let i = 0; i < pairStart; i++) {
 			const l = lines[i]
@@ -79,20 +75,13 @@
 		return Math.round(((completedChars + currentLineChars) / totalChars) * 100)
 	})
 
-	// --- advancePair ---
-
-	function advancePair() {
+	function showNextPair() {
 		pairIdx++
 		lineInPair = 0
 		cursor = 0
-		if (gateBlocked) {
-			gateBlocked = false
-			gamePaused = false
-			onPlay()
-		}
 	}
 
-	// --- rAF loop — update currentTime + gate check every frame ---
+	// --- rAF gate check ---
 
 	$effect(() => {
 		if (!isPlaying) return
@@ -100,20 +89,19 @@
 		let rafId: number
 
 		const tick = () => {
-			// Gate check uses plain JS flag — immune to Svelte 5 state batching
-			if (!gateBlocked) {
-				const gate = lines[(pairIdx + 1) * 2]
-				if (gate !== undefined && currentTime >= gate.start) {
-					if (lineInPair === 2) {
-						advancePair()
-					} else {
-						gateBlocked = true
-						gamePaused = true
-						onStop()
-					}
+			if (!gamePaused) {
+				const l0 = lines[pairStart]
+				const l1 = lines[pairStart + 1]
+
+				// Gate per line: pause if music reached line start but line not typed yet
+				if (l0 && currentTime >= l0.start && lineInPair === 0) {
+					gamePaused = true
+					onPause()
+				} else if (l1 && currentTime >= l1.start && lineInPair < 2) {
+					gamePaused = true
+					onPause()
 				}
 			}
-
 			rafId = requestAnimationFrame(tick)
 		}
 
@@ -126,10 +114,6 @@
 
 	$effect(() => {
 		if (!isPlaying) return
-
-		untrack(() => {
-			if (startTime === 0) startTime = Date.now()
-		})
 
 		const interval = setInterval(() => {
 			elapsedTime = Date.now()
@@ -144,20 +128,10 @@
 		e.preventDefault()
 		e.stopPropagation()
 
-		if (!isPlaying) return
-		if (e.key.length !== 1) return
+		if (!isPlaying || e.key.length !== 1) return
 
-		// Determine which line is active
-		let activeLine: LyricLine | undefined
-		if (lineInPair === 0) {
-			activeLine = line0
-		} else if (lineInPair === 1) {
-			activeLine = line1
-		} else {
-			// Pair complete, waiting for gate to advance
-			return
-		}
-
+		const activeLine =
+			lineInPair === 0 ? line0 : lineInPair === 1 ? line1 : undefined
 		if (activeLine === undefined) return
 
 		const targetChar = activeLine.text[cursor]
@@ -167,17 +141,16 @@
 			isWrong = false
 			cursor++
 			typedChars++
-
 			if (startTime === 0) startTime = Date.now()
 
 			if (cursor === activeLine.text.length) {
 				lineInPair++
 				cursor = 0
-
-				// If pair is now complete and audio was paused waiting for us, advance
-				if (lineInPair === 2 && gamePaused) {
-					advancePair()
+				if (gamePaused) {
+					gamePaused = false
+					onResume()
 				}
+				showNextPair()
 			}
 		} else {
 			mistakes++
@@ -188,8 +161,8 @@
 
 	$effect(() => {
 		if (!isPlaying) return
-		window.addEventListener('keydown', handleKeydown, { capture: true })
-		return () => window.removeEventListener('keydown', handleKeydown, { capture: true })
+		window.addEventListener("keydown", handleKeydown, { capture: true })
+		return () => window.removeEventListener("keydown", handleKeydown, { capture: true })
 	})
 
 	// --- Char class helpers ---
@@ -199,28 +172,24 @@
 		const isCurrent = isActive && charI === cursor
 
 		return cn(
-			'relative inline-flex w-[1ch] justify-center transition-all duration-150 ease-in-out',
+			"relative inline-flex w-[1ch] justify-center transition-all duration-150 ease-in-out",
 			isTyped
-				? 'text-orange-500 [text-shadow:0_0_12px_rgba(249,115,22,0.6)]'
-				: 'text-zinc-100',
-			isCurrent ? 'scale-110 font-bold' : 'scale-100',
+				? "text-orange-500 [text-shadow:0_0_12px_rgba(249,115,22,0.6)]"
+				: "text-zinc-100",
+			isCurrent ? "scale-110 font-bold" : "scale-100",
 		)
 	}
 </script>
 
-<div class={cn(className, 'py-5 flex flex-col gap-2 items-center text-scroller text-4xl text-center font-mono shadow-sm')}>
-	{ currentTime }
-	<!-- Wrong key indicator -->
-	<div class="relative flex justify-center h-10">
+<div class={cn(className, "py-5 flex flex-col gap-2 items-center text-scroller text-4xl text-center font-mono shadow-sm")}>
+	<!-- Indicators zone — fixed height so lyrics layout never shifts -->
+	<div class="flex justify-center items-center h-10">
 		{#if isWrong}
-			<kbd class="absolute top-0 kbd kbd-xl">{wrongKey}</kbd>
+			<kbd class="kbd kbd-xl">{wrongKey}</kbd>
+		{:else if gamePaused}
+			<span class="text-warning text-sm animate-pulse">&#9646; Finish typing to continue</span>
 		{/if}
 	</div>
-
-	<!-- Paused indicator -->
-	{#if gamePaused}
-		<div class="text-warning text-sm animate-pulse">&#9646; Finish typing to continue</div>
-	{/if}
 
 	<div class="overflow-hidden flex justify-center">
 		<div class="w-full max-w-[50vw] flex flex-col gap-2">
@@ -230,8 +199,8 @@
 				{@const line0Active = lineInPair === 0}
 				{@const line0Completed = lineInPair > 0}
 				<p class={cn(
-					'flex flex-wrap text-4xl leading-none transition-all duration-150',
-					line0Completed ? 'opacity-30' : 'opacity-100',
+					"flex flex-wrap text-4xl leading-none transition-all duration-150",
+					line0Completed ? "opacity-30" : "opacity-100",
 				)}>
 					{#each line0.text as char, i (i)}
 						<span class={getCharClass(i, line0Active, line0Completed)}>
@@ -250,8 +219,8 @@
 				{@const line1Completed = lineInPair === 2}
 				{@const line1Pending = lineInPair === 0}
 				<p class={cn(
-					'flex flex-wrap text-4xl leading-none transition-all duration-150',
-					line1Completed ? 'opacity-30' : line1Pending ? 'opacity-50' : 'opacity-100',
+					"flex flex-wrap text-4xl leading-none transition-all duration-150",
+					line1Completed ? "opacity-30" : line1Pending ? "opacity-50" : "opacity-100",
 				)}>
 					{#each line1.text as char, i (i)}
 						<span class={getCharClass(i, line1Active, line1Completed)}>

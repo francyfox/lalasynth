@@ -120,14 +120,13 @@
 	$effect(() => {
 		if (!audioEl || waveformUrl) return; // skip when API path handles it
 
-		function decode(src: string) {
-			if (!src) return;
-			startFullDecode(src);
+		function onLoadStart() {
+			if (audioEl.src) startFullDecode(audioEl.src);
 		}
 
-		if (audioEl.src) decode(audioEl.src);
-		audioEl.addEventListener("loadstart", () => decode(audioEl.src));
-		return () => audioEl.removeEventListener("loadstart", () => decode(audioEl.src));
+		if (audioEl.src) startFullDecode(audioEl.src);
+		audioEl.addEventListener("loadstart", onLoadStart);
+		return () => audioEl.removeEventListener("loadstart", onLoadStart);
 	});
 
 	function startFullDecode(url: string) {
@@ -135,19 +134,24 @@
 		waveformBars = null;
 
 		(async () => {
-			// Fallback: full audio fetch + decode
 			let tempCtx: AudioContext | null = null;
 			try {
 				const response = await fetch(url);
+				const contentType = response.headers.get("content-type") ?? "";
+				if (!contentType.includes("audio/")) {
+					waveformState = "error";
+					return;
+				}
 				const arrayBuffer = await response.arrayBuffer();
-
+				if (arrayBuffer.byteLength === 0) {
+					waveformState = "error";
+					return;
+				}
 				tempCtx = new AudioContext();
 				const audioBuffer = await tempCtx.decodeAudioData(arrayBuffer);
-
 				waveformBars = computeWaveformBars(audioBuffer, NUM_BARS);
 				waveformState = "ready";
-			} catch (err) {
-				console.error("[UAudioTimeline] waveform decode failed:", err);
+			} catch {
 				waveformState = "error";
 			} finally {
 				tempCtx?.close();
