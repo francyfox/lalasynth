@@ -1,0 +1,14 @@
+{
+	admin off
+	auto_https off
+}
+
+:80 {
+	reverse_proxy api:3000 {
+		@not_found status 404
+
+		handle_response @not_found {
+			reverse_proxy web:4173
+		}
+	}
+}

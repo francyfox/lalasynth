@@ -9,6 +9,8 @@
 	"scripts": {
 		"schema": "npx openapi-typescript http://localhost:3000/swagger/json -o ./src/type.d.ts",
 		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "bun run build.ts",
+		"preview": "NODE_ENV=production bun dist/index.js",
 		"dev": "bun run --watch src/index.ts"
 	},
 	"dependencies": {

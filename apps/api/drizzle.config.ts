@@ -5,12 +5,9 @@ export default defineConfig({
 	schema: "./src/db/schema.ts",
 	out: "./migrations",
 	casing: "camelCase",
-	dialect: env.NODE_ENV === "production" ? "turso" : "sqlite",
+	dialect: env.TURSO_CONNECTION_URL ? "turso" : "sqlite",
 	dbCredentials: {
-		url:
-			env.NODE_ENV === "production"
-				? env.TURSO_CONNECTION_URL
-				: "file:local.db",
+		url: env.TURSO_CONNECTION_URL ?? "file:local.db",
 		authToken: env.TURSO_AUTH_TOKEN,
 	},
 });

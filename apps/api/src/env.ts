@@ -8,15 +8,15 @@ export const env = createEnv({
 			.default("development"),
 		LOCAL_SONGS_AUDIO_BITRATE_KBPS: z.coerce.number().int().min(48).max(320).default(128),
 		CLIENT_URL: z.url(),
-		TURSO_CONNECTION_URL: z.url(),
-		TURSO_AUTH_TOKEN: z.string(),
+		TURSO_CONNECTION_URL: z.url().optional(),
+		TURSO_AUTH_TOKEN: z.string().optional(),
 		BETTER_AUTH_BASE_URL: z.string(),
 		GITHUB_CLIENT_ID: z.string(),
 		GITHUB_CLIENT_SECRET: z.string(),
 
-		TURSO_API_TOKEN: z.string(), // Platform API Token (turso auth token)
-		TURSO_ORG_NAME: z.string(), // Имя организации (обычно ник на GitHub)
-		TURSO_DB_NAME: z.string(), // Имя базы данных
+		TURSO_API_TOKEN: z.string().optional(),
+		TURSO_ORG_NAME: z.string().optional(),
+		TURSO_DB_NAME: z.string().optional(),
 	},
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,

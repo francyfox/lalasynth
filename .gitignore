@@ -18,6 +18,8 @@ coverage
 # Turbo
 .turbo
 
+.playwright-mcp
+
 # Vercel
 .vercel
 

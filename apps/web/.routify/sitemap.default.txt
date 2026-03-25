@@ -1,0 +1,14 @@
+/
+/achievements
+/achievements/index
+/auth
+/auth/index
+/game
+/game/index
+/index
+/lobby
+/lobby/index
+/menu
+/menu/index
+/terms
+/terms/index

@@ -41,6 +41,7 @@ yarn-error.log*
 package-lock.json
 **/*.bun
 .env
+.env.production
 local.db
 logs
 

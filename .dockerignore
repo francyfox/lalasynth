@@ -1,0 +1,9 @@
+node_modules
+**/node_modules
+**/.git
+**/dist
+**/local.db
+**/*.log
+apps/api/.env
+!apps/api/.env.production
+.playwright-mcp

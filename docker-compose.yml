@@ -1,0 +1,42 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    env_file: apps/api/.env.production
+    environment:
+      NODE_ENV: production
+    volumes:
+      - db:/repo/apps/api/local.db
+      - songs:/repo/apps/api/songs
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on:
+      - api
+      - web
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate --url http://caddy:80
+    depends_on:
+      - caddy
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  db:
+  songs:

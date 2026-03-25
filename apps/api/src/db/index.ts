@@ -4,8 +4,7 @@ import { env } from "@/env";
 import * as schema from "./schema";
 
 export const client = createClient({
-	url:
-		env.NODE_ENV === "development" ? "file:local.db" : env.TURSO_CONNECTION_URL,
+	url: env.TURSO_CONNECTION_URL ?? "file:local.db",
 	authToken: env.TURSO_AUTH_TOKEN,
 });
 
