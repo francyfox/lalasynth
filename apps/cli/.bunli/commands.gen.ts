@@ -4,25 +4,27 @@
 import type { Command, CLI, GeneratedOptionMeta, RegisteredCommands, CommandOptions, GeneratedCommandMeta } from '@bunli/core'
 import { createGeneratedHelpers, registerGeneratedStore } from '@bunli/core'
 
-import Hello from '../src/commands/hello.js'
+import Song from '../src/commands/song.js'
 
 // Narrow list of command names to avoid typeof-cycles in types
-const names = ['hello'] as const
+const names = ['song'] as const
 type GeneratedNames = typeof names[number]
 
 const modules: Record<GeneratedNames, Command<any>> = {
-  'hello': Hello
+  'song': Song
 } as const
 
 const metadata: Record<GeneratedNames, GeneratedCommandMeta> = {
-  'hello': {
-      name: 'hello',
-      description: 'Say hello to someone',
+  'song': {
+      name: 'song',
+      description: 'Download song with audio and lyrics to public/songs',
       options: {
-        'name': { type: 'z.string.default', required: true, hasDefault: true, default: "World", description: 'Name to greet', short: 'n', schema: {"type":"zod","method":"default","args":[{"type":"literal","value":"World"}]}, validator: '(val) => true' },
-        'excited': { type: 'z.boolean.default', required: true, hasDefault: true, default: false, description: 'Add excitement!', short: 'e', schema: {"type":"zod","method":"default","args":[{"type":"unknown","raw":{"type":"BooleanLiteral","start":320,"end":325,"loc":{"start":{"line":12,"column":38,"index":320},"end":{"line":12,"column":43,"index":325}},"value":false}}]}, validator: '(val) => true' }
+        'audioProvider': { type: 'z.enum.default', required: true, hasDefault: true, default: "ytdlp", description: 'Select audio provider', short: 'a', enumValues: ["ytdlp"], schema: {"type":"zod","method":"default","args":[{"type":"literal","value":"ytdlp"}]}, validator: '(val) => true' },
+        'lyricProvider': { type: 'z.enum.default', required: true, hasDefault: true, default: "lrclib", description: 'Select lyrics provider', short: 'l', enumValues: ["lrclib"], schema: {"type":"zod","method":"default","args":[{"type":"literal","value":"lrclib"}]}, validator: '(val) => true' },
+        'url': { type: 'z.url', required: true, hasDefault: false, description: 'URL from provider', short: 'u', schema: {"type":"zod","method":"url","args":[]}, validator: '(val) => true' },
+        'offset': { type: 'z.coerce.number.default', required: true, hasDefault: true, default: 0, description: 'Lyric offset in milliseconds (positive = delay lyrics)', schema: {"type":"zod","method":"default","args":[{"type":"unknown","raw":{"type":"NumericLiteral","start":906,"end":907,"loc":{"start":{"line":33,"column":43,"index":906},"end":{"line":33,"column":44,"index":907}},"extra":{"rawValue":0,"raw":"0"},"value":0}}]}, validator: '(val) => true' }
       },
-      path: './src/commands/hello'
+      path: './src/commands/song'
     }
 } as const
 

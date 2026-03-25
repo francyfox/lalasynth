@@ -10,9 +10,11 @@
 		onResume: () => void
 		isPlaying: boolean
 		className?: string
+		onfinish?: () => void
+		onnoise?: (level: number) => void
 	}
 
-	const { lines, currentTime, onPause, onResume, isPlaying, className = "" }: Props = $props()
+	const { lines, currentTime, onPause, onResume, isPlaying, className = "", onfinish, onnoise }: Props = $props()
 
 	// --- Core game state ---
 
@@ -26,6 +28,10 @@
 	let typedChars = $state(0)
 	let isWrong = $state(false)
 	let wrongKey = $state("")
+
+	// Noise / interference
+	let noiseLvl = $state(0)
+	let correctStreak = $state(0)
 
 	// WPM tracking — wall-clock time, not audio time
 	let startTime = $state(0)
@@ -80,6 +86,14 @@
 		lineInPair = 0
 		cursor = 0
 	}
+
+	// --- Completion detection ---
+
+	$effect(() => {
+		if (isPlaying && lines.length > 0 && pairIdx >= lines.length) {
+			onfinish?.()
+		}
+	})
 
 	// --- rAF gate check ---
 
@@ -143,6 +157,13 @@
 			typedChars++
 			if (startTime === 0) startTime = Date.now()
 
+			correctStreak++
+			if (correctStreak >= 3 && noiseLvl > 0) {
+				noiseLvl = 0
+				correctStreak = 0
+				onnoise?.(0)
+			}
+
 			if (cursor === activeLine.text.length) {
 				lineInPair++
 				cursor = 0
@@ -156,6 +177,9 @@
 			mistakes++
 			isWrong = true
 			wrongKey = e.key
+			correctStreak = 0
+			noiseLvl = Math.min(noiseLvl + 1, 5)
+			onnoise?.(noiseLvl)
 		}
 	}
 
@@ -183,12 +207,14 @@
 
 <div class={cn(className, "py-5 flex flex-col gap-2 items-center text-scroller text-4xl text-center font-mono shadow-sm")}>
 	<!-- Indicators zone — fixed height so lyrics layout never shifts -->
-	<div class="flex justify-center items-center h-10">
-		{#if isWrong}
-			<kbd class="kbd kbd-xl">{wrongKey}</kbd>
-		{:else if gamePaused}
-			<span class="text-warning text-sm animate-pulse">&#9646; Finish typing to continue</span>
-		{/if}
+	<div class="relative flex justify-center items-center ">
+		<div class="w-100 absolute top-[-70px]">
+			{#if isWrong}
+				<kbd class="kbd kbd-xl">{wrongKey}</kbd>
+			{:else if gamePaused}
+				<span class="text-warning text-sm animate-pulse">&#9646; Finish typing to continue</span>
+			{/if}
+		</div>
 	</div>
 
 	<div class="overflow-hidden flex justify-center">

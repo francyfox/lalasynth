@@ -26,6 +26,7 @@ export interface ISongPlayer extends IAudioChannel {
 	resume(): Promise<void>;
 	stop(): void;
 	seekTo(seconds: number): void;
+	setNoiseLevel(level: number): void;
 }
 
 export interface IBgAudioPlayer extends IAudioChannel {
@@ -58,4 +59,5 @@ export interface IAudioManager {
 	stopSong(): void;
 	playSfx(name: string): void;
 	stopAll(): void;
+	setNoiseLevel(level: number): void;
 }

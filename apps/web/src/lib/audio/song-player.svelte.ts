@@ -30,6 +30,14 @@ export function createSongPlayer(): ISongPlayer {
 	analyserNode.connect(gainNode);
 	gainNode.connect(ctx.destination);
 
+	const radioNoise = new Tone.Noise("pink");
+	const radioNoiseFilter = new Tone.Filter({ type: "bandpass", frequency: 3000, Q: 0.5 });
+	const radioNoiseGain = new Tone.Gain(0);
+	radioNoise.connect(radioNoiseFilter);
+	radioNoiseFilter.connect(radioNoiseGain);
+	radioNoiseGain.toDestination();
+	radioNoise.start();
+
 	const fader = createWebAudioFader(gainNode, ctx);
 
 	const FADE_MS = 400;
@@ -51,6 +59,7 @@ export function createSongPlayer(): ISongPlayer {
 		audioEl.pause();
 		audioEl.src = "";
 		audioEl.load();
+		radioNoiseGain.gain.setValueAtTime(0, ctx.currentTime);
 		fader.cancel();
 		fader.setImmediate(0);
 	}
@@ -140,6 +149,10 @@ export function createSongPlayer(): ISongPlayer {
 		audioEl.currentTime = seconds;
 	}
 
+	function setNoiseLevel(level: number) {
+		radioNoiseGain.gain.rampTo((Math.max(0, Math.min(5, level)) / 5) * 0.12, 0.2);
+	}
+
 	$effect.root(() => {
 		function onTimeUpdate() {
 			currentTime = audioEl.currentTime;
@@ -216,6 +229,7 @@ export function createSongPlayer(): ISongPlayer {
 		resume,
 		stop,
 		seekTo,
+		setNoiseLevel,
 	};
 }
 

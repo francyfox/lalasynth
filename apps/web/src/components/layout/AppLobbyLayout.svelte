@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte'
   import type { UIType } from '@/components/layout/game.layout.types'
   import AppNun from '@/components/nun/AppNun.svelte'
   import { authClient } from '@/lib/auth-client'
@@ -15,9 +16,14 @@
   const sessionMutations = getSessionMutations();
   const scenesStore = getScenesStore();
 
-  let { currentMode = $bindable('dialogue') }: {
+  let { currentMode = $bindable('dialogue'), noiseLevel = 0, children }: {
     currentMode: UIType
+    noiseLevel?: number
+    children?: Snippet
   } = $props();
+
+  const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000"
+  const noiseOpacity = $derived((noiseLevel / 5) * 0.55)
 
   let currentSceneId = $state(0);
   const currentScene = $derived(scenesStore.getSceneById(currentSceneId));
@@ -65,6 +71,10 @@
             style="{bgImage}"
     >
     </div>
+    <div
+            class="absolute w-full h-full z-[1] pointer-events-none transition-opacity duration-300"
+            style="background-image: url('{API_BASE}/static/bg/noise.gif'); background-size: 400px 400px; opacity: {noiseOpacity};"
+    ></div>
     <UNavbar
             user={sessionStore.data?.user}
             bind:hasSound={settingsStore.sound}
@@ -75,7 +85,7 @@
 
     <main class="relative flex flex-col mx-10 my-2 z-10">
         {#if currentMode === 'lobby' || currentMode === 'game'}
-            <slot />
+            {@render children?.()}
         {/if}
 
         {#if currentMode === 'dialogue'}

@@ -61,6 +61,10 @@ function createAudioManager(): IAudioManager {
 		song.stop();
 	}
 
+	function setNoiseLevel(level: number) {
+		song.setNoiseLevel(level);
+	}
+
 	return {
 		get audioEl() {
 			return song.audioEl;
@@ -95,6 +99,7 @@ function createAudioManager(): IAudioManager {
 		stopSong,
 		playSfx,
 		stopAll,
+		setNoiseLevel,
 	};
 }
 
