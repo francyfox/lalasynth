@@ -5,6 +5,7 @@ import type { UIType } from '@/components/layout/game.layout.types'
 import AppTraffic from '@/components/traffic/AppTraffic.svelte'
 import { audioManager } from '@/lib/audio/audio-manager.svelte'
 import { gameStore } from '@/lib/stores/game.svelte'
+import { settingsStore } from '@/lib/stores/settings.svelte'
 import { UUserLeadership } from '@package/ui/index.js'
 import UTextScroller from '@package/ui/text-scroller/UTextScroller.svelte'
 import { parseSyncedLyrics } from '@package/ui/lyric-sync/lyric-sync.service'
@@ -24,6 +25,7 @@ let wasPaused = $state(false)
 let noiseLvl = $state(0)
 
 function handleNoise(level: number) {
+	if (!settingsStore.noise) return
 	noiseLvl = level
 	audioManager.setNoiseLevel(level)
 }

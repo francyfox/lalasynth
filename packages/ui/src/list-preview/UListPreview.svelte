@@ -11,7 +11,13 @@
 
 	const { data, duration, onSelect, className }: Props = $props();
 
-	let selected = $state<Lyric | null>(null);
+	let selected = $state<Lyric | null>(data[0] ?? null);
+
+	$effect(() => {
+		const first = data[0] ?? null;
+		selected = first;
+		if (first) onSelect?.(first);
+	});
 
 	function getSyncPercent(lyric: Lyric): number {
 		return Math.max(

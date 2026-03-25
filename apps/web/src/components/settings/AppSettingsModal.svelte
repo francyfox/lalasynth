@@ -109,6 +109,14 @@
 					bind:checked={settingsStore.showStats}
 				/>
 			</SettingRow>
+
+			<SettingRow label="Noise effect" description="Visual and audio interference on typing mistakes">
+				<input
+					type="checkbox"
+					class="toggle toggle-primary"
+					bind:checked={settingsStore.noise}
+				/>
+			</SettingRow>
 		</div>
 
 		<div class="modal-action">

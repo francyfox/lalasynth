@@ -34,7 +34,7 @@
 	}
 </script>
 
-<div class={cn("flex flex-col gap-1", className)}>
+<div class={cn("flex flex-col gap-1 h-[456px]", className)}>
 	{#if loading}
 		{#each { length: 3 } as _, i (i)}
 			<div class="flex items-center gap-3 p-3 rounded-lg">

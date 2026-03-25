@@ -19,6 +19,7 @@ function createSettingsStore() {
 	let uwu = $state<boolean>(get("lala.uwu") === "true");
 	let hints = $state<boolean>(get("lala.hints") !== "false");
 	let showStats = $state<boolean>(get("lala.showStats") === "true");
+	let noise = $state<boolean>(get("lala.noise") !== "false");
 
 	return {
 		get resolution() {
@@ -75,6 +76,14 @@ function createSettingsStore() {
 		set showStats(v: boolean) {
 			showStats = v;
 			set("lala.showStats", String(v));
+		},
+
+		get noise() {
+			return noise;
+		},
+		set noise(v: boolean) {
+			noise = v;
+			set("lala.noise", String(v));
 		},
 	};
 }

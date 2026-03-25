@@ -17,7 +17,7 @@ interface LocalSongResponse {
 	offset: number;
 }
 
-export const LOCAL_SONG_PAGE_SIZE = 8;
+export const LOCAL_SONG_PAGE_SIZE = 5;
 
 export function createLocalSongStore(
 	params: () => { search: string; page: number },
