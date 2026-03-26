@@ -4,7 +4,7 @@ import { getSessionStore } from '@/lib/stores/session'
 import UCode from '@package/ui/code/UCode.svelte'
 import { env } from '@/env'
 
-const API_BASE = env.VITE_API_URL
+const API_BASE = env.VITE_MASTER_URL
 
 const session = getSessionStore()
 

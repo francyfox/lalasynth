@@ -5,7 +5,7 @@ export const env = createEnv({
 	clientPrefix: "VITE_",
 	client: {
 		VITE_API_URL: z.string().default(""),
-		VITE_MASTER_URL: z.string().default("http://localhost:4000"),
+		VITE_MASTER_URL: z.string().default("http://localhost:5000"),
 	},
 	runtimeEnv: import.meta.env,
 });

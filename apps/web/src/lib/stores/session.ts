@@ -1,7 +1,7 @@
 import { createMutation, createQuery } from "@tanstack/svelte-query";
 import { toast } from "svelte-sonner";
-import { client } from "@/lib/api";
 import { authClient } from "@/lib/auth-client";
+import { masterClient } from "@/lib/master-api";
 import { queryClient } from "@/lib/query-client";
 
 type SessionData = typeof authClient.$Infer.Session | null;
@@ -30,7 +30,7 @@ export const getSessionMutations = () => {
 
 			if (!id) throw new Error("Unknown session");
 
-			const { data, error } = await client.PATCH("/user/{id}", {
+			const { data, error } = await masterClient.PATCH("/user/{id}", {
 				params: {
 					path: {
 						id,

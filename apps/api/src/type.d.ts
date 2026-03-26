@@ -4,983 +4,691 @@
  */
 
 export interface paths {
-	"/": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get: operations["getIndex"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/health": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description Health check for ping services */
-		get: operations["getHealth"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/song/local": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description List local songs with optional title filter and pagination */
-		get: operations["getSongLocal"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/song/{id}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description Get audio metadata and lyrics by YouTube id/url */
-		get: operations["getSongById"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/song/stream/{id}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description Proxy audio stream from the selected provider */
-		get: operations["getSongStreamById"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/song/lyric/{id}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description Get lyrics for a local song by filename */
-		get: operations["getSongLyricById"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/song/waveform/{filename}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description Get precomputed waveform bars for a local song */
-		get: operations["getSongWaveformByFilename"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/song/save": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/** @description Download a YouTube song to local collection with synced lyrics */
-		post: operations["postSongSave"];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/sounds": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description List available background sounds */
-		get: operations["getSounds"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/scenes": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description All scenes */
-		get: operations["getScenes"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/user/{id}/badge": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description Get user badge as SVG image */
-		get: operations["getUserByIdBadge"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/user/{id}": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		/** @description Update user level */
-		patch: operations["patchUserById"];
-		trace?: never;
-	};
-	"/stats": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/** @description Get the stats */
-		get: operations["getStats"];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/auth/signin/github": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Sign in with GitHub
-		 * @description Redirects to GitHub OAuth consent screen. User will be prompted to authorize the application.
-		 */
-		get: {
-			parameters: {
-				query?: {
-					/** @description Where to redirect after successful login */
-					redirect_url?: string;
-				};
-				header?: never;
-				path?: never;
-				cookie?: never;
-			};
-			requestBody?: never;
-			responses: {
-				/** @description Redirect to GitHub OAuth */
-				302: {
-					headers: {
-						/** @description GitHub OAuth URL */
-						location?: unknown;
-						[name: string]: unknown;
-					};
-					content?: never;
-				};
-			};
-		};
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/auth/callback/github": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * GitHub OAuth callback handler
-		 * @description GitHub redirects here after user authorization. Session is automatically created.
-		 */
-		get: {
-			parameters: {
-				query: {
-					/** @description GitHub authorization code */
-					code: string;
-					/** @description State parameter for CSRF protection */
-					state: string;
-				};
-				header?: never;
-				path?: never;
-				cookie?: never;
-			};
-			requestBody?: never;
-			responses: {
-				/** @description Redirect to frontend with session established */
-				302: {
-					headers: {
-						/** @description Session cookie */
-						"set-cookie"?: unknown;
-						[name: string]: unknown;
-					};
-					content?: never;
-				};
-				/** @description Invalid code or state */
-				400: {
-					headers: {
-						[name: string]: unknown;
-					};
-					content?: never;
-				};
-			};
-		};
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/auth/session": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get current session
-		 * @description Returns the currently authenticated user and their session info.
-		 */
-		get: {
-			parameters: {
-				query?: never;
-				header?: never;
-				path?: never;
-				cookie?: never;
-			};
-			requestBody?: never;
-			responses: {
-				/** @description User session */
-				200: {
-					headers: {
-						[name: string]: unknown;
-					};
-					content: {
-						"application/json": {
-							user?: {
-								/** @example user_123 */
-								id?: string;
-								/** @example user@github.com */
-								email?: string;
-								/** @example Fox Developer */
-								name?: string;
-								/** @example https://avatars.githubusercontent.com/... */
-								image?: string;
-								/** Format: date-time */
-								createdAt?: string;
-							};
-							session?: {
-								token?: string;
-								/** Format: date-time */
-								expiresAt?: string;
-							};
-						};
-					};
-				};
-				/** @description Not authenticated */
-				401: {
-					headers: {
-						[name: string]: unknown;
-					};
-					content?: never;
-				};
-			};
-		};
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	"/api/auth/signout": {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Sign out
-		 * @description Invalidates the current user session.
-		 */
-		post: {
-			parameters: {
-				query?: never;
-				header?: never;
-				path?: never;
-				cookie?: never;
-			};
-			requestBody?: never;
-			responses: {
-				/** @description Successfully signed out */
-				200: {
-					headers: {
-						[name: string]: unknown;
-					};
-					content: {
-						"application/json": {
-							/** @example true */
-							success?: boolean;
-						};
-					};
-				};
-				/** @description Not authenticated */
-				401: {
-					headers: {
-						[name: string]: unknown;
-					};
-					content?: never;
-				};
-			};
-		};
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
+    "/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["getIndex"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Health check for ping services */
+        get: operations["getHealth"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/song/local": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List local songs with optional title filter and pagination */
+        get: operations["getSongLocal"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/song/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get audio metadata and lyrics by YouTube id/url */
+        get: operations["getSongById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/song/stream/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Proxy audio stream from the selected provider */
+        get: operations["getSongStreamById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/song/lyric/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get lyrics for a local song by filename */
+        get: operations["getSongLyricById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/song/waveform/{filename}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get precomputed waveform bars for a local song */
+        get: operations["getSongWaveformByFilename"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/song/save": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** @description Download a YouTube song to local collection with synced lyrics */
+        post: operations["postSongSave"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/sounds": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description List available background sounds */
+        get: operations["getSounds"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/scenes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description All scenes */
+        get: operations["getScenes"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** @description Get the stats */
+        get: operations["getStats"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-	schemas: never;
-	responses: never;
-	parameters: never;
-	requestBodies: never;
-	headers: never;
-	pathItems: never;
+    schemas: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-	getIndex: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-		};
-	};
-	getHealth: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @constant */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": "OK";
-					"multipart/form-data": "OK";
-					"text/plain": "OK";
-				};
-			};
-		};
-	};
-	getSongLocal: {
-		parameters: {
-			query: {
-				title?: string;
-				limit: number;
-				offset: number;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						items: {
-							filename: string;
-							title: string;
-							artist: (string | null) | null;
-							albumArt: (string | null) | null;
-							duration: (number | null) | null;
-							lrcFilename: (string | null) | null;
-						}[];
-						total: number;
-						limit: number;
-						offset: number;
-					};
-					"multipart/form-data": {
-						items: {
-							filename: string;
-							title: string;
-							artist: (string | null) | null;
-							albumArt: (string | null) | null;
-							duration: (number | null) | null;
-							lrcFilename: (string | null) | null;
-						}[];
-						total: number;
-						limit: number;
-						offset: number;
-					};
-					"text/plain": {
-						items: {
-							filename: string;
-							title: string;
-							artist: (string | null) | null;
-							albumArt: (string | null) | null;
-							duration: (number | null) | null;
-							lrcFilename: (string | null) | null;
-						}[];
-						total: number;
-						limit: number;
-						offset: number;
-					};
-				};
-			};
-		};
-	};
-	getSongById: {
-		parameters: {
-			query?: {
-				audioProvider?: string;
-				lyricProvider?: string;
-			};
-			header?: never;
-			path: {
-				id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						song: {
-							videoId: string;
-							title?: string;
-							author?: string;
-							duration?: number;
-							audioUrl: string;
-							mimeType: string;
-							bitrate: number;
-						};
-						lyrics: {
-							id: number;
-							name: string;
-							trackName: string;
-							artistName: string;
-							albumName: string;
-							duration: number;
-							instrumental: boolean;
-							plainLyrics: (string | null) | null;
-							syncedLyrics: (string | null) | null;
-						}[];
-					};
-					"multipart/form-data": {
-						song: {
-							videoId: string;
-							title?: string;
-							author?: string;
-							duration?: number;
-							audioUrl: string;
-							mimeType: string;
-							bitrate: number;
-						};
-						lyrics: {
-							id: number;
-							name: string;
-							trackName: string;
-							artistName: string;
-							albumName: string;
-							duration: number;
-							instrumental: boolean;
-							plainLyrics: (string | null) | null;
-							syncedLyrics: (string | null) | null;
-						}[];
-					};
-					"text/plain": {
-						song: {
-							videoId: string;
-							title?: string;
-							author?: string;
-							duration?: number;
-							audioUrl: string;
-							mimeType: string;
-							bitrate: number;
-						};
-						lyrics: {
-							id: number;
-							name: string;
-							trackName: string;
-							artistName: string;
-							albumName: string;
-							duration: number;
-							instrumental: boolean;
-							plainLyrics: (string | null) | null;
-							syncedLyrics: (string | null) | null;
-						}[];
-					};
-				};
-			};
-		};
-	};
-	getSongStreamById: {
-		parameters: {
-			query?: {
-				audioProvider?: string;
-			};
-			header?: never;
-			path: {
-				id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-		};
-	};
-	getSongLyricById: {
-		parameters: {
-			query?: {
-				lyricProvider?: string;
-			};
-			header?: never;
-			path: {
-				id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						id: number;
-						name: string;
-						trackName: string;
-						artistName: string;
-						albumName: string;
-						duration: number;
-						instrumental: boolean;
-						plainLyrics: (string | null) | null;
-						syncedLyrics: (string | null) | null;
-					}[];
-					"multipart/form-data": {
-						id: number;
-						name: string;
-						trackName: string;
-						artistName: string;
-						albumName: string;
-						duration: number;
-						instrumental: boolean;
-						plainLyrics: (string | null) | null;
-						syncedLyrics: (string | null) | null;
-					}[];
-					"text/plain": {
-						id: number;
-						name: string;
-						trackName: string;
-						artistName: string;
-						albumName: string;
-						duration: number;
-						instrumental: boolean;
-						plainLyrics: (string | null) | null;
-						syncedLyrics: (string | null) | null;
-					}[];
-				};
-			};
-		};
-	};
-	getSongWaveformByFilename: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				filename: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						bars: number[];
-					};
-					"multipart/form-data": {
-						bars: number[];
-					};
-					"text/plain": {
-						bars: number[];
-					};
-				};
-			};
-		};
-	};
-	postSongSave: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				"application/json": {
-					videoId: string;
-					title: string;
-					artist?: string;
-					syncedLyrics: string;
-					/** @default 0 */
-					offsetMs: number;
-				};
-				"multipart/form-data": {
-					videoId: string;
-					title: string;
-					artist?: string;
-					syncedLyrics: string;
-					/** @default 0 */
-					offsetMs: number;
-				};
-				"text/plain": {
-					videoId: string;
-					title: string;
-					artist?: string;
-					syncedLyrics: string;
-					/** @default 0 */
-					offsetMs: number;
-				};
-			};
-		};
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						filename: string;
-						lrcFilename: string;
-					};
-					"multipart/form-data": {
-						filename: string;
-						lrcFilename: string;
-					};
-					"text/plain": {
-						filename: string;
-						lrcFilename: string;
-					};
-				};
-			};
-		};
-	};
-	getSounds: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						name: string;
-						filename: string;
-					}[];
-					"multipart/form-data": {
-						name: string;
-						filename: string;
-					}[];
-					"text/plain": {
-						name: string;
-						filename: string;
-					}[];
-				};
-			};
-		};
-	};
-	getScenes: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						id: number;
-						name: string;
-						bg: string;
-						message?: string;
-						frame?: string;
-						music?: string;
-						/** @description Character sprite for scene */
-						char?: string;
-					}[];
-					"multipart/form-data": {
-						id: number;
-						name: string;
-						bg: string;
-						message?: string;
-						frame?: string;
-						music?: string;
-						/** @description Character sprite for scene */
-						char?: string;
-					}[];
-					"text/plain": {
-						id: number;
-						name: string;
-						bg: string;
-						message?: string;
-						frame?: string;
-						music?: string;
-						/** @description Character sprite for scene */
-						char?: string;
-					}[];
-				};
-			};
-		};
-	};
-	getUserByIdBadge: {
-		parameters: {
-			query: {
-				type: "best_wpm";
-			};
-			header?: never;
-			path: {
-				id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-		};
-	};
-	patchUserById: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				"application/json": {
-					level: number;
-				};
-				"multipart/form-data": {
-					level: number;
-				};
-				"text/plain": {
-					level: number;
-				};
-			};
-		};
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-		};
-	};
-	getStats: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					"application/json": {
-						/** @description CPU % */
-						cpu: number;
-						/** @description Memory % */
-						memory: number;
-						turso: {
-							/** @description DB Turso read % */
-							read: number;
-							/** @description DB Turso write % */
-							write: number;
-							/** @description DB Turso Storage % */
-							storage: number;
-						};
-					};
-					"multipart/form-data": {
-						/** @description CPU % */
-						cpu: number;
-						/** @description Memory % */
-						memory: number;
-						turso: {
-							/** @description DB Turso read % */
-							read: number;
-							/** @description DB Turso write % */
-							write: number;
-							/** @description DB Turso Storage % */
-							storage: number;
-						};
-					};
-					"text/plain": {
-						/** @description CPU % */
-						cpu: number;
-						/** @description Memory % */
-						memory: number;
-						turso: {
-							/** @description DB Turso read % */
-							read: number;
-							/** @description DB Turso write % */
-							write: number;
-							/** @description DB Turso Storage % */
-							storage: number;
-						};
-					};
-				};
-			};
-		};
-	};
+    getIndex: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getHealth: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @constant */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": "OK";
+                    "multipart/form-data": "OK";
+                    "text/plain": "OK";
+                };
+            };
+        };
+    };
+    getSongLocal: {
+        parameters: {
+            query: {
+                title?: string;
+                limit: number;
+                offset: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        items: {
+                            filename: string;
+                            title: string;
+                            artist: (string | null) | null;
+                            albumArt: (string | null) | null;
+                            duration: (number | null) | null;
+                            lrcFilename: (string | null) | null;
+                        }[];
+                        total: number;
+                        limit: number;
+                        offset: number;
+                    };
+                    "multipart/form-data": {
+                        items: {
+                            filename: string;
+                            title: string;
+                            artist: (string | null) | null;
+                            albumArt: (string | null) | null;
+                            duration: (number | null) | null;
+                            lrcFilename: (string | null) | null;
+                        }[];
+                        total: number;
+                        limit: number;
+                        offset: number;
+                    };
+                    "text/plain": {
+                        items: {
+                            filename: string;
+                            title: string;
+                            artist: (string | null) | null;
+                            albumArt: (string | null) | null;
+                            duration: (number | null) | null;
+                            lrcFilename: (string | null) | null;
+                        }[];
+                        total: number;
+                        limit: number;
+                        offset: number;
+                    };
+                };
+            };
+        };
+    };
+    getSongById: {
+        parameters: {
+            query?: {
+                audioProvider?: string;
+                lyricProvider?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        song: {
+                            videoId: string;
+                            title?: string;
+                            author?: string;
+                            duration?: number;
+                            audioUrl: string;
+                            mimeType: string;
+                            bitrate: number;
+                        };
+                        lyrics: {
+                            id: number;
+                            name: string;
+                            trackName: string;
+                            artistName: string;
+                            albumName: string;
+                            duration: number;
+                            instrumental: boolean;
+                            plainLyrics: (string | null) | null;
+                            syncedLyrics: (string | null) | null;
+                        }[];
+                    };
+                    "multipart/form-data": {
+                        song: {
+                            videoId: string;
+                            title?: string;
+                            author?: string;
+                            duration?: number;
+                            audioUrl: string;
+                            mimeType: string;
+                            bitrate: number;
+                        };
+                        lyrics: {
+                            id: number;
+                            name: string;
+                            trackName: string;
+                            artistName: string;
+                            albumName: string;
+                            duration: number;
+                            instrumental: boolean;
+                            plainLyrics: (string | null) | null;
+                            syncedLyrics: (string | null) | null;
+                        }[];
+                    };
+                    "text/plain": {
+                        song: {
+                            videoId: string;
+                            title?: string;
+                            author?: string;
+                            duration?: number;
+                            audioUrl: string;
+                            mimeType: string;
+                            bitrate: number;
+                        };
+                        lyrics: {
+                            id: number;
+                            name: string;
+                            trackName: string;
+                            artistName: string;
+                            albumName: string;
+                            duration: number;
+                            instrumental: boolean;
+                            plainLyrics: (string | null) | null;
+                            syncedLyrics: (string | null) | null;
+                        }[];
+                    };
+                };
+            };
+        };
+    };
+    getSongStreamById: {
+        parameters: {
+            query?: {
+                audioProvider?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSongLyricById: {
+        parameters: {
+            query?: {
+                lyricProvider?: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: number;
+                        name: string;
+                        trackName: string;
+                        artistName: string;
+                        albumName: string;
+                        duration: number;
+                        instrumental: boolean;
+                        plainLyrics: (string | null) | null;
+                        syncedLyrics: (string | null) | null;
+                    }[];
+                    "multipart/form-data": {
+                        id: number;
+                        name: string;
+                        trackName: string;
+                        artistName: string;
+                        albumName: string;
+                        duration: number;
+                        instrumental: boolean;
+                        plainLyrics: (string | null) | null;
+                        syncedLyrics: (string | null) | null;
+                    }[];
+                    "text/plain": {
+                        id: number;
+                        name: string;
+                        trackName: string;
+                        artistName: string;
+                        albumName: string;
+                        duration: number;
+                        instrumental: boolean;
+                        plainLyrics: (string | null) | null;
+                        syncedLyrics: (string | null) | null;
+                    }[];
+                };
+            };
+        };
+    };
+    getSongWaveformByFilename: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                filename: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        bars: number[];
+                    };
+                    "multipart/form-data": {
+                        bars: number[];
+                    };
+                    "text/plain": {
+                        bars: number[];
+                    };
+                };
+            };
+        };
+    };
+    postSongSave: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    videoId: string;
+                    title: string;
+                    artist?: string;
+                    syncedLyrics: string;
+                    /** @default 0 */
+                    offsetMs: number;
+                };
+                "multipart/form-data": {
+                    videoId: string;
+                    title: string;
+                    artist?: string;
+                    syncedLyrics: string;
+                    /** @default 0 */
+                    offsetMs: number;
+                };
+                "text/plain": {
+                    videoId: string;
+                    title: string;
+                    artist?: string;
+                    syncedLyrics: string;
+                    /** @default 0 */
+                    offsetMs: number;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        filename: string;
+                        lrcFilename: string;
+                    };
+                    "multipart/form-data": {
+                        filename: string;
+                        lrcFilename: string;
+                    };
+                    "text/plain": {
+                        filename: string;
+                        lrcFilename: string;
+                    };
+                };
+            };
+        };
+    };
+    getSounds: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        name: string;
+                        filename: string;
+                    }[];
+                    "multipart/form-data": {
+                        name: string;
+                        filename: string;
+                    }[];
+                    "text/plain": {
+                        name: string;
+                        filename: string;
+                    }[];
+                };
+            };
+        };
+    };
+    getScenes: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        id: number;
+                        name: string;
+                        bg: string;
+                        message?: string;
+                        frame?: string;
+                        music?: string;
+                        /** @description Character sprite for scene */
+                        char?: string;
+                    }[];
+                    "multipart/form-data": {
+                        id: number;
+                        name: string;
+                        bg: string;
+                        message?: string;
+                        frame?: string;
+                        music?: string;
+                        /** @description Character sprite for scene */
+                        char?: string;
+                    }[];
+                    "text/plain": {
+                        id: number;
+                        name: string;
+                        bg: string;
+                        message?: string;
+                        frame?: string;
+                        music?: string;
+                        /** @description Character sprite for scene */
+                        char?: string;
+                    }[];
+                };
+            };
+        };
+    };
+    getStats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @description CPU % */
+                        cpu: number;
+                        /** @description Memory % */
+                        memory: number;
+                        turso: {
+                            /** @description DB Turso read % */
+                            read: number;
+                            /** @description DB Turso write % */
+                            write: number;
+                            /** @description DB Turso Storage % */
+                            storage: number;
+                        };
+                    };
+                    "multipart/form-data": {
+                        /** @description CPU % */
+                        cpu: number;
+                        /** @description Memory % */
+                        memory: number;
+                        turso: {
+                            /** @description DB Turso read % */
+                            read: number;
+                            /** @description DB Turso write % */
+                            write: number;
+                            /** @description DB Turso Storage % */
+                            storage: number;
+                        };
+                    };
+                    "text/plain": {
+                        /** @description CPU % */
+                        cpu: number;
+                        /** @description Memory % */
+                        memory: number;
+                        turso: {
+                            /** @description DB Turso read % */
+                            read: number;
+                            /** @description DB Turso write % */
+                            write: number;
+                            /** @description DB Turso Storage % */
+                            storage: number;
+                        };
+                    };
+                };
+            };
+        };
+    };
 }
