@@ -1,4 +1,9 @@
-export type Resolution = "native" | "1920x1080" | "1280x720" | "1024x768" | "800x600";
+export type Resolution =
+	| "native"
+	| "1920x1080"
+	| "1280x720"
+	| "1024x768"
+	| "800x600";
 
 function get(key: string): string | null {
 	if (typeof localStorage === "undefined") return null;

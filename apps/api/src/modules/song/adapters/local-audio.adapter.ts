@@ -18,7 +18,10 @@ const LOCAL_MIME = 'audio/webm; codecs="opus"';
  * Parse "Artist - Title" or just "Title" from a filename (without extension).
  * yt-dlp commonly produces "Artist - Title [videoId]" — strip the bracketed ID first.
  */
-function parseFilename(baseName: string): { title: string; artist: string | null } {
+function parseFilename(baseName: string): {
+	title: string;
+	artist: string | null;
+} {
 	const clean = baseName.replace(/\s*\[[^\]]{5,}\]\s*$/, "").trim();
 	const sepIdx = clean.indexOf(" - ");
 	if (sepIdx !== -1) {
@@ -32,14 +35,28 @@ function parseFilename(baseName: string): { title: string; artist: string | null
 
 async function ffprobe(fullPath: string) {
 	const proc = spawn(
-		["ffprobe", "-v", "quiet", "-print_format", "json", "-show_format", fullPath],
+		[
+			"ffprobe",
+			"-v",
+			"quiet",
+			"-print_format",
+			"json",
+			"-show_format",
+			fullPath,
+		],
 		{ stdout: "pipe", stderr: "ignore" },
 	);
 	const text = await new Response(proc.stdout).text();
-	const data = JSON.parse(text) as { format?: { duration?: string; bit_rate?: string } };
+	const data = JSON.parse(text) as {
+		format?: { duration?: string; bit_rate?: string };
+	};
 	return {
-		duration: data.format?.duration ? Math.round(parseFloat(data.format.duration)) : null,
-		bitrate: data.format?.bit_rate ? Math.round(parseInt(data.format.bit_rate)) : null,
+		duration: data.format?.duration
+			? Math.round(parseFloat(data.format.duration))
+			: null,
+		bitrate: data.format?.bit_rate
+			? Math.round(parseInt(data.format.bit_rate))
+			: null,
 	};
 }
 
@@ -47,10 +64,24 @@ async function ffprobe(fullPath: string) {
  * Extract the first frame of the VP9 thumbnail track embedded by YouTube Music.
  * yt-dlp's bestaudio[ext=webm] always includes a 500x500 album art video track.
  */
-async function computeWaveformBars(fullPath: string, numBars = 800): Promise<string | null> {
+async function computeWaveformBars(
+	fullPath: string,
+	numBars = 800,
+): Promise<string | null> {
 	try {
 		const proc = spawn(
-			["ffmpeg", "-i", fullPath, "-f", "f32le", "-ac", "1", "-ar", "22050", "pipe:1"],
+			[
+				"ffmpeg",
+				"-i",
+				fullPath,
+				"-f",
+				"f32le",
+				"-ac",
+				"1",
+				"-ar",
+				"22050",
+				"pipe:1",
+			],
 			{ stdout: "pipe", stderr: "ignore" },
 		);
 		const buf = await new Response(proc.stdout).arrayBuffer();
@@ -72,7 +103,9 @@ async function computeWaveformBars(fullPath: string, numBars = 800): Promise<str
 		for (let b = 0; b < numBars; b++) if (bars[b] > max) max = bars[b];
 		if (max > 0) for (let b = 0; b < numBars; b++) bars[b] /= max;
 
-		return JSON.stringify(Array.from(bars).map((v) => Math.round(v * 1000) / 1000));
+		return JSON.stringify(
+			Array.from(bars).map((v) => Math.round(v * 1000) / 1000),
+		);
 	} catch {
 		return null;
 	}
@@ -82,10 +115,16 @@ async function extractAlbumArt(fullPath: string): Promise<string | null> {
 	try {
 		const proc = spawn(
 			[
-				"ffmpeg", "-i", fullPath,
-				"-vframes", "1",
-				"-vf", "scale=64:64:force_original_aspect_ratio=increase:flags=lanczos,crop=64:64",
-				"-f", "webp", "pipe:1",
+				"ffmpeg",
+				"-i",
+				fullPath,
+				"-vframes",
+				"1",
+				"-vf",
+				"scale=64:64:force_original_aspect_ratio=increase:flags=lanczos,crop=64:64",
+				"-f",
+				"webp",
+				"pipe:1",
 			],
 			{ stdout: "pipe", stderr: "ignore" },
 		);
@@ -108,11 +147,22 @@ async function readMetadata(filename: string) {
 		computeWaveformBars(fullPath),
 	]);
 
-	const lrcFilename = (await file(`${SONG_PATH}/${baseName}.${LRC_EXT}`).exists())
+	const lrcFilename = (await file(
+		`${SONG_PATH}/${baseName}.${LRC_EXT}`,
+	).exists())
 		? `${baseName}.${LRC_EXT}`
 		: null;
 
-	return { filename, lrcFilename, title, artist, albumArt, waveformBars, ...probe, mimeType: LOCAL_MIME };
+	return {
+		filename,
+		lrcFilename,
+		title,
+		artist,
+		albumArt,
+		waveformBars,
+		...probe,
+		mimeType: LOCAL_MIME,
+	};
 }
 
 async function indexSongs(): Promise<void> {
@@ -150,9 +200,20 @@ export async function indexSong(
 
 	const lrcFilename =
 		lrcFilenameOverride ??
-		((await file(`${SONG_PATH}/${baseName}.lrc`).exists()) ? `${baseName}.lrc` : null);
+		((await file(`${SONG_PATH}/${baseName}.lrc`).exists())
+			? `${baseName}.lrc`
+			: null);
 
-	await upsertSong({ filename, lrcFilename, title, artist, albumArt, waveformBars, ...probe, mimeType: LOCAL_MIME });
+	await upsertSong({
+		filename,
+		lrcFilename,
+		title,
+		artist,
+		albumArt,
+		waveformBars,
+		...probe,
+		mimeType: LOCAL_MIME,
+	});
 	await rebuildFts();
 }
 
@@ -194,7 +255,8 @@ export async function LocalAudioProvider(): Promise<AudioBaseProvider> {
 		const fullPath = `${SONG_PATH}/${filename}`;
 		const f = file(fullPath);
 
-		if (!(await f.exists())) throw new Error(`Local song not found: ${filename}`);
+		if (!(await f.exists()))
+			throw new Error(`Local song not found: ${filename}`);
 
 		return {
 			stream: f.stream() as ReadableStream<Uint8Array>,
@@ -207,7 +269,10 @@ export async function LocalAudioProvider(): Promise<AudioBaseProvider> {
 			await access(SONG_PATH);
 			return { ok: true };
 		} catch {
-			return { ok: false, reason: `Song directory not accessible: ${SONG_PATH}` };
+			return {
+				ok: false,
+				reason: `Song directory not accessible: ${SONG_PATH}`,
+			};
 		}
 	}
 

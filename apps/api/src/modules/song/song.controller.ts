@@ -193,7 +193,10 @@ export const SongController = new Elysia({ name: "Song.Controller" })
 			return { bars: JSON.parse(row.waveformBars) as number[] };
 		},
 		{
-			detail: { description: "Get precomputed waveform bars for a local song", tags: ["Song"] },
+			detail: {
+				description: "Get precomputed waveform bars for a local song",
+				tags: ["Song"],
+			},
 			params: t.Object({ filename: t.String() }),
 			response: t.Object({ bars: t.Array(t.Number()) }),
 		},

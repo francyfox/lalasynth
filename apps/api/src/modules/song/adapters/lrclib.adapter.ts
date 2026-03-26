@@ -11,11 +11,21 @@ export const LrclibProvider = (): LyricBaseProvider => {
 
 		return data
 			.filter((a) => !a.instrumental && a.syncedLyrics)
-			.sort((a, b) => Math.abs(a.duration - duration) - Math.abs(b.duration - duration))
+			.sort(
+				(a, b) =>
+					Math.abs(a.duration - duration) - Math.abs(b.duration - duration),
+			)
 			.map((a) => ({
 				...a,
-				syncedLyrics: lyricProcessor(a.syncedLyrics).normalize().stripPunctuation().splitLongLines().value(),
-				plainLyrics: lyricProcessor(a.plainLyrics).normalize().stripPunctuation().value(),
+				syncedLyrics: lyricProcessor(a.syncedLyrics)
+					.normalize()
+					.stripPunctuation()
+					.splitLongLines()
+					.value(),
+				plainLyrics: lyricProcessor(a.plainLyrics)
+					.normalize()
+					.stripPunctuation()
+					.value(),
 			}));
 	}
 

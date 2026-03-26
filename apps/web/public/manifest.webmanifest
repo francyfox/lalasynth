@@ -1,18 +1,18 @@
 {
-  "name": "Lalasynth",
-  "short_name": "Lalasynth",
-  "description": "Real-time multiplayer karaoke racing game",
-  "start_url": "/",
-  "display": "standalone",
-  "orientation": "landscape",
-  "background_color": "#0d0920",
-  "theme_color": "#7755ee",
-  "icons": [
-    {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+	"name": "Lalasynth",
+	"short_name": "Lalasynth",
+	"description": "Real-time multiplayer karaoke racing game",
+	"start_url": "/",
+	"display": "standalone",
+	"orientation": "landscape",
+	"background_color": "#0d0920",
+	"theme_color": "#7755ee",
+	"icons": [
+		{
+			"src": "/favicon.svg",
+			"sizes": "any",
+			"type": "image/svg+xml",
+			"purpose": "any maskable"
+		}
+	]
 }

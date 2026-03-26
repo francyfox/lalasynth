@@ -74,9 +74,15 @@ export function createBgPlayer(): IBgAudioPlayer {
 	});
 
 	return {
-		get current() { return current; },
-		get playing() { return playing; },
-		get pending() { return pending; },
+		get current() {
+			return current;
+		},
+		get playing() {
+			return playing;
+		},
+		get pending() {
+			return pending;
+		},
 		play,
 		resume,
 		stop,

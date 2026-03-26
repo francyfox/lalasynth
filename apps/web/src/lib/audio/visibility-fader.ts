@@ -1,6 +1,9 @@
 import type { IFader } from "./fader";
 
-export function setupVisibilityFader(fader: IFader, getTarget: () => number): () => void {
+export function setupVisibilityFader(
+	fader: IFader,
+	getTarget: () => number,
+): () => void {
 	function handler() {
 		if (document.hidden) {
 			fader.cancel();

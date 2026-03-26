@@ -8,7 +8,8 @@ const state = {
 	songError: null as Error | null,
 	lyricsResult: [
 		{
-			syncedLyrics: "[00:18.11]Never gonna give you up\n[00:20.46]Never gonna let you down",
+			syncedLyrics:
+				"[00:18.11]Never gonna give you up\n[00:20.46]Never gonna let you down",
 			plainLyrics: "Never gonna give you up\nNever gonna let you down",
 		},
 	] as Array<Record<string, string | null>>,
@@ -68,7 +69,10 @@ const { default: songCommand } = await import("./song");
 beforeEach(() => {
 	state.songError = null;
 	state.lyricsResult = [
-		{ syncedLyrics: "[00:18.11]Never gonna give you up\n[00:20.46]Never gonna let you down" },
+		{
+			syncedLyrics:
+				"[00:18.11]Never gonna give you up\n[00:20.46]Never gonna let you down",
+		},
 	];
 	state.downloadError = null;
 	state.lastApplyLrcMs = null;
@@ -86,8 +90,12 @@ describe("song command", () => {
 
 		expect(result.exitCode).toBe(0);
 		expect(result.stdout).toContain("Rick Astley");
-		expect(result.stdout).toContain("Rick Astley - Never Gonna Give You Up.webm");
-		expect(result.stdout).toContain("Rick Astley - Never Gonna Give You Up.lrc");
+		expect(result.stdout).toContain(
+			"Rick Astley - Never Gonna Give You Up.webm",
+		);
+		expect(result.stdout).toContain(
+			"Rick Astley - Never Gonna Give You Up.lrc",
+		);
 	});
 
 	test("prints offset when non-zero", async () => {

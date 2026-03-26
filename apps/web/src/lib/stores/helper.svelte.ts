@@ -24,12 +24,24 @@ function createHelperStore() {
 	let audioStatus = $derived.by((): AudioStatus => getAutoplayStatus());
 
 	return {
-		get open() { return open; },
-		get current(): HintType | null { return queue[index] ?? null; },
-		get hasNext() { return index < queue.length - 1; },
-		get step() { return index + 1; },
-		get total() { return queue.length; },
-		get audioStatus(): AudioStatus { return audioStatus; },
+		get open() {
+			return open;
+		},
+		get current(): HintType | null {
+			return queue[index] ?? null;
+		},
+		get hasNext() {
+			return index < queue.length - 1;
+		},
+		get step() {
+			return index + 1;
+		},
+		get total() {
+			return queue.length;
+		},
+		get audioStatus(): AudioStatus {
+			return audioStatus;
+		},
 
 		show(hints: HintType[]) {
 			if (hints.length === 0) return;

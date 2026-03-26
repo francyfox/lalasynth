@@ -2,9 +2,9 @@ import { useEventListener } from "runed";
 import { toast } from "svelte-sonner";
 
 /** Modifier key aliases */
-const MOD   = new Set(["⌘", "cmd", "ctrl", "control", "meta", "mod"]);
+const MOD = new Set(["⌘", "cmd", "ctrl", "control", "meta", "mod"]);
 const SHIFT = new Set(["shift", "⇧"]);
-const ALT   = new Set(["alt", "option", "⌥"]);
+const ALT = new Set(["alt", "option", "⌥"]);
 
 const INPUT_TAGS = new Set(["INPUT", "TEXTAREA", "SELECT"]);
 
@@ -35,9 +35,9 @@ export function useKeyboardShortcut(
 	const { ignoreInputs = true } = options;
 	const lower = keys.map((k) => k.toLowerCase());
 
-	const needsMod   = lower.some((k) => MOD.has(k));
+	const needsMod = lower.some((k) => MOD.has(k));
 	const needsShift = lower.some((k) => SHIFT.has(k));
-	const needsAlt   = lower.some((k) => ALT.has(k));
+	const needsAlt = lower.some((k) => ALT.has(k));
 
 	const regularKeys = lower.filter(
 		(k) => !MOD.has(k) && !SHIFT.has(k) && !ALT.has(k),
@@ -47,7 +47,8 @@ export function useKeyboardShortcut(
 		() => window,
 		"keydown",
 		(e: KeyboardEvent) => {
-			if (ignoreInputs && INPUT_TAGS.has((document.activeElement?.tagName ?? ""))) return;
+			if (ignoreInputs && INPUT_TAGS.has(document.activeElement?.tagName ?? ""))
+				return;
 
 			// Cmd/Ctrl: strict match
 			if (needsMod !== (e.metaKey || e.ctrlKey)) return;
@@ -63,9 +64,8 @@ export function useKeyboardShortcut(
 			handler(e);
 
 			if (options.toast) {
-				const message = typeof options.toast === "function"
-					? options.toast()
-					: options.toast;
+				const message =
+					typeof options.toast === "function" ? options.toast() : options.toast;
 				toast.message(message);
 			}
 		},

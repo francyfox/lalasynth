@@ -1,6 +1,9 @@
 import { eq, sql } from "drizzle-orm";
 import { db } from "@/db";
-import { LocalSongSchema, type LocalSong } from "@/modules/song/local-song.schema";
+import {
+	LocalSongSchema,
+	type LocalSong,
+} from "@/modules/song/local-song.schema";
 
 export async function createFtsTable(): Promise<void> {
 	await db.run(sql`
@@ -17,19 +20,24 @@ export async function rebuildFts(): Promise<void> {
 	`);
 }
 
-export async function upsertSong(song: typeof LocalSongSchema.$inferInsert): Promise<void> {
-	await db.insert(LocalSongSchema).values(song).onConflictDoUpdate({
-		target: LocalSongSchema.filename,
-		set: {
-			title: song.title,
-			artist: song.artist,
-			albumArt: song.albumArt,
-			duration: song.duration,
-			bitrate: song.bitrate,
-			lrcFilename: song.lrcFilename,
-			waveformBars: song.waveformBars,
-		},
-	});
+export async function upsertSong(
+	song: typeof LocalSongSchema.$inferInsert,
+): Promise<void> {
+	await db
+		.insert(LocalSongSchema)
+		.values(song)
+		.onConflictDoUpdate({
+			target: LocalSongSchema.filename,
+			set: {
+				title: song.title,
+				artist: song.artist,
+				albumArt: song.albumArt,
+				duration: song.duration,
+				bitrate: song.bitrate,
+				lrcFilename: song.lrcFilename,
+				waveformBars: song.waveformBars,
+			},
+		});
 }
 
 export async function findWaveformByFilename(
@@ -42,19 +50,36 @@ export async function findWaveformByFilename(
 		.get();
 }
 
-export async function findSongByFilename(filename: string): Promise<LocalSong | undefined> {
-	return db.select().from(LocalSongSchema).where(eq(LocalSongSchema.filename, filename)).get();
+export async function findSongByFilename(
+	filename: string,
+): Promise<LocalSong | undefined> {
+	return db
+		.select()
+		.from(LocalSongSchema)
+		.where(eq(LocalSongSchema.filename, filename))
+		.get();
 }
 
-export async function findSongByTitle(title: string): Promise<LocalSong | undefined> {
-	return db.select().from(LocalSongSchema).where(eq(LocalSongSchema.title, title)).get();
+export async function findSongByTitle(
+	title: string,
+): Promise<LocalSong | undefined> {
+	return db
+		.select()
+		.from(LocalSongSchema)
+		.where(eq(LocalSongSchema.title, title))
+		.get();
 }
 
 export async function findExistingMeta(
 	filename: string,
-): Promise<{ albumArt: string | null; waveformBars: string | null } | undefined> {
+): Promise<
+	{ albumArt: string | null; waveformBars: string | null } | undefined
+> {
 	return db
-		.select({ albumArt: LocalSongSchema.albumArt, waveformBars: LocalSongSchema.waveformBars })
+		.select({
+			albumArt: LocalSongSchema.albumArt,
+			waveformBars: LocalSongSchema.waveformBars,
+		})
 		.from(LocalSongSchema)
 		.where(eq(LocalSongSchema.filename, filename))
 		.get();
@@ -105,7 +130,13 @@ export async function findAllSongs(
 	offset: number,
 ): Promise<{ rows: LocalSong[]; total: number }> {
 	const [rows, countRows] = await Promise.all([
-		db.select().from(LocalSongSchema).orderBy(LocalSongSchema.title).limit(limit).offset(offset).all(),
+		db
+			.select()
+			.from(LocalSongSchema)
+			.orderBy(LocalSongSchema.title)
+			.limit(limit)
+			.offset(offset)
+			.all(),
 		db.all<{ total: number }>(sql`SELECT count(*) AS total FROM local_song`),
 	]);
 

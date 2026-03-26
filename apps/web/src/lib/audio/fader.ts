@@ -47,7 +47,10 @@ export function createRafFader(audioEl: HTMLAudioElement): IFader {
 
 const WEB_AUDIO_FADE_SEC = 0.4;
 
-export function createWebAudioFader(gainNode: GainNode, ctx: AudioContext): IFader {
+export function createWebAudioFader(
+	gainNode: GainNode,
+	ctx: AudioContext,
+): IFader {
 	let doneTimeout: ReturnType<typeof setTimeout> | null = null;
 
 	function cancel() {
@@ -62,7 +65,10 @@ export function createWebAudioFader(gainNode: GainNode, ctx: AudioContext): IFad
 		cancel();
 		const current = gainNode.gain.value;
 		gainNode.gain.setValueAtTime(current, ctx.currentTime);
-		gainNode.gain.linearRampToValueAtTime(target, ctx.currentTime + WEB_AUDIO_FADE_SEC);
+		gainNode.gain.linearRampToValueAtTime(
+			target,
+			ctx.currentTime + WEB_AUDIO_FADE_SEC,
+		);
 		if (onDone) {
 			doneTimeout = setTimeout(() => {
 				doneTimeout = null;

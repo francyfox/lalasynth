@@ -11,7 +11,8 @@ import { beforeEach, describe, expect, mock, test } from "bun:test";
 // Helpers
 // ---------------------------------------------------------------------------
 
-const FAKE_AUDIO_URL = "https://r1---sn-fake.googlevideo.com/videoplayback?id=test";
+const FAKE_AUDIO_URL =
+	"https://r1---sn-fake.googlevideo.com/videoplayback?id=test";
 
 /** Build a minimal fake Innertube instance. */
 function makeFakeYoutube(overrides: Partial<{ audioUrl: string }> = {}) {
@@ -24,7 +25,7 @@ function makeFakeYoutube(overrides: Partial<{ audioUrl: string }> = {}) {
 				duration: 213,
 			},
 			chooseFormat: (_opts: unknown) => ({
-				mime_type: "audio/webm; codecs=\"opus\"",
+				mime_type: 'audio/webm; codecs="opus"',
 				bitrate: 160000,
 				decipher: mock(async (_player: unknown) => audioUrl),
 			}),
@@ -182,7 +183,9 @@ describe("getSong — URL extraction", () => {
 	test("accepts bare 11-character video ID", async () => {
 		// YT_ID_REGEX: exactly 11 alphanumeric / _ / - chars
 		const videoId = "abcdefghijk";
-		const result = (await YtdlpProvider().getSong(videoId)) as { videoId: string };
+		const result = (await YtdlpProvider().getSong(videoId)) as {
+			videoId: string;
+		};
 		expect(result.videoId).toBe(videoId);
 	});
 

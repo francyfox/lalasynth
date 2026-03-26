@@ -31,7 +31,10 @@ self.addEventListener("message", async (e: MessageEvent<InMessage>) => {
 			const { done, value } = await reader.read();
 			if (done) break;
 			// Slice exact bytes — value.buffer may be a larger shared ArrayBuffer
-			const chunk = value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
+			const chunk = value.buffer.slice(
+				value.byteOffset,
+				value.byteOffset + value.byteLength,
+			);
 			self.postMessage(
 				{ type: "chunk", id, data: chunk } satisfies OutMessage,
 				{ transfer: [chunk] },

@@ -29,7 +29,9 @@ export const LocalSongService = () => {
 		return { items: rows, total, limit, offset };
 	}
 
-	async function fetchYoutubeThumbnail(videoId: string): Promise<string | null> {
+	async function fetchYoutubeThumbnail(
+		videoId: string,
+	): Promise<string | null> {
 		try {
 			const url = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
 			const res = await fetch(url);
@@ -37,7 +39,16 @@ export const LocalSongService = () => {
 			const buf = await res.arrayBuffer();
 
 			const proc = Bun.spawn(
-				["ffmpeg", "-i", "pipe:0", "-vf", "scale=64:64:force_original_aspect_ratio=increase:flags=lanczos,crop=64:64", "-f", "webp", "pipe:1"],
+				[
+					"ffmpeg",
+					"-i",
+					"pipe:0",
+					"-vf",
+					"scale=64:64:force_original_aspect_ratio=increase:flags=lanczos,crop=64:64",
+					"-f",
+					"webp",
+					"pipe:1",
+				],
 				{ stdin: "pipe", stdout: "pipe", stderr: "ignore" },
 			);
 			proc.stdin.write(new Uint8Array(buf));
@@ -67,7 +78,13 @@ export const LocalSongService = () => {
 		// Download audio and thumbnail in parallel
 		const existing = await findSongByFilename(audioFilename);
 		const [, thumbnailB64] = await Promise.all([
-			existing ? Promise.resolve() : downloadToFile(videoId, audioPath, env.LOCAL_SONGS_AUDIO_BITRATE_KBPS),
+			existing
+				? Promise.resolve()
+				: downloadToFile(
+						videoId,
+						audioPath,
+						env.LOCAL_SONGS_AUDIO_BITRATE_KBPS,
+					),
 			fetchYoutubeThumbnail(videoId),
 		]);
 

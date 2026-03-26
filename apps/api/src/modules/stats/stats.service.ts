@@ -4,7 +4,10 @@ import { env } from "@/env";
 import { TURSO_LIMITS } from "@/modules/stats/stats.const";
 
 const TURSO_CACHE_TTL = 60_000;
-let tursoCache: { data: { read: number; write: number; storage: number }; ts: number } | null = null;
+let tursoCache: {
+	data: { read: number; write: number; storage: number };
+	ts: number;
+} | null = null;
 
 export const StatsService = () => {
 	function getSystemStats() {
@@ -30,7 +33,10 @@ export const StatsService = () => {
 
 		const cpus = os.cpus().length;
 		const loadAvg = os.loadavg()[0];
-		const cpuPercentage = Math.min(Math.round((loadAvg / cpus) * 10000) / 100, 100);
+		const cpuPercentage = Math.min(
+			Math.round((loadAvg / cpus) * 10000) / 100,
+			100,
+		);
 
 		return {
 			cpu: cpuPercentage,
@@ -53,9 +59,14 @@ export const StatsService = () => {
 		const { total } = await res.json();
 
 		const data = {
-			read: Math.round((total.rows_read / TURSO_LIMITS.rows_read) * 10000) / 100,
-			write: Math.round((total.rows_written / TURSO_LIMITS.rows_written) * 10000) / 100,
-			storage: Math.round((total.storage_bytes / TURSO_LIMITS.storage_bytes) * 10000) / 100,
+			read:
+				Math.round((total.rows_read / TURSO_LIMITS.rows_read) * 10000) / 100,
+			write:
+				Math.round((total.rows_written / TURSO_LIMITS.rows_written) * 10000) /
+				100,
+			storage:
+				Math.round((total.storage_bytes / TURSO_LIMITS.storage_bytes) * 10000) /
+				100,
 		};
 
 		tursoCache = { data, ts: Date.now() };

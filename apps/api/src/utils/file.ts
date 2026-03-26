@@ -19,7 +19,10 @@ export function lrcToPlain(lrc: string): string {
 }
 
 export function sanitizeFilename(name: string): string {
-	return name.replace(/[<>:"/\\|?*\x00-\x1F]/g, "").trim().slice(0, 200);
+	return name
+		.replace(/[<>:"/\\|?*\x00-\x1F]/g, "")
+		.trim()
+		.slice(0, 200);
 }
 
 /**

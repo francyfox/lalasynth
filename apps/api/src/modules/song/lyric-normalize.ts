@@ -8,8 +8,8 @@ const CHAR_MAP: Record<string, string> = {
 	"`": "'",
 	"…": "...",
 	"\u00A0": " ",
-	"ё": "е",
-	"Ё": "Е",
+	ё: "е",
+	Ё: "Е",
 };
 
 const CHAR_RE = new RegExp(
@@ -25,7 +25,9 @@ const MAX_LINE_CHARS = 40;
 function lrcToMs(ts: string): number {
 	const [min, rest] = ts.split(":");
 	const [sec, cs] = rest.split(".");
-	return (parseInt(min, 10) * 60 + parseInt(sec, 10)) * 1000 + parseInt(cs, 10) * 10;
+	return (
+		(parseInt(min, 10) * 60 + parseInt(sec, 10)) * 1000 + parseInt(cs, 10) * 10
+	);
 }
 
 function msToLrc(ms: number): string {
@@ -80,7 +82,9 @@ function doSplitLongLines(text: string): string {
 
 		const currentMs = lrcToMs(ts);
 		const nextMs = nextMatch ? lrcToMs(nextMatch[1]) : currentMs + 3000;
-		const part2Ms = currentMs + Math.round((nextMs - currentMs) * (part1.length / line.length));
+		const part2Ms =
+			currentMs +
+			Math.round((nextMs - currentMs) * (part1.length / line.length));
 
 		result.push(`[${ts}] ${part1}`);
 		result.push(`[${msToLrc(part2Ms)}] ${part2}`);
@@ -96,7 +100,9 @@ type LyricProcessor = {
 	value: () => string;
 };
 
-export function lyricProcessor(text: string | null | undefined): LyricProcessor {
+export function lyricProcessor(
+	text: string | null | undefined,
+): LyricProcessor {
 	const str = text ?? "";
 	return {
 		normalize: () => lyricProcessor(doNormalize(str)),

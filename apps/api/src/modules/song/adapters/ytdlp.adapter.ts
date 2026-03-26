@@ -2,7 +2,6 @@ import { spawn } from "bun";
 import { Innertube } from "youtubei.js";
 import type { AudioBaseProvider } from "@/modules/song/song.types";
 
-
 // Cache resolved audio metadata for 5 hours (YouTube URLs expire in ~6h)
 const URL_CACHE_TTL_MS = 5 * 60 * 60 * 1000;
 type CachedAudio = {
@@ -47,7 +46,8 @@ async function detectBrowser(): Promise<string | null> {
 export const STREAM_MIME = 'audio/webm; codecs="opus"';
 
 // Prefer webm audio-only, fallback to any https-streamable format (no HLS/m3u8 — can't pipe to stdout)
-const FORMAT_SELECTOR = "bestaudio[ext=webm]/bestaudio[protocol=https]/best[ext=mp4][protocol=https]/bestaudio/best";
+const FORMAT_SELECTOR =
+	"bestaudio[ext=webm]/bestaudio[protocol=https]/best[ext=mp4][protocol=https]/bestaudio/best";
 
 export const dlpArgs = (browser: string, videoId: string) => [
 	"yt-dlp",
@@ -206,7 +206,11 @@ const dlpDownloadArgs = (browser: string, videoId: string) => [
 	`https://www.youtube.com/watch?v=${videoId}`,
 ];
 
-export async function downloadToFile(videoId: string, destPath: string, bitrateKbps = 128): Promise<void> {
+export async function downloadToFile(
+	videoId: string,
+	destPath: string,
+	bitrateKbps = 128,
+): Promise<void> {
 	const browser = await detectBrowser();
 	if (!browser) throw new Error("No browser found for cookie extraction");
 
@@ -217,11 +221,17 @@ export async function downloadToFile(videoId: string, destPath: string, bitrateK
 
 	const ffmpeg = spawn(
 		[
-			"ffmpeg", "-y", "-i", "pipe:0",
+			"ffmpeg",
+			"-y",
+			"-i",
+			"pipe:0",
 			"-vn",
-			"-c:a", "libopus",
-			"-b:a", `${bitrateKbps}k`,
-			"-f", "webm",
+			"-c:a",
+			"libopus",
+			"-b:a",
+			`${bitrateKbps}k`,
+			"-f",
+			"webm",
 			destPath,
 		],
 		{ stdin: "pipe", stdout: "ignore", stderr: "ignore" },
@@ -234,5 +244,6 @@ export async function downloadToFile(videoId: string, destPath: string, bitrateK
 
 	const [dlpExit, ffmpegExit] = await Promise.all([dlp.exited, ffmpeg.exited]);
 	if (dlpExit !== 0) throw new Error(`yt-dlp download failed: exit ${dlpExit}`);
-	if (ffmpegExit !== 0) throw new Error(`ffmpeg transcode failed: exit ${ffmpegExit}`);
+	if (ffmpegExit !== 0)
+		throw new Error(`ffmpeg transcode failed: exit ${ffmpegExit}`);
 }

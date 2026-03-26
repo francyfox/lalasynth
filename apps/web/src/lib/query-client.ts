@@ -13,7 +13,10 @@ export const queryClient = new QueryClient({
 			if (error instanceof RateLimitError) {
 				toast.warning(`Rate limit reached. Retrying in ${error.retryAfter}s`);
 				focusManager.setFocused(false);
-				setTimeout(() => focusManager.setFocused(true), error.retryAfter * 1000);
+				setTimeout(
+					() => focusManager.setFocused(true),
+					error.retryAfter * 1000,
+				);
 				return;
 			}
 			toast.error(`Error: ${error.message}`);

@@ -55,7 +55,9 @@ export const app = new Elysia()
 	.use(betterAuthPlugin)
 	.use(routes)
 	.listen(3000, async (server) => {
-		await migrate(db, { migrationsFolder: join(import.meta.dir, "../migrations") });
+		await migrate(db, {
+			migrationsFolder: join(import.meta.dir, "../migrations"),
+		});
 		if (env.NODE_ENV === "development") {
 			await $`bun run schema`;
 		}

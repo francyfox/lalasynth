@@ -1,8 +1,9 @@
+import type { paths } from "@app/master";
 import createClient from "openapi-fetch";
 import { env } from "@/env";
 import { RateLimitError } from "@/lib/api";
 
-export const masterClient = createClient({
+export const masterClient = createClient<paths>({
 	baseUrl: env.VITE_MASTER_URL,
 });
 
