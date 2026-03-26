@@ -4,11 +4,10 @@ import { cors } from "@elysiajs/cors";
 import { staticPlugin } from "@elysiajs/static";
 import { swagger } from "@elysiajs/swagger";
 import { $ } from "bun";
+import { migrate } from "drizzle-orm/libsql/migrator";
 import { Elysia } from "elysia";
 import { rateLimit } from "elysia-rate-limit";
-import { migrate } from "drizzle-orm/libsql/migrator";
 import { env } from "@/env";
-import { betterAuthPlugin } from "@/libs/better-auth";
 import { swaggerDocs } from "@/libs/swagger";
 import { routes } from "@/routes";
 import { client, db } from "./db";
@@ -52,9 +51,8 @@ export const app = new Elysia()
 			prefix: "/static",
 		}),
 	)
-	.use(betterAuthPlugin)
 	.use(routes)
-	.listen(3000, async (server) => {
+	.listen(4000, async (server) => {
 		await migrate(db, {
 			migrationsFolder: join(import.meta.dir, "../migrations"),
 		});

@@ -15,10 +15,6 @@ export const env = createEnv({
 		CLIENT_URL: z.url(),
 		TURSO_CONNECTION_URL: z.url().optional(),
 		TURSO_AUTH_TOKEN: z.string().optional(),
-		BETTER_AUTH_BASE_URL: z.string(),
-		GITHUB_CLIENT_ID: z.string().optional(),
-		GITHUB_CLIENT_SECRET: z.string().optional(),
-
 		TURSO_API_TOKEN: z.string().optional(),
 		TURSO_ORG_NAME: z.string().optional(),
 		TURSO_DB_NAME: z.string().optional(),
