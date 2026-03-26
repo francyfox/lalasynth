@@ -16,7 +16,7 @@
 		"postcss": "^8.5.8",
 		"prettier": "^3.8.1",
 		"tailwindcss": "^4.2.1",
-		"turbo": "^2.8.16",
+		"turbo": "^2.8.20",
 		"typescript": "5.9.3"
 	},
 	"engines": {
