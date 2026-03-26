@@ -2,8 +2,9 @@ import { settingsStore } from "@/lib/stores/settings.svelte";
 import type { IBgAudioPlayer } from "./audio.types";
 import { createRafFader } from "./fader";
 import { setupVisibilityFader } from "./visibility-fader";
+import { env } from "@/env";
 
-const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+const API_BASE = env.VITE_API_URL;
 
 export function createBgPlayer(): IBgAudioPlayer {
 	const audioEl = new Audio();

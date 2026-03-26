@@ -1,6 +1,7 @@
 <script lang="ts">
     import { cn } from '@/utils/cn'
     import { createSpriteManager } from '@/utils/sprite'
+    import { env } from '@/env'
 
     interface Props {
       className?: string,
@@ -10,7 +11,7 @@
     const { frame = "idleA", className }: Props = $props()
 
     const nun = createSpriteManager({
-      image: 'http://localhost:3000/static/nun/neutral.webp',
+      image: `${env.VITE_API_URL}/static/nun/neutral.webp`,
       width: 352,
       height: 768,
       frames: ["idleA", "idleB", "idleC", "idleD"],

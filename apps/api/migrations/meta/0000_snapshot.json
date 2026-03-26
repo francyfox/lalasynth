@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "8496ac61-dfba-4c20-8244-00576f2293a7",
+  "id": "ded8f60a-93d8-450a-83b4-618f76b310fe",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user": {
@@ -435,6 +435,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "waveform_bars": {
+          "name": "waveform_bars",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "indexed_at": {

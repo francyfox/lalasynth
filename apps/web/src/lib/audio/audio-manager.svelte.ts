@@ -1,8 +1,9 @@
 import type { AudioProviders, IAudioManager } from "./audio.types";
 import { createBgPlayer } from "./bg-player.svelte";
 import { createSongPlayer } from "./song-player.svelte";
+import { env } from "@/env";
 
-const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+const API_BASE = env.VITE_API_URL;
 const SFX_POOL_SIZE = 4;
 
 function createAudioManager(): IAudioManager {

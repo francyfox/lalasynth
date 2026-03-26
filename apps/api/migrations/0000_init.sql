@@ -63,5 +63,6 @@ CREATE TABLE `local_song` (
 	`duration` integer,
 	`bitrate` integer,
 	`mime_type` text NOT NULL,
+	`waveform_bars` text,
 	`indexed_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL
 );

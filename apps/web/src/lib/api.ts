@@ -1,5 +1,6 @@
 import type { paths } from "@app/src/type";
 import createClient from "openapi-fetch";
+import { env } from "@/env";
 
 export class RateLimitError extends Error {
 	retryAfter: number;
@@ -10,7 +11,7 @@ export class RateLimitError extends Error {
 }
 
 export const client = createClient<paths>({
-	baseUrl: import.meta.env.VITE_API_URL ?? "http://localhost:3000",
+	baseUrl: env.VITE_API_URL,
 });
 
 client.use({

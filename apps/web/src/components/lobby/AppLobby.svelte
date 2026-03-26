@@ -11,6 +11,7 @@
 	import { toast } from "svelte-sonner";
 	import { goto } from "@roxi/routify";
 	import { PlayCircle } from "lucide-svelte";
+	import { env } from "@/env";
 
 	interface Props {
 		countdown?: number;
@@ -96,7 +97,7 @@
 		onSongUrl={audioManager.loadSong}
 		onSaveSong={handleSaveSong}
 		preloadStatus={audioManager.songStatus}
-		apiBaseUrl={import.meta.env.VITE_API_URL ?? "http://localhost:3000"}
+		apiBaseUrl={env.VITE_API_URL}
 		{openSettings}
 	/>
 

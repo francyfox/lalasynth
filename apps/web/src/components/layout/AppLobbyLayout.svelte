@@ -10,6 +10,7 @@
   import USceneDialogue from '@package/ui/scene-dialogue/USceneDialogue.svelte'
   import noAvatar from '@/assets/noavatar.gif?inline'
   import { goto } from '@roxi/routify'
+  import { env } from '@/env'
 
   const _init = $goto;
   const sessionStore = getSessionStore();
@@ -22,7 +23,7 @@
     children?: Snippet
   } = $props();
 
-  const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000"
+  const API_BASE = env.VITE_API_URL
   const noiseOpacity = $derived((noiseLevel / 5) * 0.55)
 
   let currentSceneId = $state(0);

@@ -9,6 +9,7 @@ import { Router } from '@roxi/routify'
 import { QueryClientProvider } from '@tanstack/svelte-query'
 import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools'
 import { settingsStore } from '@/lib/stores/settings.svelte'
+import { env } from '@/env'
 
 $effect(() => {
 	const res = settingsStore.resolution;
@@ -33,7 +34,7 @@ $effect(() => {
 	document.body.style.transform = `scale(${1 / scale})`;
 	document.body.style.width = `${targetW}px`;
 	document.body.style.height = `${targetH}px`;
-    document.documentElement.style.backgroundImage = "url('http://localhost:3000/static/16bit.webp')"
+    document.documentElement.style.backgroundImage = `url('${env.VITE_API_URL}/static/16bit.webp')`
     document.documentElement.style.backgroundRepeat = "no-repeat";
     document.documentElement.style.backgroundSize = "contain";
     document.documentElement.style.backgroundPosition = "center center";

@@ -2,9 +2,10 @@ import { createAuthClient } from "better-auth/svelte";
 import { inferAdditionalFields } from "better-auth/client/plugins";
 import { toast } from "svelte-sonner";
 import type { auth } from "@app/api/auth";
+import { env } from "@/env";
 
 export const authClient = createAuthClient({
-	baseURL: "http://localhost:3000",
+	baseURL: env.VITE_MASTER_URL,
 	plugins: [inferAdditionalFields<typeof auth>()],
 });
 

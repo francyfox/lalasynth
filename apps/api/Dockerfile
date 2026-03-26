@@ -1,12 +1,13 @@
 # ---- build ----
-FROM oven/bun:1.3 AS builder
+FROM oven/bun:alpine AS builder
 WORKDIR /repo
 
 COPY bun.lock package.json turbo.json ./
 COPY apps/api/package.json ./apps/api/
+COPY apps/web/package.json ./apps/web/
+COPY apps/cli/package.json ./apps/cli/
 COPY packages/ui/package.json ./packages/ui/
-RUN bun install --frozen-lockfile
-
+RUN bun install --ignore-scripts
 COPY apps/api ./apps/api
 COPY packages ./packages
 
@@ -14,24 +15,23 @@ WORKDIR /repo/apps/api
 RUN bun run build
 
 # ---- runtime ----
-FROM oven/bun:1.3 AS runner
+FROM oven/bun:alpine AS runner
 WORKDIR /repo
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apk add --no-cache \
     ffmpeg \
-    python3 \
-    python3-pip \
-    && pip3 install --break-system-packages yt-dlp \
-    && rm -rf /var/lib/apt/lists/*
+    yt-dlp
 
 COPY bun.lock package.json ./
 COPY apps/api/package.json ./apps/api/
+COPY apps/web/package.json ./apps/web/
+COPY apps/cli/package.json ./apps/cli/
 COPY packages/ui/package.json ./packages/ui/
-RUN bun install --production --frozen-lockfile
-
+RUN bun install --ignore-scripts
 COPY --from=builder /repo/apps/api/dist ./apps/api/dist
 COPY --from=builder /repo/apps/api/migrations ./apps/api/migrations
-RUN mkdir -p /repo/apps/api/public
+COPY apps/api/public ./apps/api/public
+RUN mkdir -p /repo/apps/api/public /repo/apps/api/data /repo/apps/api/logs
 
 WORKDIR /repo/apps/api
 EXPOSE 3000

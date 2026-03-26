@@ -6,13 +6,14 @@ import { swagger } from "@elysiajs/swagger";
 import { $ } from "bun";
 import { Elysia } from "elysia";
 import { rateLimit } from "elysia-rate-limit";
+import { migrate } from "drizzle-orm/libsql/migrator";
 import { env } from "@/env";
 import { betterAuthPlugin } from "@/libs/better-auth";
 import { swaggerDocs } from "@/libs/swagger";
 import { routes } from "@/routes";
-import { client } from "./db";
+import { client, db } from "./db";
 
-const logPath = join(Bun.main.replace("index.ts", ""), "../logs/server.log");
+const logPath = join(import.meta.dir, "../logs/server.log");
 export const app = new Elysia()
 	.onError(({ code, error, path }) => {
 		if (error.hasOwnProperty("message")) return error;
@@ -54,6 +55,7 @@ export const app = new Elysia()
 	.use(betterAuthPlugin)
 	.use(routes)
 	.listen(3000, async (server) => {
+		await migrate(db, { migrationsFolder: join(import.meta.dir, "../migrations") });
 		if (env.NODE_ENV === "development") {
 			await $`bun run schema`;
 		}

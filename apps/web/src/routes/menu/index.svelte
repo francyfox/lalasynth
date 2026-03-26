@@ -8,8 +8,9 @@
     import { fade } from 'svelte/transition'
     import { helperStore } from '@/lib/stores/helper.svelte'
     import { audioManager } from '@/lib/audio/audio-manager.svelte'
+    import { env } from '@/env'
 
-    const bgBaseUrl = "http://localhost:3000/static/bg"
+    const bgBaseUrl = `${env.VITE_API_URL}/static/bg`
 
     const showEggs = $state({
       bsd: false,

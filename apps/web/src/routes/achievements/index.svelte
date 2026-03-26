@@ -2,8 +2,9 @@
 <script lang="ts">
 import { getSessionStore } from '@/lib/stores/session'
 import UCode from '@package/ui/code/UCode.svelte'
+import { env } from '@/env'
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+const API_BASE = env.VITE_API_URL
 
 const session = getSessionStore()
 
