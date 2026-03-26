@@ -13,6 +13,10 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
+			"@app/master": ["../master/src/type.d.ts"],
+			"@app/master/*": ["../master/src/*"],
+			"@app/api": ["../api/src/type.d.ts"],
+			"@app/api/*": ["../api/src/*"],
 			"@app/*": ["../api/*"],
 			"@package/ui/*": ["../../packages/ui/src/*"]
 		}
