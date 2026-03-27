@@ -1,0 +1,91 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Turbo and dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .turbo
+            **/node_modules
+          key: ${{ runner.os }}-turbo-${{ hashFiles('**/package.json', '**/bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build all apps
+        run: bunx turbo run build
+
+      - name: Prepare release directory
+        run: |
+          mkdir -p release/api
+          mkdir -p release/master
+
+          # api — bundled JS + manifest for bun install
+          cp apps/api/dist/index.js    release/api/index.js
+          cp apps/api/package.json     release/api/package.json
+          cp apps/api/.env.example     release/api/.env.example
+          # strip devDependencies from package.json
+          jq 'del(.devDependencies) | del(.scripts.dev) | del(.scripts.schema)' \
+            release/api/package.json > release/api/package.tmp.json \
+            && mv release/api/package.tmp.json release/api/package.json
+
+          # master — bundled JS + manifest for bun install
+          cp apps/master/dist/index.js  release/master/index.js
+          cp apps/master/package.json   release/master/package.json
+          cp apps/master/.env.example   release/master/.env.example
+          jq 'del(.devDependencies) | del(.scripts.dev) | del(.scripts.schema)' \
+            release/master/package.json > release/master/package.tmp.json \
+            && mv release/master/package.tmp.json release/master/package.json
+
+          # startup script + docs
+          cp scripts/start.sh release/start.sh
+          chmod +x release/start.sh
+          cp README.md release/README.md
+
+      - name: Archive release
+        run: zip -r lalasynth-${{ github.ref_name }}.zip release
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          body: |
+            ## Installation
+
+            1. Download and unzip `lalasynth-${{ github.ref_name }}.zip`
+            2. Run the setup & start script:
+               ```bash
+               bash start.sh
+               ```
+            3. Edit `api/.env` and `master/.env` — fill in `BETTER_AUTH_SECRET` and GitHub OAuth credentials
+            4. Restart with `bash start.sh`
+
+            **Requires:** [Bun](https://bun.sh) runtime, `ffmpeg`, `yt-dlp`
+          files: lalasynth-${{ github.ref_name }}.zip
