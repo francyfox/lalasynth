@@ -52,7 +52,7 @@ export const app = new Elysia()
 		}),
 	)
 	.use(routes)
-	.listen(3000, async (server) => {
+	.listen(env.PORT, async (server) => {
 		await migrate(db, {
 			migrationsFolder: join(import.meta.dir, "../migrations"),
 		});

@@ -5,7 +5,8 @@ const result = await Bun.build({
 	outdir: "./dist",
 	target: "bun",
 	sourcemap: "external",
-	minify: false,
+	minify: true,
+	splitting: true,
 	external: [
 		"bun",
 		"bun:sqlite",

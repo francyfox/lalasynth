@@ -6,6 +6,7 @@ export const env = createEnv({
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
 			.default("development"),
+		PORT: z.coerce.number().default(3000),
 		LOCAL_SONGS_AUDIO_BITRATE_KBPS: z.coerce
 			.number()
 			.int()

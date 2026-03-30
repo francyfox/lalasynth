@@ -7,6 +7,7 @@ import { defineConfig, loadEnv } from "vite";
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), "");
+	const port = Number(env.PORT) || 4000;
 	const apiUrl = env.VITE_API_URL || "http://localhost:3000";
 	const masterUrl = env.VITE_MASTER_URL || "http://localhost:5000";
 
@@ -37,7 +38,7 @@ export default defineConfig(({ mode }) => {
 			noExternal: ["@package/ui"],
 		},
 		server: {
-			port: 4000,
+			port,
 			strictPort: true,
 			proxy: {
 				"/song": apiUrl,
