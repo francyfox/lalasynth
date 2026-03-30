@@ -32,7 +32,7 @@ Win to claim your glory and a unique badge for your GitHub profile. Let your fin
 
 ## Documentation
 
-- [Building & running binaries](docs/run.md)
+- [Building & running servers](docs/run.md)
 - [Adding audio & lyric providers](docs/adding-providers.md)
 - [Contributing](docs/CONTRIBUTING.md)
 - [Legal Notice — IP & Licensing](docs/LEGAL.md)

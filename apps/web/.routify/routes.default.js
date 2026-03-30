@@ -99,6 +99,20 @@ export const routes = {
     },
     {
       "meta": {},
+      "id": "_default_browser",
+      "name": "browser",
+      "module": false,
+      "file": {
+        "path": "src/routes/browser",
+        "dir": "src/routes",
+        "base": "browser",
+        "ext": "",
+        "name": "browser"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
       "id": "_default_game",
       "name": "game",
       "module": false,
