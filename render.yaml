@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: lalasynth-master
+    runtime: docker
+    dockerfilePath: apps/master/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CLIENT_URL
+        sync: false
+      - key: BETTER_AUTH_BASE_URL
+        sync: false
+      - key: BETTER_AUTH_SECRET
+        generateValue: true
+      - key: TURSO_CONNECTION_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
+      - key: GITHUB_CLIENT_ID
+        sync: false
+      - key: GITHUB_CLIENT_SECRET
+        sync: false
+    healthCheckPath: /health
+
+  - type: web
+    name: lalasynth-web
+    runtime: docker
+    dockerfilePath: apps/web/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: VITE_MASTER_URL
+        fromService:
+          name: lalasynth-master
+          type: web
+          property: host
+          envVarKey: RENDER_EXTERNAL_URL
+    healthCheckPath: /
