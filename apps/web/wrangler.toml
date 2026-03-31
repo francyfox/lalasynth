@@ -1,0 +1,14 @@
+name = "lalasynth-web"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "dist"
+
+# Deploy: wrangler pages deploy dist --project-name=lalasynth-web
+# Or configure CI/CD in Cloudflare Pages dashboard with:
+#   Build command: bun run build
+#   Build output:  dist
+#   Root dir:      apps/web
+
+[vars]
+# Override at dashboard level for production secrets
+# VITE_API_URL = "https://your-api.onrender.com"
+# VITE_MASTER_URL = "https://your-master.onrender.com"
