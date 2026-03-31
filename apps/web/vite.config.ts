@@ -34,6 +34,9 @@ export default defineConfig(({ mode }) => {
 			exclude: ["@package/ui"],
 			include: ["svelte-sonner", "@roxi/routify", "lucide-svelte"],
 		},
+		build: {
+			outDir: "dist",
+		},
 		ssr: {
 			noExternal: ["@package/ui"],
 		},
