@@ -2,6 +2,7 @@ services:
   - type: web
     name: lalasynth-master
     runtime: docker
+    dockerContext: .
     region: frankfurt
     plan: free
     envVars:
