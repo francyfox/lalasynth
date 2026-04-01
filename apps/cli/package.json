@@ -8,7 +8,7 @@
 		"cli": "./dist/index.js"
 	},
 	"scripts": {
-		"postinstall": "bunli generate",
+		"postinstall": "bunli generate || true",
 		"dev": "bun run src/index.ts",
 		"build": "bunli build",
 		"test": "bun test",
