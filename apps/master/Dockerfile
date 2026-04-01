@@ -1,5 +1,5 @@
 # ---- build ----
-FROM oven/bun:alpine AS builder
+FROM oven/bun:1.3.10-alpine AS builder
 WORKDIR /repo
 
 COPY bun.lock package.json turbo.json ./
@@ -16,7 +16,7 @@ WORKDIR /repo/apps/master
 RUN bun run build
 
 # ---- runtime ----
-FROM oven/bun:alpine AS runner
+FROM oven/bun:1.3.10-alpine AS runner
 WORKDIR /repo
 
 COPY bun.lock package.json ./
