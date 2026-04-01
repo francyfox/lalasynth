@@ -1,9 +1,10 @@
 # ---- build ----
-FROM oven/bun:alpine AS builder
+FROM oven/bun:1.3.10-alpine AS builder
 WORKDIR /repo
 
 COPY bun.lock package.json turbo.json ./
 COPY apps/api/package.json ./apps/api/
+COPY apps/master/package.json ./apps/master/
 COPY apps/web/package.json ./apps/web/
 COPY apps/cli/package.json ./apps/cli/
 COPY packages/ui/package.json ./packages/ui/
@@ -16,7 +17,7 @@ WORKDIR /repo/apps/web
 RUN bun run build
 
 # ---- runtime ----
-FROM caddy:2-alpine
-COPY --from=builder /repo/apps/web/dist/client /srv
-COPY apps/web/Caddyfile /etc/caddy/Caddyfile
+FROM nginx:alpine
+COPY --from=builder /repo/apps/web/dist /usr/share/nginx/html
+COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80

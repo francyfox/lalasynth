@@ -1,6 +1,9 @@
 [build]
-installCommand = "echo skip"
-buildCommand = "cd ../.. && bun install && bunx turbo run build --filter=@app/web"
+dockerfilePath = "apps/web/Dockerfile"
+dockerContextDir = "../.."
 
 [deploy]
-staticDir = "dist"
+healthcheckPath = "/"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
