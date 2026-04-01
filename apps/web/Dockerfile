@@ -14,10 +14,18 @@ COPY apps/api/src ./apps/api/src
 COPY packages ./packages
 
 WORKDIR /repo/apps/web
+
+ARG VITE_API_URL
+ARG VITE_MASTER_URL
+ARG VITE_APP_VERSION
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_MASTER_URL=$VITE_MASTER_URL
+ENV VITE_APP_VERSION=$VITE_APP_VERSION
+
 RUN bun run build
 
 # ---- runtime ----
 FROM nginx:alpine
 COPY --from=builder /repo/apps/web/dist/client /usr/share/nginx/html
-RUN printf 'server {\n    listen 80;\n    root /usr/share/nginx/html;\n    index index.html;\n    location / {\n        try_files $uri $uri/ /index.html;\n    }\n}\n' > /etc/nginx/conf.d/default.conf
+COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80

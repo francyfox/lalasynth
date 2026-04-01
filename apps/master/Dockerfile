@@ -21,10 +21,6 @@ WORKDIR /repo
 
 COPY bun.lock package.json ./
 COPY apps/master/package.json ./apps/master/
-COPY apps/api/package.json ./apps/api/
-COPY apps/web/package.json ./apps/web/
-COPY apps/cli/package.json ./apps/cli/
-COPY packages/ui/package.json ./packages/ui/
 RUN bun install --ignore-scripts
 COPY --from=builder /repo/apps/master/dist ./apps/master/dist
 COPY --from=builder /repo/apps/master/migrations ./apps/master/migrations
