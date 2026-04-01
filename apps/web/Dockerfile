@@ -18,6 +18,6 @@ RUN bun run build
 
 # ---- runtime ----
 FROM nginx:alpine
-COPY --from=builder /repo/apps/web/dist /usr/share/nginx/html
+COPY --from=builder /repo/apps/web/dist/client /usr/share/nginx/html
 COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
