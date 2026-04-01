@@ -27,5 +27,5 @@ COPY --from=builder /repo/apps/master/migrations ./apps/master/migrations
 RUN mkdir -p /repo/apps/master/data /repo/apps/master/logs
 
 WORKDIR /repo/apps/master
-EXPOSE 5000
+EXPOSE 80
 CMD ["bun", "dist/index.js"]
