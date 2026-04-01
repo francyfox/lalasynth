@@ -1,0 +1,5 @@
+[build]
+buildCommand = "cd ../.. && bun install && bunx turbo run build --filter=@app/web"
+
+[deploy]
+staticDir = "dist"

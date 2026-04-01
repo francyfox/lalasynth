@@ -18,5 +18,5 @@ RUN bun run build
 # ---- runtime ----
 FROM caddy:2-alpine
 COPY --from=builder /repo/apps/web/dist/client /srv
-COPY Caddyfile /etc/caddy/Caddyfile
+COPY apps/web/Caddyfile /etc/caddy/Caddyfile
 EXPOSE 80
