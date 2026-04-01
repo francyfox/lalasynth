@@ -1,6 +1,6 @@
 [build]
 dockerfilePath = "apps/master/Dockerfile"
-dockerContextDir = "../.."
+dockerContextDir = "."
 
 [deploy]
 healthcheckPath = "/health"
