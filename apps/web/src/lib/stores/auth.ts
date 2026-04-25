@@ -144,7 +144,7 @@ function createAuthStore() {
 			try {
 				await authClient.signIn.social({
 					provider,
-					callbackURL: `${window.location.origin}/lobby`,
+					callbackURL: `${window.location.origin}/menu`,
 					fetchOptions,
 				});
 				return true;

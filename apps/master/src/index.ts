@@ -13,6 +13,10 @@ import { client, db } from "./db";
 
 const logPath = join(import.meta.dir, "../logs/server.log");
 
+await migrate(db, {
+	migrationsFolder: join(import.meta.dir, "../migrations"),
+});
+
 export const app = new Elysia()
 	.onError(({ error }) => {
 		if (error.hasOwnProperty("message")) return error;
@@ -46,10 +50,7 @@ export const app = new Elysia()
 	.use(swagger(swaggerDocs))
 	.use(betterAuthPlugin)
 	.use(routes)
-	.listen(env.PORT, async (server) => {
-		await migrate(db, {
-			migrationsFolder: join(import.meta.dir, "../migrations"),
-		});
+	.listen(env.PORT, (server) => {
 		console.log(
 			`🎮 Master server running at http://${server?.hostname}:${server?.port}`,
 		);
