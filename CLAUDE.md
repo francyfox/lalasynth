@@ -4,217 +4,125 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Lalasynth** is a real-time multiplayer karaoke racing game built with TypeScript, Bun, Elysia, and Svelte. Players compete in typing song lyrics synchronized to YouTube audio with real-time DSP effects (via Tone.js). Features GitHub OAuth authentication, WebSocket multiplayer sessions, and a SQLite database for caching and stats.
-
-See **AGENTS.md** for detailed architecture and technical specifications.
+**Lalasynth** is a real-time multiplayer karaoke racing game. Players log in via GitHub/email, join sessions, type song lyrics synced to YouTube audio with DSP effects (Tone.js). The architecture is split into two backend services with a Svelte 5 frontend.
 
 ## Monorepo Structure
 
 Turborepo with Bun package manager:
-- **apps/api**: Elysia.js backend (Bun runtime) with Drizzle ORM
-- **apps/web**: Svelte 5 + Vite frontend
-- **apps/cli**: Bun CLI tool (Bunli framework) for song management tasks
-- **packages/ui**: Shared UI component library (`@package/ui`)
-
-All commands run from repo root unless specified otherwise.
-
-## System Requirements
-
-These tools must be installed on the host system (not npm packages):
-
-| Tool | Version | Purpose |
-|------|---------|---------|
-| **Bun** | 1.3.4+ | Runtime **and** package manager — replaces Node.js + npm entirely |
-| **ffmpeg** | 5.0+ | Audio transcoding (Opus/WebM), waveform generation, album art extraction |
-| **yt-dlp** | latest | YouTube audio streaming and download |
-| Node.js | 18+ | Only required by yt-dlp `--js-runtimes`, not for running the app |
-
-> **Do not use npm, yarn, or pnpm.** The project relies on Bun-specific APIs (`bun:sqlite`, `Bun.spawn`, `Bun.file`) and will not work with Node.js alone.
+- **apps/api** — Client server (runs on the player's machine). Owns: song fetching/downloading/streaming (yt-dlp + ffmpeg), local song storage, audio file serving, game-session WebSockets, scenes/sounds/stats. Port 3000.
+- **apps/master** — Cloud/Docker master server. Owns: Better Auth (GitHub OAuth + email/password), user profiles, badges. Port 5000.
+- **apps/web** — Svelte 5 + Vite frontend. Talks to both servers.
+- **apps/cli** — Bun CLI (Bunli framework) for managing local songs.
+- **packages/ui** — Shared components (`@package/ui`), prefixed with `U`.
 
 ## Essential Commands
 
-### Root (Monorepo)
+All from repo root unless noted:
+
 ```bash
-bun run dev              # Start all apps in parallel (API:3000, Web:5173)
+bun install              # Install all workspace deps
+bun run dev              # Start all apps in parallel (API:3000, Master:5000, Web:5173)
 bun run build            # Build all apps
-bun run lint             # Lint all apps
-bun run format           # Check formatting with Biome (tab-indented)
-bun run format:fix       # Fix formatting
+bun run format:fix       # Fix formatting with Biome (tab-indented — do this before committing)
 bun run check-types      # Type check all apps
-bun install              # Install dependencies for all workspaces
+bun run lint             # Lint all apps
+
+# Per-app dev
+cd apps/api    && bun run --watch src/index.ts   # API dev server
+cd apps/master && bun run --watch src/index.ts   # Master dev server
+cd apps/web    && bun run dev                     # Vite dev server
+
+# DB migrations (run from respective app dir)
+cd apps/api    && bunx drizzle-kit generate && bunx drizzle-kit push
+cd apps/master && bunx drizzle-kit generate && bunx drizzle-kit push
+
+# Regenerate OpenAPI type definitions (server must be running)
+cd apps/api    && bun run schema   # → src/type.d.ts from localhost:3000/swagger/json
+cd apps/master && bun run schema   # → src/type.d.ts from localhost:5000/swagger/json (also exports auth type)
+
+# CLI
+cd apps/cli && bun run src/index.ts song download <videoId>
+cd apps/cli && bun run src/index.ts song list
 ```
 
-### API (`apps/api`)
-```bash
-cd apps/api
-bun run --watch src/index.ts    # Dev server (Elysia on :3000)
-bunx drizzle-kit generate       # Generate DB migrations
-bunx drizzle-kit push           # Apply migrations to local.db
-```
+## System Requirements (host, not npm)
 
-### Web (`apps/web`)
-```bash
-cd apps/web
-bun run dev              # Vite dev server (:5173)
-bun run build            # Vite build to dist/
-bun run check            # Svelte check + TypeScript check
-```
+| Tool | Purpose |
+|------|---------|
+| **Bun 1.3.4+** | Runtime and package manager — no npm/yarn/pnpm |
+| **ffmpeg 5.0+** | Audio transcoding (Opus/WebM), waveform, album art |
+| **yt-dlp** | YouTube audio streaming/download |
 
-### CLI (`apps/cli`)
-```bash
-cd apps/cli
-bun run src/index.ts song download <videoId>   # Download a song locally
-bun run src/index.ts song list                 # List indexed songs
-```
+## Environment Variables
 
-## Code Organization
+**Production env vars are set in Railway** — not committed to `.env` files. See `.env.example` per app for the full list.
 
-### API (`apps/api/src`)
-- **index.ts**: Elysia app setup, routes, server listen (port 3000), graceful shutdown
-- **routes.ts**: Root routes, imports controllers from modules
-- **modules/**: Feature-based organization
-  - `song/`: Song fetching, downloading, caching; pluggable audio/lyric adapters
-  - `stats/`: System stats endpoint (CPU, memory)
-  - `user/`: Schemas (Zod), controllers, business logic
-  - `session/`: WebSocket session schemas and handlers
-  - `badge/`: SVG badge generation for GitHub profile display
-- **env.ts**: Environment validation (Zod)
-- **drizzle.config.ts**: Database migration config
+### apps/master
+| Var | Purpose |
+|-----|---------|
+| `BETTER_AUTH_BASE_URL` | **Must be the master's own public URL** (e.g. `https://lala-master.shalotts.site`). Used by better-auth to construct OAuth callback URLs. |
+| `CLIENT_URL` | Frontend URL — used for CORS and better-auth trusted origins |
+| `BETTER_AUTH_SECRET` | `openssl rand -hex 32` |
+| `GITHUB_CLIENT_ID / SECRET` | GitHub OAuth app credentials |
+| `TURSO_CONNECTION_URL / AUTH_TOKEN` | Production DB. Omit both to use local `data/local.db`. |
 
-Local SQLite database: `apps/api/local.db`
+### apps/api
+| Var | Purpose |
+|-----|---------|
+| `CLIENT_URL` | Frontend URL — used for CORS |
+| `LOCAL_SONGS_DIR` | Path to audio file storage (default `./songs`) |
+| `LOCAL_SONGS_AUDIO_BITRATE_KBPS` | Opus encoding bitrate, 48–320 (default 128) |
+| `TURSO_*` | Same pattern as master |
 
-### Web (`apps/web/src`)
-- **App.svelte**: Root component
-- **main.ts**: Entry point (mounts App)
-- **lib/**: Reusable utilities and stores
-  - `stores/songs.svelte.ts`: Core audio store — owns the entire Web Audio chain
-  - `stores/audio-manager.svelte.ts`: Top-level orchestrator delegating to song/chat stores
-  - `stores/settings.svelte.ts`: Persistent user settings (volume, resolution, stats toggle)
-  - `stores/session.ts`: User session store (reactive, Better Auth)
-  - `stores/stats.ts`: TanStack Query wrapper for system stats polling
-  - `query-client.ts`: TanStack Query client with error toasts and rate-limit recovery
-  - `auth-client.ts`: Better Auth client
-  - `guards/`: Route guards (auth.guard.ts, skip-intro.guard.ts)
-- **routes/**: Page components (Routify v3)
-- **components/**: Feature components organized by domain
-- **assets/**: Images and static files
+### apps/web (Vite, prefix `VITE_`)
+| Var | Purpose |
+|-----|---------|
+| `VITE_API_URL` | Client server URL (apps/api) |
+| `VITE_MASTER_URL` | Master server URL (default `http://localhost:5000`) |
 
-### CLI (`apps/cli/src`)
-- Uses the **Bunli** framework for CLI argument parsing
-- `commands/song/`: Song download command — calls API endpoints or runs yt-dlp directly
+## Architecture & Key Patterns
 
-### UI Package (`packages/ui/src`)
-- All components are prefixed with `U` (e.g., `UButton`, `USearchSong`, `UTable`)
-- Import via `@package/ui` or `@package/ui/index`
-- Key components: `USearchSong`, `ULyricSync`, `UAudioTimeline`, `UWaveform`, `UCounter`, `UTable`, `UBadge`, `UModal`
-- Each component may have a companion `*.service.ts` or `*.svelte.ts` for state logic
+### Two-backend model
+The frontend has two API clients:
+- `lib/api.ts` → `client` (openapi-fetch) → `apps/api` at `VITE_API_URL`
+- `lib/master-api.ts` → `masterClient` (openapi-fetch) → `apps/master` at `VITE_MASTER_URL`
 
-## Key Patterns and Conventions
+Both clients throw `RateLimitError` on 429. TanStack Query does not retry on `RateLimitError`; instead it pauses all background refetches via `focusManager.setFocused(false)` until `retryAfter` elapses.
 
-### TypeScript & Formatting
-- **Formatter**: Biome (NOT Prettier) with **tab indentation** (not spaces)
-- **Quote style**: Double quotes (enforced by Biome)
-- **Language**: TypeScript everywhere (strict mode)
-- **Case**: camelCase for vars/functions, PascalCase for components/classes
-- **Imports**: Use `@/` alias (maps to `src/`) — no relative `../../` imports across module boundaries
+### Auth flow
+Better Auth lives entirely in `apps/master`. `apps/web`'s `auth-client.ts` points to `VITE_MASTER_URL`. Session is cached in TanStack Query under key `["session"]`. `authGuard` checks the cache before redirecting to `/auth`. Social sign-in callback lands at `/lobby`.
 
-### Backend (Elysia)
-- Type-safe routing with TypeBox schemas (`t`)
-- Module-based organization: each feature gets a `modules/{name}` folder
-- Controllers handle HTTP logic; separate schema files for validation
-- Use Bun natives (`bun:sqlite`, `Bun.spawn`, `Bun.file`) where possible
-- Alias imports: `@/` points to `src/`
+### Audio chain (apps/web)
+`createSongPlayer()` in `lib/audio/song-player.svelte.ts` is the **only** place that calls `createMediaElementSource`. Creating a second source on the same `<audio>` element throws. Chain: `audioEl → MediaElementSource → AnalyserNode → GainNode → destination`. `audioManager` (singleton) delegates `bg` (background music) and `song` (gameplay) to separate player instances.
 
-### Frontend (Svelte 5)
-- Use **Svelte 5 runes** (`$state`, `$derived`, `$effect`, `$props`, `$bindable`) — not legacy Svelte 4 syntax
-- `$effect.root()` for effects that need to survive outside component lifecycle (e.g., in `.svelte.ts` stores)
-- **Runed** library for reactive DOM utilities: `IsDocumentVisible`, `Debounced`, etc.
-- TanStack Query (`createQuery`, `createMutation`) for all async server data
-- Scoped CSS in `<style>` blocks; DaisyUI + Tailwind for utility classes
-- TS script blocks: `<script lang="ts">`
-- Alias imports: `@/` points to `src/`, `@package/ui` for shared components
+### Svelte 5 stores
+Complex state lives in `.svelte.ts` files using runes (`$state`, `$derived`, `$effect`). Factory functions export singletons. `$effect.root()` is used for effects that must survive outside component lifecycle. Note: `lib/stores/auth.ts` uses legacy Svelte 4 `writable()` — this is intentional for that file.
 
-### State Management (`.svelte.ts` files)
-- Complex stores live in `.svelte.ts` files (runes work outside components)
-- Factory functions (`createSongStore()`) are preferred over singletons for testability
-- Singletons are exported as a single instantiation at module level
+### Pluggable audio/lyric providers (apps/api)
+Defined in `modules/song/song.provider.ts`. Each provider implements `validate()` — disabled at startup if unavailable. Current audio providers: `localAudio`, `ytdlp`. Lyric providers: `lrclib`, `localLyric`.
 
-### Audio Architecture
-- **The store owns the Web Audio chain** — no other component creates `AudioContext` or `MediaElementAudioSourceNode`
-- Chain: `audioEl → MediaElementSource → AnalyserNode → GainNode → destination`
-- `GainNode` controls volume (fade in/out via `linearRampToValueAtTime`)
-- `AnalyserNode` feeds waveform/visualizer components
-- Components receive `audioEl` and `analyserNode` as props — they never build their own chain
-- Volume sync runs via `$effect.root` so it applies even outside game playback (e.g., ULyricSync preview)
-
-### Pluggable Provider Pattern
-- Audio and lyric sources are adapters implementing a common interface (`song.provider.ts`)
-- Registered providers: YouTube (via yt-dlp/Invidious), Local file system
-- Add new providers by implementing the interface and registering in the provider registry
-
-### Rate Limit Handling
-- Backend: global `elysia-rate-limit`; `/stats` is excluded from the global limiter and has its own 60 req/min limit
-- Frontend: `RateLimitError` class thrown by openapi-fetch middleware on 429 responses
-- TanStack Query retries are disabled for `RateLimitError`
-- On rate limit: `focusManager.setFocused(false)` pauses all background refetches; restored after `retryAfter` seconds
-- Stats polling uses `IsDocumentVisible` + `refetchIntervalInBackground: false` to avoid unnecessary traffic
+### API type generation
+`apps/api/src/type.d.ts` and `apps/master/src/type.d.ts` are generated files (openapi-typescript). Regenerate with `bun run schema` while the server is running. The master's `type.d.ts` is also exported as `@app/master` for use in the web app's auth-client.
 
 ### Database
-- Drizzle ORM with SQLite (local) / Turso (production)
-- Tables for users, sessions, songs, stats
-- IDs use cuid2
-- Run migrations from `apps/api`: `bunx drizzle-kit generate && bunx drizzle-kit push`
+Both backends use Drizzle ORM + libsql. Without `TURSO_CONNECTION_URL`, falls back to `file:data/local.db` (directory auto-created). Migrations live in `migrations/` per app and run automatically on server start.
 
-### Audio File Storage
-- Audio stored as **Opus/WebM** (`libopus`, 128 kbps by default, configurable via `LOCAL_SONGS_AUDIO_BITRATE_KBPS`)
-- Video track is stripped during download via ffmpeg pipeline: `yt-dlp stdout → ffmpeg stdin`
-- Album art stored as **64×64 WebP** (center-cropped with lanczos filter)
-- Files live in the path configured by `LOCAL_SONGS_DIR` env var
+### Biome formatting
+- Biome is the formatter/linter. **Tab indentation, double quotes.**
+- Biome explicitly **excludes `.svelte` files** — svelte-check handles those.
+- Run `bun run format:fix` before committing. Svelte files follow the same tab/double-quote style manually.
 
-### Badge System
-- `/user/:id/badge` serves an SVG badge for embedding in GitHub profiles
-- Displays username and top stats (WPM, wins)
-
-### Monorepo/Turbo
-- Turbo caches builds based on source and `.env*` files
-- Clear cache: `bunx turbo run build --force`
-- Dev tasks are non-cached and persistent
-- Changes in shared packages (`packages/*`) trigger rebuilds
+### Deployment
+- `apps/master` → Railway (env vars configured there)
+- `apps/web` → Render Static Site or CDN
+- `apps/api` → compiled binary (`bun build --compile`) runs on player's machine
+- `docker-compose.yml` deploys master only (api commented out) — intended for LAN/offline events
 
 ## Critical Gotchas
 
-1. **Biome Formatting**: Uses **tabs**, not spaces. Run `bun run format:fix` before committing.
-2. **Bun Runtime Only**: Do not use `npm`, `yarn`, or `pnpm`. All scripts via `bun run`.
-3. **ffmpeg & yt-dlp required**: Both must be installed on the host — they are shell-invoked via `Bun.spawn`, not npm packages.
-4. **Svelte 5 Runes**: Use runes syntax (`$state`, `$derived`, `$effect`), not legacy `$:` or `writable()` stores.
-5. **Audio Chain Ownership**: Only `createSongStore` (in `songs.svelte.ts`) may call `createMediaElementSource`. Creating a second source node on the same `<audio>` element will throw.
-6. **External APIs**: Rate-limit Invidious (YouTube audio) and LRCLIB (lyrics). Cache results in DB.
-7. **Real-time Sync**: WebSocket rooms for multiplayer. Use Tone.Transport for precise audio positioning. Leader progress broadcast in milliseconds.
-8. **Audio DSP Pipeline**: Tone.js effects chain (BitCrusher → PitchShift → Filter) for "synthetic" sound effect — initialized via `Tone.getContext()`.
-9. **Environment Variables**: No secrets in code. Use `.env` files (gitignored). See `apps/api/.env.example`.
-10. **Frontend Game Logic**: `apps/web` game screens are still partially stub/template. Core audio and lobby plumbing is done; game loop not fully wired.
-
-## Testing
-
-Currently no automated tests. Approach when adding features:
-- **API**: Bun's test runner (`bun test`) or Vitest
-- **Web**: Vitest (via Vite) or Playwright for E2E
-- **CLI**: Test manually via `bun run src/index.ts song download <videoId>`
-- **Mocking**: Mock WebSockets and Tone.js audio APIs in unit tests; do **not** mock the database (use real SQLite in-memory)
-
-## Development Workflow
-
-1. **Install**: `bun install`
-2. **Migrate DB**: `cd apps/api && bunx drizzle-kit push`
-3. **Develop**: `bun run dev` (starts API on :3000 and Web on :5173 in watch mode)
-4. **Format before commit**: `bun run format:fix`
-5. **Type check**: `bun run check-types`
-6. **Build**: `bun run build`
-
-## Additional Resources
-
-- **AGENTS.md**: Comprehensive technical specifications, deployment details, security notes
-- **docs/CONTRIBUTING.md**: Setup guide and contribution workflow
-- **docs/adding-providers.md**: How to add new audio or lyric providers
-- **biome.json**: Formatter/linter config (tab indentation, recommended linter rules)
-- **turbo.json**: Monorepo task definitions and caching rules
+1. **`BETTER_AUTH_BASE_URL` in master must equal the server's own public URL** — better-auth uses it to build the GitHub OAuth callback path. Wrong value = OAuth broken.
+2. **Do not use `npm`/`yarn`/`pnpm`** — Bun-specific APIs (`bun:sqlite`, `Bun.spawn`, `Bun.file`) are used throughout.
+3. **Only one `createMediaElementSource` per `<audio>` element** — only `createSongPlayer` may do this.
+4. **`ffmpeg` and `yt-dlp` must be installed on the host** — both are shell-invoked via `Bun.spawn`.
+5. **Svelte 5 runes only** in new `.svelte` and `.svelte.ts` files — no `$:` or `writable()` (except the existing `auth.ts`).
+6. **Rate-limit external APIs** (Invidious, LRCLIB) — cache results in DB.
