@@ -1,12 +1,12 @@
 import type { auth } from "@app/master/auth";
-import { inferAdditionalFields } from "better-auth/client/plugins";
+import { anonymousClient, inferAdditionalFields } from "better-auth/client/plugins";
 import { createAuthClient } from "better-auth/svelte";
 import { toast } from "svelte-sonner";
 import { env } from "@/env";
 
 export const authClient = createAuthClient({
 	baseURL: env.VITE_MASTER_URL,
-	plugins: [inferAdditionalFields<typeof auth>()],
+	plugins: [inferAdditionalFields<typeof auth>(), anonymousClient()],
 });
 
 export const fetchOptions: any = {

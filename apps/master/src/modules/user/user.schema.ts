@@ -24,6 +24,7 @@ export const UserSchema = sqliteTable("user", {
 	bestWpm: integer("best_wpm"),
 	totalWins: integer("total_wins"),
 	level: integer("level").default(UserLevel.intro),
+	isAnonymous: integer("is_anonymous", { mode: "boolean" }).default(false),
 });
 
 export type User = InferSelectModel<typeof UserSchema>;

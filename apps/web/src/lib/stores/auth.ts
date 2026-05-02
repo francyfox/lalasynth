@@ -159,6 +159,44 @@ function createAuthStore() {
 				return false;
 			}
 		},
+
+		guestLogin: async () => {
+			update((state) => ({
+				...state,
+				isLoading: true,
+				error: null,
+				success: null,
+			}));
+
+			try {
+				const result = await authClient.signIn.anonymous({
+					fetchOptions,
+				});
+
+				if ((result as { data: unknown }).data) {
+					await queryClient.invalidateQueries({ queryKey: ["session"] });
+					update((state) => ({
+						...state,
+						isLoading: false,
+					}));
+					return true;
+				}
+				update((state) => ({
+					...state,
+					isLoading: false,
+				}));
+				return false;
+			} catch (err) {
+				const errorMessage =
+					err instanceof Error ? err.message : "Guest login failed";
+				update((state) => ({
+					...state,
+					error: errorMessage,
+					isLoading: false,
+				}));
+				return false;
+			}
+		},
 	};
 }
 

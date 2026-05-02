@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "10cd7512-617b-40ac-a104-36ea6cf640cb",
+  "id": "0f70d4f4-d1a6-4e1c-917e-bf5123d1b758",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "user": {
@@ -80,6 +80,14 @@
           "notNull": false,
           "autoincrement": false,
           "default": 0
+        },
+        "is_anonymous": {
+          "name": "is_anonymous",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": false
         }
       },
       "indexes": {

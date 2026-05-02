@@ -1,5 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { anonymous } from "better-auth/plugins";
 import * as schema from "@/db/schema";
 import { env } from "@/env";
 import { db } from "./db";
@@ -34,4 +35,11 @@ export const auth = betterAuth({
 			clientSecret: env.GITHUB_CLIENT_SECRET ?? "",
 		},
 	},
+	plugins: [
+		anonymous({
+			onLinkAccount: async ({ anonymousUser, newUser }) => {
+				// TODO: migrate stats from anonymousUser to newUser if needed
+			},
+		}),
+	],
 });
