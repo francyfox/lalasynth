@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { cn } from "@/utils/cn";
 	import UModal from "@package/ui/modal/UModal.svelte";
-	import { HardDrive, Youtube } from 'lucide-svelte'
+	import { HardDrive } from 'lucide-svelte'
+	import IconYoutube from '~icons/local/youtube'
 
 	interface Props {
 		className?: string;
@@ -26,7 +27,7 @@
 	</button>
 
 	<a href="https://music.youtube.com" target="_blank" class="btn btn-secondary text-2xl">
-		<Youtube class="size-6" />
+		<IconYoutube class="size-6" />
 		Go to YouTube.Music
 	</a>
 </div>

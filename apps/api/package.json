@@ -15,29 +15,29 @@
 	},
 	"dependencies": {
 		"@bogeychan/elysia-logger": "^0.1.10",
-		"@elysiajs/cors": "^1.4.1",
-		"@elysiajs/static": "^1.4.7",
+		"@elysiajs/cors": "^1.4.2",
+		"@elysiajs/static": "^1.4.10",
 		"@elysiajs/stream": "^1.1.0",
 		"@elysiajs/swagger": "^1.3.1",
-		"@libsql/client": "^0.17.0",
+		"@libsql/client": "^0.17.3",
 		"@paralleldrive/cuid2": "^3.3.0",
-		"@t3-oss/env-core": "^0.13.10",
-		"better-auth": "^1.5.1",
+		"@t3-oss/env-core": "^0.13.11",
+		"better-auth": "^1.6.9",
 		"cloudflared": "^0.7.1",
-		"dotenv": "^17.3.1",
-		"drizzle-orm": "^0.45.1",
+		"dotenv": "^17.4.2",
+		"drizzle-orm": "^0.45.2",
 		"drizzle-typebox": "^0.3.3",
-		"elysia": "^1.4.27",
-		"elysia-rate-limit": "^4.5.0",
-		"music-metadata": "^11.12.1",
-		"youtubei.js": "^16.0.1",
-		"zod": "^4.3.6"
+		"elysia": "^1.4.28",
+		"elysia-rate-limit": "^4.6.1",
+		"music-metadata": "^11.12.3",
+		"youtubei.js": "^17.0.1",
+		"zod": "^4.4.2"
 	},
 	"devDependencies": {
-		"bun-types": "^1.3.10",
-		"drizzle-kit": "^0.31.9",
+		"bun-types": "^1.3.13",
+		"drizzle-kit": "^0.31.10",
 		"openapi-typescript": "^7.13.0",
-		"vitest": "^4.0.18"
+		"vitest": "^4.1.5"
 	},
 	"module": "src/index.js"
 }

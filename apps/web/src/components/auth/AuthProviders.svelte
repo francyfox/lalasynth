@@ -1,6 +1,6 @@
 <script lang="ts">
   import { authStore } from '@/lib/stores/auth';
-  import { Github } from 'lucide-svelte';
+  import GithubIcon from '~icons/local/github';
 
   async function handleSocialAuth(provider: 'github' | 'google') {
     await authStore.socialAuth(provider);
@@ -17,7 +17,7 @@
         {#if $authStore.isLoading}
             <span class="loading loading-spinner loading-sm"></span>
         {:else}
-            <Github class="w-5 h-5" />
+            <GithubIcon class="w-5 h-5" />
         {/if}
         GitHub
     </button>

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Github, Volume2, VolumeX, LogOut } from 'lucide-svelte';
+    import { Volume2, VolumeX, LogOut } from 'lucide-svelte';
+    import GithubIcon from '~icons/local/github';
     let {
       user,
       noAvatar,
@@ -32,7 +33,7 @@
 <div class="navbar bg-base-200/90 shadow-sm px-10 z-20">
     <div class="flex-1 flex gap-2 items-center">
         <a href={github} target="_blank" class="btn btn-neutral btn-xl" aria-label="github" title="github">
-            <Github class="size-10" />
+            <GithubIcon class="size-10" />
         </a>
         <h1 class="text-3xl">LalaSynth {version}</h1>
     </div>
