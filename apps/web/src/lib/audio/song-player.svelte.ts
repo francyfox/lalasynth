@@ -9,6 +9,7 @@ import { createWebAudioFader } from "./fader";
 
 export function createSongPlayer(): ISongPlayer {
 	const audioEl = new Audio();
+	audioEl.crossOrigin = "anonymous";
 
 	let song = $state<Song | null>(null);
 	let lyrics = $state<Lyric[]>([]);
