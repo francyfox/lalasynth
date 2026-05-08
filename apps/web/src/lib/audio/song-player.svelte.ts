@@ -2,6 +2,7 @@ import type { Lyric, Song } from "@app/src/modules/song/song.types";
 import { untrack } from "svelte";
 import * as Tone from "tone";
 import { client } from "@/lib/api";
+import { env } from "@/env";
 import { settingsStore } from "@/lib/stores/settings.svelte";
 import type { AudioProviders, ISongPlayer, PlayerState } from "./audio.types";
 import { createWebAudioFader } from "./fader";
@@ -106,7 +107,7 @@ export function createSongPlayer(): ISongPlayer {
 			{ once: true, signal },
 		);
 
-		audioEl.src = `/song/stream/${data.song.videoId}`;
+		audioEl.src = `${env.VITE_API_URL}/song/stream/${data.song.videoId}`;
 		audioEl.load();
 		fader.setImmediate(settingsStore.volume / 100);
 	}

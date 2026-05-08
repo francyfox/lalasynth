@@ -8,6 +8,7 @@ import { migrate } from "drizzle-orm/libsql/migrator";
 import { Elysia } from "elysia";
 import { rateLimit } from "elysia-rate-limit";
 import { env } from "@/env";
+import { startCloudflaredTunnel } from "@/libs/cloudflared";
 import { swaggerDocs } from "@/libs/swagger";
 import { routes } from "@/routes";
 import { client, db } from "./db";
@@ -30,16 +31,16 @@ export const app = new Elysia()
 			file: logPath,
 		}),
 	)
-	.use(
-		rateLimit({
-			max: 20,
-			duration: 60000,
-			skip: (req) => new URL(req.url).pathname === "/stats",
-		}),
-	)
+	// .use(
+	// 	rateLimit({
+	// 		max: 20,
+	// 		duration: 60000,
+	// 		skip: (req) => new URL(req.url).pathname === "/stats",
+	// 	}),
+	// )
 	.use(
 		cors({
-			origin: [env.CLIENT_URL],
+			origin: [env.CLIENT_URL, "https://lalasynth.shalotts.site"],
 			methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 			credentials: true,
 			allowedHeaders: ["Content-Type", "Authorization"],
@@ -65,6 +66,7 @@ export const app = new Elysia()
 		console.log(
 			`Scalar UI at http://${server?.hostname}:${server?.port}/swagger`,
 		);
+		await startCloudflaredTunnel();
 	});
 
 const stop = async () => {

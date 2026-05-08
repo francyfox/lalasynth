@@ -19,7 +19,12 @@ export const env = createEnv({
 		TURSO_API_TOKEN: z.string().optional(),
 		TURSO_ORG_NAME: z.string().optional(),
 		TURSO_DB_NAME: z.string().optional(),
+		CLOUDFLARED_TOKEN: z.string().optional(),
+		API_URL: z.url(),
 	},
-	runtimeEnv: process.env,
+	runtimeEnv: {
+		...process.env,
+		API_URL: process.env.API_URL ?? `http://localhost:${process.env.PORT ?? 3000}`,
+	},
 	emptyStringAsUndefined: true,
 });
