@@ -17,6 +17,7 @@ export const swaggerDocs: ElysiaSwaggerConfig = {
 			{ name: "User", description: "User management" },
 			{ name: "Auth", description: "Authentication (Better Auth OAuth)" },
 			{ name: "Rooms", description: "Active game rooms" },
+			{ name: "Server", description: "Game server registry" },
 		],
 	},
 };

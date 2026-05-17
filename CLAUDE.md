@@ -70,6 +70,8 @@ cd apps/cli && bun run src/index.ts song list
 | Var | Purpose |
 |-----|---------|
 | `CLIENT_URL` | Frontend URL — used for CORS |
+| `API_URL` | This server's own public URL (default: `http://localhost:PORT`) |
+| `CLOUDFLARED_TOKEN` | Cloudflare named tunnel token (optional — skip for no tunnel) |
 | `LOCAL_SONGS_DIR` | Path to audio file storage (default `./songs`) |
 | `LOCAL_SONGS_AUDIO_BITRATE_KBPS` | Opus encoding bitrate, 48–320 (default 128) |
 | `TURSO_*` | Same pattern as master |
@@ -90,7 +92,7 @@ The frontend has two API clients:
 Both clients throw `RateLimitError` on 429. TanStack Query does not retry on `RateLimitError`; instead it pauses all background refetches via `focusManager.setFocused(false)` until `retryAfter` elapses.
 
 ### Auth flow
-Better Auth lives entirely in `apps/master`. `apps/web`'s `auth-client.ts` points to `VITE_MASTER_URL`. Session is cached in TanStack Query under key `["session"]`. `authGuard` checks the cache before redirecting to `/auth`. Social sign-in callback lands at `/lobby`.
+Better Auth lives entirely in `apps/master`. `apps/web`'s `auth-client.ts` points to `VITE_MASTER_URL`. Session is cached in TanStack Query under key `["session"]`. `authGuard` checks the cache before redirecting to `/auth`. After login → `/menu`. From menu: Single Player → `/lobby`, Multi Player (disabled). Social sign-in callback also lands at `/menu`.
 
 ### Audio chain (apps/web)
 `createSongPlayer()` in `lib/audio/song-player.svelte.ts` is the **only** place that calls `createMediaElementSource`. Creating a second source on the same `<audio>` element throws. Chain: `audioEl → MediaElementSource → AnalyserNode → GainNode → destination`. `audioManager` (singleton) delegates `bg` (background music) and `song` (gameplay) to separate player instances.
@@ -106,6 +108,18 @@ Defined in `modules/song/song.provider.ts`. Each provider implements `validate()
 
 ### Database
 Both backends use Drizzle ORM + libsql. Without `TURSO_CONNECTION_URL`, falls back to `file:data/local.db` (directory auto-created). Migrations live in `migrations/` per app and run automatically on server start.
+
+- **ID generation**: `@paralleldrive/cuid2` — always use `createId()` from this package for primary keys, never `crypto.randomUUID()`.
+- **Timestamps**: `integer({ mode: "timestamp_ms" })` with default `sql\`(cast(unixepoch('subsecond') * 1000 as integer))\``.
+
+### Routing (apps/web)
+`@roxi/routify` — file-based routing under `src/routes/`. Use `$goto('/path')` for navigation, `_module.svelte` for layout wrappers. Guards (e.g. `authGuard`) are wired in `_module.svelte` via route meta.
+
+### Forms (apps/web)
+`felte` + `@felte/validator-zod` for form handling and validation. Schema defined with `zod`, passed to `validator({ schema })`.
+
+### Cloudflare Tunnel (apps/api)
+Already partially implemented in `src/libs/cloudflared.ts` using the `cloudflared` npm package (auto-downloads binary). Currently only named tunnel mode via `CLOUDFLARED_TOKEN` env var. Quick tunnel (random URL) not yet implemented.
 
 ### Biome formatting
 - Biome is the formatter/linter. **Tab indentation, double quotes.**

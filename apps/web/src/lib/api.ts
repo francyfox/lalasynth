@@ -1,6 +1,7 @@
 import type { paths } from "@app/src/type";
 import createClient from "openapi-fetch";
 import { env } from "@/env";
+import { activeServer } from "@/lib/stores/active-server.svelte";
 
 export class RateLimitError extends Error {
 	retryAfter: number;
@@ -15,6 +16,15 @@ export const client = createClient<paths>({
 });
 
 client.use({
+	async onRequest({ request }) {
+		const base = activeServer.current?.url ?? env.VITE_API_URL;
+		if (base) {
+			const original = new URL(request.url);
+			const newUrl = new URL(original.pathname + original.search, base);
+			return new Request(newUrl, request);
+		}
+		return request;
+	},
 	async onResponse({ response }) {
 		if (response.status === 429) {
 			const retryAfter = Number(response.headers.get("Retry-After") ?? 60);

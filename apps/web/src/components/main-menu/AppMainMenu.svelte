@@ -7,6 +7,7 @@
     import UModal from '@package/ui/modal/UModal.svelte'
     import UMMButton from '@package/ui/mm-button/UMMButton.svelte'
     import { gameStore } from '@/lib/stores/game.svelte'
+    import { activeServer } from '@/lib/stores/active-server.svelte'
 
     const _init = $goto;
 
@@ -28,6 +29,13 @@
         action: () => {
           gameStore.mode = "multiplayer"
           $goto('/lobby')
+        }
+      },
+      {
+        label: 'Master List',
+        action: () => {
+          activeServer.clear()
+          $goto('/servers')
         }
       },
       {

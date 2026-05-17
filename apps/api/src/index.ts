@@ -9,6 +9,7 @@ import { Elysia } from "elysia";
 import { rateLimit } from "elysia-rate-limit";
 import { env } from "@/env";
 import { startCloudflaredTunnel } from "@/libs/cloudflared";
+import { registerOnMaster, unregisterFromMaster } from "@/libs/master-registration";
 import { swaggerDocs } from "@/libs/swagger";
 import { routes } from "@/routes";
 import { client, db } from "./db";
@@ -40,7 +41,7 @@ export const app = new Elysia()
 	// )
 	.use(
 		cors({
-			origin: [env.CLIENT_URL, "https://lalasynth.shalotts.site"],
+			origin: true,
 			methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 			credentials: true,
 			allowedHeaders: ["Content-Type", "Authorization"],
@@ -66,11 +67,13 @@ export const app = new Elysia()
 		console.log(
 			`Scalar UI at http://${server?.hostname}:${server?.port}/swagger`,
 		);
-		await startCloudflaredTunnel();
+		const publicUrl = await startCloudflaredTunnel();
+		await registerOnMaster(publicUrl ?? env.API_URL);
 	});
 
 const stop = async () => {
 	console.log("🛑 Shutdown initiated...");
+	await unregisterFromMaster();
 	await app.stop();
 	client.close();
 

@@ -12,6 +12,12 @@
 	import { goto } from "@roxi/routify";
 	import { PlayCircle } from "lucide-svelte";
 	import { env } from "@/env";
+	import { activeServer } from "@/lib/stores/active-server.svelte";
+
+	function changeServer() {
+		activeServer.clear();
+		$goto("/servers");
+	}
 
 	interface Props {
 		countdown?: number;
@@ -116,6 +122,12 @@
 			Get ready for the next battle
 		</p>
 	{/if}
+
+	<div class="flex justify-end">
+		<button class="btn btn-xs btn-ghost opacity-50" onclick={changeServer}>
+			⇄ {activeServer.current?.name ?? "Change Server"}
+		</button>
+	</div>
 
 	{#if gameMode === "multiplayer"}
 		<h2 class="text-4xl text-center">

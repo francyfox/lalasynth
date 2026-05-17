@@ -2,6 +2,7 @@ import type { RoutifyMeta } from "@roxi/routify";
 import { authClient } from "@/lib/auth-client";
 import type { GuardFn } from "@/lib/guards/types";
 import { queryClient } from "@/lib/query-client";
+import { activeServer } from "@/lib/stores/active-server.svelte";
 
 export const authGuard: GuardFn = async ({ route }) => {
 	if (!(route as { meta: RoutifyMeta }).meta._auth) return true;
@@ -25,7 +26,12 @@ export const authGuard: GuardFn = async ({ route }) => {
 	}
 
 	if (!session?.user) {
-		window.location.href = `/auth`;
+		window.location.href = "/auth";
+		return false;
+	}
+
+	if (!activeServer.current && window.location.pathname !== "/servers") {
+		window.location.href = "/servers";
 		return false;
 	}
 

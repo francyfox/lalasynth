@@ -21,6 +21,9 @@ export const env = createEnv({
 		TURSO_DB_NAME: z.string().optional(),
 		CLOUDFLARED_TOKEN: z.string().optional(),
 		API_URL: z.url(),
+		MASTER_URL: z.url().optional(),
+		SERVER_NAME: z.string().optional(),
+		MAX_PLAYERS: z.coerce.number().int().min(1).max(100).default(8),
 	},
 	runtimeEnv: {
 		...process.env,
