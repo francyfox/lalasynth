@@ -75,6 +75,28 @@ function ytdlpStream(
 	return proc.stdout as unknown as ReadableStream<Uint8Array>;
 }
 
+async function tryInstallYtdlp(): Promise<boolean> {
+	const installers = [
+		["pipx", "install", "yt-dlp"],
+		["pip", "install", "yt-dlp"],
+		["pip3", "install", "yt-dlp"],
+	];
+	for (const args of installers) {
+		const which = spawn(["which", args[0]], { stdout: "pipe", stderr: "ignore" });
+		const path = await new Response(which.stdout).text();
+		if (!path.trim()) continue;
+
+		console.log(`[ytdlp] Installing yt-dlp via ${args[0]}...`);
+		const proc = spawn(args, { stdout: "inherit", stderr: "inherit" });
+		const exit = await proc.exited;
+		if (exit === 0) {
+			console.log("[ytdlp] yt-dlp installed successfully");
+			return true;
+		}
+	}
+	return false;
+}
+
 export const YtdlpProvider = (): AudioBaseProvider => {
 	let youtube: Innertube | null = null;
 
@@ -155,10 +177,27 @@ export const YtdlpProvider = (): AudioBaseProvider => {
 		});
 		const dlpPath = await new Response(dlpProc.stdout).text();
 		if (!dlpPath.trim()) {
-			return { ok: false, reason: "yt-dlp not installed" };
+			console.warn("[ytdlp] yt-dlp not found, attempting auto-install via pip...");
+			const installed = await tryInstallYtdlp();
+			if (!installed) {
+				return {
+					ok: false,
+					reason: "yt-dlp not installed. Install with: pip install yt-dlp",
+				};
+			}
 		}
 
-		// 2. Check a browser is available for cookie extraction
+		const updateProc = spawn(["yt-dlp", "-U"], {
+			stdout: "pipe",
+			stderr: "pipe",
+		});
+		const updateOut = await new Response(updateProc.stdout).text();
+		await updateProc.exited;
+		if (updateOut.trim()) {
+			console.log(`[ytdlp] ${updateOut.trim()}`);
+		}
+
+		// 3. Check a browser is available for cookie extraction
 		const browser = await detectBrowser();
 		if (!browser) {
 			return {
@@ -167,7 +206,7 @@ export const YtdlpProvider = (): AudioBaseProvider => {
 			};
 		}
 
-		// 3. Check YouTube is reachable (lightweight HEAD — avoids youtubei.js parser noise)
+		// 4. Check YouTube is reachable (lightweight HEAD — avoids youtubei.js parser noise)
 		try {
 			const res = await fetch("https://www.youtube.com", { method: "HEAD" });
 			if (!res.ok && res.status >= 500) {

@@ -217,6 +217,33 @@ export async function indexSong(
 	await rebuildFts();
 }
 
+const FFMPEG_PACKAGE_MANAGERS = [
+	{ cmd: "pacman", args: ["sudo", "pacman", "-S", "--noconfirm", "ffmpeg"] },
+	{ cmd: "apt-get", args: ["sudo", "apt-get", "install", "-y", "ffmpeg"] },
+	{ cmd: "brew", args: ["brew", "install", "ffmpeg"] },
+];
+
+async function tryInstallFfmpeg(): Promise<boolean> {
+	for (const { cmd, args } of FFMPEG_PACKAGE_MANAGERS) {
+		const which = spawn(["which", cmd], { stdout: "pipe", stderr: "ignore" });
+		const path = await new Response(which.stdout).text();
+		if (!path.trim()) continue;
+
+		console.log(`[local-audio] Installing ffmpeg via ${cmd}...`);
+		const proc = spawn(args, {
+			stdout: "inherit",
+			stderr: "inherit",
+			stdin: "inherit",
+		});
+		const exit = await proc.exited;
+		if (exit === 0) {
+			console.log("[local-audio] ffmpeg installed successfully");
+			return true;
+		}
+	}
+	return false;
+}
+
 export async function LocalAudioProvider(): Promise<AudioBaseProvider> {
 	try {
 		await access(SONG_PATH);
@@ -265,6 +292,22 @@ export async function LocalAudioProvider(): Promise<AudioBaseProvider> {
 	}
 
 	async function validate(): Promise<{ ok: boolean; reason?: string }> {
+		const ffmpegProc = spawn(["which", "ffmpeg"], {
+			stdout: "pipe",
+			stderr: "ignore",
+		});
+		const ffmpegPath = await new Response(ffmpegProc.stdout).text();
+		if (!ffmpegPath.trim()) {
+			console.warn("[local-audio] ffmpeg not found, attempting auto-install...");
+			const installed = await tryInstallFfmpeg();
+			if (!installed) {
+				return {
+					ok: false,
+					reason: "ffmpeg not installed. Install manually: https://ffmpeg.org/download.html",
+				};
+			}
+		}
+
 		try {
 			await access(SONG_PATH);
 			return { ok: true };
